@@ -37,11 +37,9 @@ package com.raywenderlich.android.awareness_food.di
 import android.content.Context
 import com.raywenderlich.android.awareness_food.analytics.AnalyticsEvents
 import com.raywenderlich.android.awareness_food.analytics.AnalyticsEventsImpl
+import com.raywenderlich.android.awareness_food.network.AllFoodService
 import com.raywenderlich.android.awareness_food.network.RecipesService
-import com.raywenderlich.android.awareness_food.repositories.FoodTriviaRepository
-import com.raywenderlich.android.awareness_food.repositories.FoodTriviaRepositoryImpl
-import com.raywenderlich.android.awareness_food.repositories.RecipeRepository
-import com.raywenderlich.android.awareness_food.repositories.RecipeRepositoryImpl
+import com.raywenderlich.android.awareness_food.repositories.*
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -57,7 +55,7 @@ class RecipesModule(val context: Context) {
 
   @Singleton
   @Provides
-  fun providesRetrofitService(): RecipesService {
+  fun providesRetrofitService(): AllFoodService {
     val okHttpClient = OkHttpClient.Builder()
         .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
@@ -74,16 +72,16 @@ class RecipesModule(val context: Context) {
         .client(okHttpClient)
         .baseUrl("https://api.spoonacular.com/")
         .addConverterFactory(GsonConverterFactory.create())
-    return builder.build().create(RecipesService::class.java)
+    return builder.build().create(AllFoodService::class.java)
   }
 
   @Singleton
   @Provides
-  fun providesRecipeRepository(recipesService: RecipesService): RecipeRepository = RecipeRepositoryImpl(recipesService)
+  fun providesRecipeRepository(recipesService: AllFoodService): AllFoodRepository = AllFoodRepositoryImpl(recipesService)
 
-  @Singleton
-  @Provides
-  fun providesTriviaRepository(recipesService: RecipesService): FoodTriviaRepository = FoodTriviaRepositoryImpl(recipesService)
+//  @Singleton
+//  @Provides
+//  fun providesTriviaRepository(recipesService: AllFoodService): AllFoodRepository = AllFoodRepositoryImpl(recipesService)
 
   @Singleton
   @Provides
