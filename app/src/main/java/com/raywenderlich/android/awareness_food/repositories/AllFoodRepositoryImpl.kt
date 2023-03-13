@@ -32,19 +32,39 @@
  * THE SOFTWARE.
  */
 
-package com.raywenderlich.android.awareness_food.network
+package com.raywenderlich.android.awareness_food.repositories
 
-import com.raywenderlich.android.awareness_food.data.Recipe
+import com.raywenderlich.android.awareness_food.network.AllFoodResponse
+import com.raywenderlich.android.awareness_food.network.AllFoodService
+import com.raywenderlich.android.awareness_food.network.RecipeResponse
+import com.raywenderlich.android.awareness_food.network.RecipesService
+import com.raywenderlich.android.awareness_food.repositories.models.AllFoodApiState
+import com.raywenderlich.android.awareness_food.repositories.models.RecipeApiState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
+import javax.inject.Inject
+import javax.inject.Singleton
 
-interface RecipesService {
+@Singleton
+class AllFoodRepositoryImpl @Inject constructor(
+    private val service: AllFoodService
+) : AllFoodRepository {
+  override fun getAllFood(query: String): Flow<AllFoodApiState> = flow {
+    val response = service.getAllFood()
 
-  @GET("recipes/random?number=1")
-  suspend fun getRandomRecipe(): Response<RecipeResponse>
+    when {
+      isResponseSuccess(response) -> emit(AllFoodApiState.Result(response.body()!!.allFood[0]))
+      else -> emit(AllFoodApiState.Error)
+    }
+  }.catch {
+    emit(AllFoodApiState.Error)
+  }.flowOn(Dispatchers.IO)
 
-  @GET("food/trivia/random")
-  suspend fun getFoodTrivia(): Response<TriviaResponse>
+  private fun isResponseSuccess(response: Response<AllFoodResponse>) =
+      response.isSuccessful && response.body() != null && response.body()!!.allFood.isNotEmpty()
 }

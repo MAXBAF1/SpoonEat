@@ -32,19 +32,15 @@
  * THE SOFTWARE.
  */
 
-package com.raywenderlich.android.awareness_food.network
+package com.raywenderlich.android.awareness_food.repositories
 
-import com.raywenderlich.android.awareness_food.data.Recipe
+import com.raywenderlich.android.awareness_food.network.AllFoodResponse
+import com.raywenderlich.android.awareness_food.network.RecipeResponse
+import com.raywenderlich.android.awareness_food.repositories.models.AllFoodApiState
+import com.raywenderlich.android.awareness_food.repositories.models.RecipeApiState
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
 
-interface RecipesService {
-
-  @GET("recipes/random?number=1")
-  suspend fun getRandomRecipe(): Response<RecipeResponse>
-
-  @GET("food/trivia/random")
-  suspend fun getFoodTrivia(): Response<TriviaResponse>
+interface AllFoodRepository {
+  fun getAllFood(query: String): Flow<AllFoodApiState>
 }

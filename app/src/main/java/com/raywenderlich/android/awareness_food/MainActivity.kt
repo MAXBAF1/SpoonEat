@@ -44,7 +44,6 @@ import android.widget.SimpleCursorAdapter
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -53,13 +52,13 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.Lifecycle
 import com.google.android.material.snackbar.Snackbar
-import com.raywenderlich.android.awareness_food.data.Recipe
+import com.raywenderlich.android.awareness_food.data.Food
 import com.raywenderlich.android.awareness_food.databinding.ActivityMainBinding
 import com.raywenderlich.android.awareness_food.monitor.NetworkMonitor
 import com.raywenderlich.android.awareness_food.monitor.NetworkState
 import com.raywenderlich.android.awareness_food.monitor.UnavailableConnectionLifecycleOwner
 import com.raywenderlich.android.awareness_food.repositories.AutoCompleteProvider
-import com.raywenderlich.android.awareness_food.repositories.models.RecipeApiState
+import com.raywenderlich.android.awareness_food.repositories.models.AllFoodApiState
 import com.raywenderlich.android.awareness_food.viewmodels.MainViewModel
 import com.raywenderlich.android.awareness_food.viewmodels.UiLoadingState
 import com.raywenderlich.android.awareness_food.views.IngredientView
@@ -95,10 +94,10 @@ class MainActivity : AppCompatActivity() {
     lifecycle.addObserver(networkMonitor)
     unavailableConnectionLifecycleOwner.addObserver(networkObserver)
 
-    viewModel.recipeState.observe(this, Observer {
+    viewModel.allFoodState.observe(this, Observer {
       when (it) {
-        RecipeApiState.Error -> showNetworkUnavailableAlert(R.string.error)
-        is RecipeApiState.Result -> buildViews(it.recipe)
+        AllFoodApiState.Error -> showNetworkUnavailableAlert(R.string.error)
+        is AllFoodApiState.Result -> buildViews(it.allFood.searchResults[0].results[0])
       }
     })
 
@@ -112,7 +111,7 @@ class MainActivity : AppCompatActivity() {
       handleNetworkState(networkState)
     })
 
-    autoCompleteTextView()
+    //autoCompleteTextView()
   }
 
   private fun autoCompleteTextView() {
@@ -137,7 +136,7 @@ class MainActivity : AppCompatActivity() {
   override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
     R.id.menu_refresh -> {
       clearViews()
-      viewModel.getCurrentRecipe(binding.edRecipeName.text.toString())
+      viewModel.getAllFood(binding.edRecipeName.text.toString())
       true
     }
     R.id.menu_trivia -> {
@@ -152,22 +151,22 @@ class MainActivity : AppCompatActivity() {
     return true
   }
 
-  private fun buildViews(recipe: Recipe) {
+  private fun buildViews(food: Food) {
     with(binding) {
-      recipeInstructionsTitle.text = getString(R.string.instructions)
-      recipeIngredientsTitle.text = getString(R.string.ingredients)
-      recipeName.text = recipe.title
-      recipeSummary.text = HtmlCompat.fromHtml(recipe.summary, 0)
-      recipeInstructions.text = HtmlCompat.fromHtml(recipe.instructions, 0)
-      Picasso.get().load(recipe.image).into(recipeImage)
-      recipe.ingredients.forEachIndexed { index, ingredient ->
-        val ingredientView = IngredientView(this@MainActivity)
-        ingredientView.setIngredient(ingredient)
-        if (index != 0) {
-          ingredientView.addDivider()
-        }
-        recipeIngredients.addView(ingredientView)
-      }
+      recipeInstructionsTitle.text = food.name
+//      recipeIngredientsTitle.text = getString(R.string.ingredients)
+//      recipeName.text = recipe.title
+//      recipeSummary.text = HtmlCompat.fromHtml(recipe.summary, 0)
+//      recipeInstructions.text = HtmlCompat.fromHtml(recipe.instructions, 0)
+//      Picasso.get().load(food.image).into(recipeImage)
+//      food.ingredients.forEachIndexed { index, ingredient ->
+//        val ingredientView = IngredientView(this@MainActivity)
+//        ingredientView.setIngredient(ingredient)
+//        if (index != 0) {
+//          ingredientView.addDivider()
+//        }
+//        recipeIngredients.addView(ingredientView)
+//      }
     }
   }
 
@@ -186,7 +185,7 @@ class MainActivity : AppCompatActivity() {
   private fun showNetworkUnavailableAlert(message: Int) {
     snackbar = Snackbar.make(binding.root, message, Snackbar.LENGTH_INDEFINITE)
         .setAction(R.string.retry) {
-          viewModel.getCurrentRecipe(binding.edRecipeName.text.toString())
+          viewModel.getAllFood(binding.edRecipeName.text.toString())
         }.apply {
           view.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.colorPrimary))
           show()

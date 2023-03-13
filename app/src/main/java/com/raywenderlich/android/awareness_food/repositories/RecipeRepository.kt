@@ -39,5 +39,4 @@ import kotlinx.coroutines.flow.Flow
 
 interface RecipeRepository {
   fun getRandomRecipe(): Flow<RecipeApiState>
-  fun getCurrentRecipe(query: String): Flow<RecipeApiState>
 }

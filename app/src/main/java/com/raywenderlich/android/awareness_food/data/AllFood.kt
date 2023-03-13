@@ -32,19 +32,19 @@
  * THE SOFTWARE.
  */
 
-package com.raywenderlich.android.awareness_food.network
+package com.raywenderlich.android.awareness_food.data
 
-import com.raywenderlich.android.awareness_food.data.Recipe
-import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+data class AllFood(
+  val query: String,
+  val searchResults: List<Categories>
+)
 
-interface RecipesService {
+data class Categories(
+  val name: String,
+  val results: List<Food>
+)
 
-  @GET("recipes/random?number=1")
-  suspend fun getRandomRecipe(): Response<RecipeResponse>
-
-  @GET("food/trivia/random")
-  suspend fun getFoodTrivia(): Response<TriviaResponse>
-}
+data class Food(
+  val id: Int,
+  val name: String
+)

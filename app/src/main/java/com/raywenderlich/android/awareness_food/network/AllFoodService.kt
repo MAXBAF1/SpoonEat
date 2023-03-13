@@ -37,14 +37,11 @@ package com.raywenderlich.android.awareness_food.network
 import com.raywenderlich.android.awareness_food.data.Recipe
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface RecipesService {
+interface AllFoodService {
 
-  @GET("recipes/random?number=1")
-  suspend fun getRandomRecipe(): Response<RecipeResponse>
+  @GET("food/search?number=2")
+  suspend fun getAllFood(@Query("query") query: String = "Apple"): Response<AllFoodResponse>
 
-  @GET("food/trivia/random")
-  suspend fun getFoodTrivia(): Response<TriviaResponse>
 }

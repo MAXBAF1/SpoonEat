@@ -61,12 +61,6 @@ class RecipeRepositoryImpl @Inject constructor(
     emit(RecipeApiState.Error)
   }.flowOn(Dispatchers.IO)
 
-  override fun getCurrentRecipe(query: String): Flow<RecipeApiState> = flow {
-    val recipe = service.getCurrentRecipe(query)
-
-    emit(RecipeApiState.Result(recipe))
-  }.flowOn(Dispatchers.IO)
-
   private fun isResponseSuccess(response: Response<RecipeResponse>) =
       response.isSuccessful && response.body() != null && response.body()!!.recipes.isNotEmpty()
 }

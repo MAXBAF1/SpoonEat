@@ -38,20 +38,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.raywenderlich.android.awareness_food.repositories.AllFoodRepository
 import com.raywenderlich.android.awareness_food.repositories.RecipeRepository
+import com.raywenderlich.android.awareness_food.repositories.models.AllFoodApiState
 import com.raywenderlich.android.awareness_food.repositories.models.RecipeApiState
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
-    private val recipeRepository: RecipeRepository
+    private val allFoodRepository: AllFoodRepository
 ) : ViewModel() {
 
-  private val _recipeState = MutableLiveData<RecipeApiState>()
-  val recipeState: LiveData<RecipeApiState>
+  private val _allFoodState = MutableLiveData<AllFoodApiState>()
+  val allFoodState: LiveData<AllFoodApiState>
     get() {
-      return _recipeState
+      return _allFoodState
     }
 
   private val _loadingState = MutableLiveData<UiLoadingState>()
@@ -60,22 +62,12 @@ class MainViewModel @Inject constructor(
       return _loadingState
     }
 
-  fun getRandomRecipe() {
+  fun getAllFood(query: String){
     _loadingState.value = UiLoadingState.Loading
     viewModelScope.launch {
-      recipeRepository.getRandomRecipe().collect { result ->
+      allFoodRepository.getAllFood(query).collect { result ->
         _loadingState.value = UiLoadingState.NotLoading
-        _recipeState.value = result
-      }
-    }
-  }
-
-  fun getCurrentRecipe(query: String) {
-    _loadingState.value = UiLoadingState.Loading
-    viewModelScope.launch {
-      recipeRepository.getCurrentRecipe(query).collect { result ->
-        _loadingState.value = UiLoadingState.NotLoading
-        _recipeState.value = result
+        _allFoodState.value = result
       }
     }
   }
