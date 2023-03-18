@@ -11,5 +11,6 @@ data class Category(
 )
 
 data class CertainFood(
-    var name: String? = null
+    var name: String? = null,
+    var content: String? = null
 )

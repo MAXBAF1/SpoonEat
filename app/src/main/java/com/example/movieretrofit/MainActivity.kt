@@ -32,7 +32,10 @@ class MainActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call<AllFood>, response: Response<AllFood>) {
                 val food = response.body() as AllFood
-                binding.query.text = food.query
+
+                val firstReceipt = food.searchResults[0].results[0]
+                binding.query.text = firstReceipt.name
+                binding.content.text = firstReceipt.content
             }
         })
     }
