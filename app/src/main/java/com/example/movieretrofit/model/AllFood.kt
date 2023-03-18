@@ -2,7 +2,6 @@ package com.example.movieretrofit.model
 
 data class AllFood(
     var query: String? = null,
-    var totalResults: Int,
     var searchResults: List<Category>
 )
 

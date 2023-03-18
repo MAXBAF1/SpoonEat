@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getAllFood() {
-        mService.getAllFood().enqueue(object : Callback<AllFood> {
+        mService.getAllFood("Banana").enqueue(object : Callback<AllFood> {
             override fun onFailure(call: Call<AllFood>, t: Throwable) {
 
             }
