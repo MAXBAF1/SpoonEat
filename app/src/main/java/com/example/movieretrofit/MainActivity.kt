@@ -9,6 +9,7 @@ import com.example.movieretrofit.model.AllFood
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.http.Query
 
 class MainActivity : AppCompatActivity() {
     lateinit var mService: RetrofitServices
@@ -22,10 +23,11 @@ class MainActivity : AppCompatActivity() {
         mService = Common.retrofitService
 
         getAllFood()
+        onClickSend()
     }
 
-    private fun getAllFood() {
-        mService.getAllFood("Banana").enqueue(object : Callback<AllFood> {
+    private fun getAllFood(query: String = "Banana") {
+        mService.getAllFood(query).enqueue(object : Callback<AllFood> {
             override fun onFailure(call: Call<AllFood>, t: Throwable) {
 
             }
@@ -38,5 +40,11 @@ class MainActivity : AppCompatActivity() {
                 binding.content.text = firstReceipt.content
             }
         })
+    }
+
+    private fun onClickSend(){
+        binding.btnSend.setOnClickListener {
+            getAllFood(binding.edQuery.text.toString())
+        }
     }
 }
