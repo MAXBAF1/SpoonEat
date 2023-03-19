@@ -6,16 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/edQuery"
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:ems="10"
         android:hint="Banana"
-        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,21 +22,19 @@
         android:id="@+id/query"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="query"
         android:textColor="#000000"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edQuery"
-        app:layout_constraintVertical_bias="0.20" />
+        app:layout_constraintTop_toBottomOf="@+id/autoCompleteTv"
+        app:layout_constraintVertical_bias="0.2" />
 
     <TextView
         android:id="@+id/content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="TextView"
         app:layout_constraintEnd_toEndOf="@+id/query"
         app:layout_constraintStart_toStartOf="@+id/query"
         app:layout_constraintTop_toBottomOf="@+id/query" />
@@ -51,6 +47,6 @@
         android:layout_marginEnd="16dp"
         android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edQuery"
+        app:layout_constraintTop_toBottomOf="@+id/autoCompleteTv"
         app:srcCompat="@drawable/ic_send" />
 </androidx.constraintlayout.widget.ConstraintLayout>
