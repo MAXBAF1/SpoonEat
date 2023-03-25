@@ -1,96 +1,50 @@
 package com.example.movieretrofit
 
-import android.R
-import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
-import android.widget.SimpleCursorAdapter
+import android.widget.ImageView
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.example.movieretrofit.autoCompleteTv.Provider
-import com.example.movieretrofit.common.Common
+import androidx.core.net.toUri
+import com.example.movieretrofit.data.Food
 import com.example.movieretrofit.databinding.ActivityMainBinding
-import com.example.movieretrofit.interfaces.RetrofitServices
-import com.example.movieretrofit.model.AllFood
-import dmax.dialog.SpotsDialog
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.squareup.picasso.Picasso
 
 class MainActivity : AppCompatActivity() {
-    lateinit var mService: RetrofitServices
     lateinit var binding: ActivityMainBinding
-    lateinit var dialog: AlertDialog
+    private var launcher: ActivityResultLauncher<Intent>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        mService = Common.retrofitService
-        dialog = SpotsDialog.Builder().setCancelable(true).setContext(this).build()
-
-        //initViews()
-        onClickSend()
-        autoCompleteTv()
-    }
-
-
-    private fun initViews() {
-        val allFood = getAllFood()
-//        val firstReceipt = allFood!!.searchResults[0].results[0]
-//        binding.query.text = firstReceipt.name
-//        binding.content.text = firstReceipt.content
-    }
-
-    fun getAllFood(query: String = "Banana"): AllFood? {
-        dialog.show()
-        var allFood: AllFood? = null
-        mService.getAllFood(query).enqueue(object : Callback<AllFood> {
-            override fun onFailure(call: Call<AllFood>, t: Throwable) {
-
+        launcher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                if (result.resultCode == RESULT_OK) activityResultSignIn(result.data)
             }
 
-            override fun onResponse(call: Call<AllFood>, response: Response<AllFood>) {
-                allFood = response.body()
-                dialog.dismiss()
-
-                val firstReceipt = allFood!!.searchResults[0].results[0]
-                binding.query.text = firstReceipt.name
-                binding.content.text = firstReceipt.content
-            }
-        })
-
-        return allFood
+        onClickSearch()
     }
 
-    private fun autoCompleteTv() {
-        //val actv = AutoCompleteTextView(this)
-        //actv.threshold = 1
-        binding.autoCompleteTv.threshold = 1
-        val from = arrayOf("name")
-        val to = intArrayOf(R.id.text1)
-        val adapter = SimpleCursorAdapter(this, R.layout.simple_list_item_2, null, from, to, 0)
-        adapter.stringConversionColumn = 1
+    private fun activityResultSignIn(data: Intent?) {
+        if (data == null) return
 
-        val provider = Provider()
+        val food = data.getSerializableExtra("Food") as Food
 
-        adapter.filterQueryProvider = provider
-        //actv.setAdapter(adapter)
-        binding.autoCompleteTv.setAdapter(adapter)
-
-//        setContentView(
-//            actv, ViewGroup.LayoutParams(
-//                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
-//            )
-//        )
+        binding.name.text = food.name
+        binding.content.text = food.content
+        Picasso.get()
+            .load(food.image?.toUri())
+            .placeholder(R.mipmap.ic_launcher)
+            .into(binding.image)
     }
 
-    private fun onClickSend() {
-        binding.btnSend.setOnClickListener {
-            val allFood = getAllFood(binding.autoCompleteTv.text.toString())
-
-            val firstReceipt = allFood!!.searchResults[0].results[0]
-//            binding.query.text = firstReceipt.name
-//            binding.content.text = firstReceipt.content
+    private fun onClickSearch() {
+        binding.btnSearch.setOnClickListener {
+            startActivity(Intent(this@MainActivity, SearchActivity::class.java))
         }
     }
 }
