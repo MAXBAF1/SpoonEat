@@ -86,7 +86,7 @@
                     android:textStyle="italic" />
 
                 <TextView
-                    android:id="@+id/food_enerckcal"
+                    android:id="@+id/food_calories"
                     android:layout_width="100dp"
                     android:layout_height="24dp"
                     android:layout_marginTop="@dimen/marginkbzhu"
@@ -130,7 +130,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/foodlist">
 
                 <TextView
-                    android:id="@+id/procnt"
+                    android:id="@+id/protein"
                     android:layout_width="100dp"
                     android:layout_height="24dp"
                     android:gravity="center"
@@ -140,7 +140,7 @@
                     android:textStyle="italic" />
 
                 <TextView
-                    android:id="@+id/food_procnt"
+                    android:id="@+id/food_protein"
                     android:layout_width="100dp"
                     android:layout_height="24dp"
                     android:layout_marginTop="@dimen/marginkbzhu"

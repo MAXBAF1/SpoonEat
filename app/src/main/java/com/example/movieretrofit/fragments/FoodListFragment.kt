@@ -1,5 +1,6 @@
 package com.example.movieretrofit.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,14 +8,21 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.movieretrofit.MainActivity
+import com.example.movieretrofit.R
+import com.example.movieretrofit.SearchActivity
 import com.example.movieretrofit.adapter.FoodAdapter
-import com.example.movieretrofit.adapter.FoodClickListener
 import com.example.movieretrofit.adapter.FoodTextInputEditTextAdapter
+import com.example.movieretrofit.data.Nutrients
 import com.example.movieretrofit.databinding.FragmentFoodListBinding
+import com.example.movieretrofit.interfaces.AddFoodListener
+import com.example.movieretrofit.interfaces.FoodClickListener
 import com.example.movieretrofit.model.FoodViewModel
 import com.example.retrofittraining.Utils.inputCheck
 import kotlinx.coroutines.delay
@@ -22,12 +30,12 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
-class FoodListFragment : Fragment(), FoodClickListener {
+class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
     lateinit var foodViewModel: FoodViewModel
     var binding: FragmentFoodListBinding? = null
 
     val adapterTextInput = FoodTextInputEditTextAdapter(this)
-    private val adapter = FoodAdapter()
+    private val adapter = FoodAdapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -141,5 +149,12 @@ class FoodListFragment : Fragment(), FoodClickListener {
                 binding!!.recyclerFood.visibility = View.GONE
             }
         }
+    }
+
+    override fun onNutrientsReceived(nutrients: Nutrients) {
+        val activity = requireActivity() as SearchActivity
+        activity.handleNutrientsData(nutrients)
+        // закрываем фрагмент
+        activity.onBackPressed()
     }
 }

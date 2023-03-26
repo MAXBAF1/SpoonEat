@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.movieretrofit"
-        minSdk 21
+        minSdk 23
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -39,6 +39,10 @@ dependencies {
     def lifecycle_version = "2.4.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+
+    //Charts
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.github.pradeepan-prabha:MpAndroidChart-Wrapper:v0.0.5'
 
     // Navigation Component
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'

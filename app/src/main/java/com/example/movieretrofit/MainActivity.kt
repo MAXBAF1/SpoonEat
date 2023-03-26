@@ -2,18 +2,20 @@ package com.example.movieretrofit
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ImageView
+import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toUri
-import com.example.movieretrofit.data.Food
+import com.example.movieretrofit.data.Nutrients
 import com.example.movieretrofit.databinding.ActivityMainBinding
-import com.squareup.picasso.Picasso
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
 
 class MainActivity : AppCompatActivity() {
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
+
     private var launcher: ActivityResultLauncher<Intent>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,28 +25,48 @@ class MainActivity : AppCompatActivity() {
 
         launcher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-                if (result.resultCode == RESULT_OK) activityResultSignIn(result.data)
+                if (result.resultCode == RESULT_OK) handleNutrientsData(result.data)
             }
 
         onClickSearch()
     }
 
-    private fun activityResultSignIn(data: Intent?) {
-        if (data == null) return
+    private fun handleNutrientsData(data: Intent?) {
+        if (data == null) {
+            Log.d("MyLog", "Data is NULL")
+            return
+        }
 
-        val food = data.getSerializableExtra("Food") as Food
+        val nutrients = data.getSerializableExtra("Nutrients") as Nutrients
+        val calories = nutrients.calories
+        val protein = nutrients.protein
+        val fat = nutrients.fat
 
-        binding.name.text = food.name
-        binding.content.text = food.content
-        Picasso.get()
-            .load(food.image?.toUri())
-            .placeholder(R.mipmap.ic_launcher)
-            .into(binding.image)
+        Log.e("item", calories.toString())
+        setBarChart(calories, fat, protein)
     }
 
     private fun onClickSearch() {
         binding.btnSearch.setOnClickListener {
-            startActivity(Intent(this@MainActivity, SearchActivity::class.java))
+            val intent = Intent(this, SearchActivity::class.java)
+            launcher!!.launch(intent)
         }
+    }
+
+    private fun setBarChart(calories: Float?, fat: Float?, protein: Float?) {
+
+        val entries = ArrayList<BarEntry>()
+
+        /*  x -  координаты для обозначения кол-ва данных; у - длина графика  */
+        entries.add(BarEntry(1f, calories ?: 0f, "kcal"))
+        entries.add(BarEntry(2f, fat ?: 0f, "fat"))
+        entries.add(BarEntry(3f, protein ?: 0f, "protein"))
+
+        val barDataSet = BarDataSet(entries, "g")
+        val data = BarData(barDataSet)
+        binding.barChart.data = data // set the data and list of lables into chart
+        barDataSet.color = resources.getColor(R.color.dark_green)
+
+        binding.barChart.animateY(5000)
     }
 }

@@ -9,6 +9,7 @@ import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieretrofit.R
 import com.example.movieretrofit.data.Food
+import com.example.movieretrofit.interfaces.FoodClickListener
 import com.squareup.picasso.Picasso
 
 class FoodTextInputEditTextAdapter(private val foodClickListener: FoodClickListener) :
@@ -46,8 +47,4 @@ class FoodTextInputEditTextAdapter(private val foodClickListener: FoodClickListe
         this.foodList = foods
         notifyDataSetChanged()
     }
-}
-
-interface FoodClickListener {
-    fun onFoodClickListener(food: String)
 }
