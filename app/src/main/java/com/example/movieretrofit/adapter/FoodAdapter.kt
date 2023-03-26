@@ -59,11 +59,11 @@ class FoodAdapter : RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
         }
 
          holder.itemView.findViewById<TextView>(R.id.food_enerckcal).text =
-             dictionaryCBZHU.get("calories") + "kcal"
+             dictionaryCBZHU.get("calories") + " kcal"
         holder.itemView.findViewById<TextView>(R.id.food_fat).text =
-            dictionaryCBZHU.get("fat") +  "g"
+            dictionaryCBZHU.get("fat") +  " g"
         holder.itemView.findViewById<TextView>(R.id.food_procnt).text =
-            dictionaryCBZHU.get("protein") + "g"
+            dictionaryCBZHU.get("protein") + " g"
 
         holder.itemView.findViewById<Button>(R.id.button_add_food).setOnClickListener  { v ->
             val intent = Intent(holder.itemView.context, MainActivity::class.java)

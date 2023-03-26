@@ -29,11 +29,6 @@ class MainActivity : AppCompatActivity() {
         var fat = intent.getStringExtra("fat")
         var procnt = intent.getStringExtra("procnt")
 
-        launcher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-                if (result.resultCode == RESULT_OK) activityResultSignIn(result.data)
-            }
-
         onClickSearch()
 
 
@@ -48,18 +43,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun activityResultSignIn(data: Intent?) {
-        if (data == null) return
-
-        val food = data.getSerializableExtra("Food") as Food
-
-        binding.name.text = food.name
-        binding.content.text = food.content
-        Picasso.get()
-            .load(food.image?.toUri())
-            .placeholder(R.mipmap.ic_launcher)
-            .into(binding.image)
-    }
 
     private fun onClickSearch() {
         binding.btnSearch.setOnClickListener {
