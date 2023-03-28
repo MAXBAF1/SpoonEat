@@ -39,19 +39,15 @@ class FoodAdapter(private val addFoodListener: AddFoodListener) : RecyclerView.A
 
         initNutrientsTv(holder, nutrients)
 
-
         holder.itemView.findViewById<Button>(R.id.button_add_food).setOnClickListener {
             addFoodListener.onNutrientsReceived(nutrients)
-            //val intent = Intent(holder.itemView.context, MainActivity::class.java)
-            //intent.putExtra("Nutrients", nutrients)
-            //holder.itemView.context.startActivity(intent)
         }
     }
 
     private fun initNutrientsTv(holder: FoodViewHolder, nutrients: Nutrients) {
-        val calories = "${nutrients.calories} kcal"
-        val protein = "${nutrients.protein} g"
-        val fat = "${nutrients.fat} g"
+        val calories = "${nutrients.calories?.toInt()} kcal"
+        val protein = "${nutrients.protein?.toInt()} g"
+        val fat = "${nutrients.fat?.toInt()} g"
 
         holder.itemView.findViewById<TextView>(R.id.food_calories).text = calories
         holder.itemView.findViewById<TextView>(R.id.food_protein).text = protein

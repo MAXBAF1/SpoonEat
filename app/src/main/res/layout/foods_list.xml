@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/listfood"
     android:layout_width="match_parent"
-    android:layout_height="590dp"
-    android:id="@+id/listfood">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/foodlist"
         android:layout_width="match_parent"
         android:layout_height="570dp"
-        android:elevation="20dp"
         android:background="@color/white"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,13 +45,13 @@
             android:background="@color/green">
 
             <TextView
-                android:isScrollContainer="true"
                 android:id="@+id/food_name"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginStart="28dp"
                 android:layout_marginTop="14dp"
                 android:gravity="start"
+                android:isScrollContainer="true"
                 android:text="Pizza Hut"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/white"
@@ -82,7 +80,7 @@
                     android:gravity="center"
                     android:text="Energy"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/dark_green"
+                    android:textColor="@color/purple"
                     android:textStyle="italic" />
 
                 <TextView
@@ -93,14 +91,14 @@
                     android:gravity="center"
                     android:text="235 kcal"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/dark_green"
+                    android:textColor="@color/purple"
                     android:textStyle="bold" />
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginTop="@dimen/marginkbzhuimg"
                     android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/marginkbzhuimg"
                     android:background="@drawable/ic_calories" />
 
             </LinearLayout>
@@ -111,7 +109,7 @@
                 android:layout_height="100dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="@dimen/boxkbzhu"
-                android:background="@color/dark_green"
+                android:background="@color/purple"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/foodlist">
@@ -136,7 +134,7 @@
                     android:gravity="center"
                     android:text="Protein"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/dark_green"
+                    android:textColor="@color/purple"
                     android:textStyle="italic" />
 
                 <TextView
@@ -147,14 +145,14 @@
                     android:gravity="center"
                     android:text="32 g"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/dark_green"
+                    android:textColor="@color/purple"
                     android:textStyle="bold" />
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginTop="@dimen/marginkbzhuimg"
                     android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/marginkbzhuimg"
                     android:background="@drawable/ic_proteins" />
 
             </LinearLayout>
@@ -165,7 +163,7 @@
                 android:layout_height="100dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="@dimen/boxkbzhu"
-                android:background="@color/dark_green"
+                android:background="@color/purple"
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/foodlist">
@@ -189,7 +187,7 @@
                     android:gravity="center"
                     android:text="Fat"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/dark_green"
+                    android:textColor="@color/purple"
                     android:textStyle="italic" />
 
                 <TextView
@@ -200,14 +198,14 @@
                     android:gravity="center"
                     android:text="98 g"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/dark_green"
+                    android:textColor="@color/purple"
                     android:textStyle="bold" />
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginTop="@dimen/marginkbzhuimg"
                     android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/marginkbzhuimg"
                     android:background="@drawable/ic_fat" />
             </LinearLayout>
         </LinearLayout>
@@ -218,12 +216,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="7dp"
-            android:textSize="18sp"
             android:gravity="center"
             android:isScrollContainer="true"
-            tools:text=""
-            android:textColor="@color/dark_green"
-            />
+            android:textColor="@color/purple"
+            android:textSize="18sp"
+            tools:text="" />
 
         <Button
             android:id="@+id/button_add_food"

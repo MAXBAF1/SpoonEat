@@ -65,8 +65,8 @@ class MainActivity : AppCompatActivity() {
         val barDataSet = BarDataSet(entries, "g")
         val data = BarData(barDataSet)
         binding.barChart.data = data // set the data and list of lables into chart
-        barDataSet.color = resources.getColor(R.color.dark_green)
+        barDataSet.color = this.getColor(R.color.purple)
 
-        binding.barChart.animateY(5000)
+        binding.barChart.animateY(500)
     }
 }

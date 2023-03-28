@@ -16,11 +16,11 @@
     <style name="Theme.RetrofitTrainingNoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryVariant">@color/dark_green</item>
+        <item name="colorPrimaryVariant">@color/purple</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/green</item>
-        <item name="colorSecondaryVariant">@color/dark_green</item>
+        <item name="colorSecondaryVariant">@color/purple</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" >@color/green</item>
