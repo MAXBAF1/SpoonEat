@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
+<<<<<<< HEAD
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,12 +9,23 @@
     android:layout_width="match_parent"
     android:layout_height="590dp"
     android:id="@+id/listfood">
+=======
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/listfood"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+>>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
 
     <LinearLayout
         android:id="@+id/foodlist"
         android:layout_width="match_parent"
         android:layout_height="570dp"
+<<<<<<< HEAD
         android:elevation="20dp"
+=======
+>>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
         android:background="@color/white"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,13 +59,20 @@
             android:background="@color/green">
 
             <TextView
+<<<<<<< HEAD
                 android:isScrollContainer="true"
+=======
+>>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
                 android:id="@+id/food_name"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginStart="28dp"
                 android:layout_marginTop="14dp"
                 android:gravity="start"
+<<<<<<< HEAD
+=======
+                android:isScrollContainer="true"
+>>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
                 android:text="Pizza Hut"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/white"
@@ -82,25 +101,42 @@
                     android:gravity="center"
                     android:text="Energy"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+<<<<<<< HEAD
                     android:textColor="@color/dark_green"
                     android:textStyle="italic" />
 
                 <TextView
                     android:id="@+id/food_enerckcal"
+=======
+                    android:textColor="@color/purple"
+                    android:textStyle="italic" />
+
+                <TextView
+                    android:id="@+id/food_calories"
+>>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
                     android:layout_width="100dp"
                     android:layout_height="24dp"
                     android:layout_marginTop="@dimen/marginkbzhu"
                     android:gravity="center"
                     android:text="235 kcal"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+<<<<<<< HEAD
                     android:textColor="@color/dark_green"
+=======
+                    android:textColor="@color/purple"
+>>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
                     android:textStyle="bold" />
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+<<<<<<< HEAD
                     android:layout_marginTop="@dimen/marginkbzhuimg"
                     android:layout_gravity="center"
+=======
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/marginkbzhuimg"
+>>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
                     android:background="@drawable/ic_calories" />
 
             </LinearLayout>
@@ -111,7 +147,11 @@
                 android:layout_height="100dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="@dimen/boxkbzhu"
+<<<<<<< HEAD
                 android:background="@color/dark_green"
+=======
+                android:background="@color/purple"
+>>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/foodlist">
@@ -130,31 +170,52 @@
                 app:layout_constraintTop_toBottomOf="@+id/foodlist">
 
                 <TextView
+<<<<<<< HEAD
                     android:id="@+id/procnt"
+=======
+                    android:id="@+id/protein"
+>>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
                     android:layout_width="100dp"
                     android:layout_height="24dp"
                     android:gravity="center"
                     android:text="Protein"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+<<<<<<< HEAD
                     android:textColor="@color/dark_green"
                     android:textStyle="italic" />
 
                 <TextView
                     android:id="@+id/food_procnt"
+=======
+                    android:textColor="@color/purple"
+                    android:textStyle="italic" />
+
+                <TextView
+                    android:id="@+id/food_protein"
+>>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
                     android:layout_width="100dp"
                     android:layout_height="24dp"
                     android:layout_marginTop="@dimen/marginkbzhu"
                     android:gravity="center"
                     android:text="32 g"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+<<<<<<< HEAD
                     android:textColor="@color/dark_green"
+=======
+                    android:textColor="@color/purple"
+>>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
                     android:textStyle="bold" />
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+<<<<<<< HEAD
                     android:layout_marginTop="@dimen/marginkbzhuimg"
                     android:layout_gravity="center"
+=======
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/marginkbzhuimg"
+>>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
                     android:background="@drawable/ic_proteins" />
 
             </LinearLayout>
@@ -165,7 +226,11 @@
                 android:layout_height="100dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="@dimen/boxkbzhu"
+<<<<<<< HEAD
                 android:background="@color/dark_green"
+=======
+                android:background="@color/purple"
+>>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
                 android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/foodlist">
@@ -189,7 +254,11 @@
                     android:gravity="center"
                     android:text="Fat"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+<<<<<<< HEAD
                     android:textColor="@color/dark_green"
+=======
+                    android:textColor="@color/purple"
+>>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
                     android:textStyle="italic" />
 
                 <TextView
@@ -200,14 +269,23 @@
                     android:gravity="center"
                     android:text="98 g"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+<<<<<<< HEAD
                     android:textColor="@color/dark_green"
+=======
+                    android:textColor="@color/purple"
+>>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
                     android:textStyle="bold" />
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+<<<<<<< HEAD
                     android:layout_marginTop="@dimen/marginkbzhuimg"
                     android:layout_gravity="center"
+=======
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/marginkbzhuimg"
+>>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
                     android:background="@drawable/ic_fat" />
             </LinearLayout>
         </LinearLayout>
@@ -218,12 +296,20 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="7dp"
+<<<<<<< HEAD
             android:textSize="18sp"
             android:gravity="center"
             android:isScrollContainer="true"
             tools:text=""
             android:textColor="@color/dark_green"
             />
+=======
+            android:gravity="center"
+            android:isScrollContainer="true"
+            android:textColor="@color/purple"
+            android:textSize="18sp"
+            tools:text="" />
+>>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
 
         <Button
             android:id="@+id/button_add_food"
