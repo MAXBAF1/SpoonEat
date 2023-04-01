@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -40,13 +41,11 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
-<<<<<<< HEAD
-=======
     //Charts
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.github.pradeepan-prabha:MpAndroidChart-Wrapper:v0.0.5'
 
->>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
+
     // Navigation Component
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
@@ -66,10 +65,11 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-<<<<<<< HEAD
 
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-    implementation 'com.github.pradeepan-prabha:MpAndroidChart-Wrapper:v0.0.5'
-=======
->>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
+    implementation 'com.google.android.gms:play-services-vision:20.1.3'
+
+    implementation platform('com.google.firebase:firebase-bom:29.0.0')
+    implementation 'com.google.firebase:firebase-database-ktx'
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
 }

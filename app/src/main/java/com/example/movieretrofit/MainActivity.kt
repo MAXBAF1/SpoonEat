@@ -3,35 +3,42 @@ package com.example.movieretrofit
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-<<<<<<< HEAD
 import android.widget.ImageView
-=======
->>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-<<<<<<< HEAD
+
 import androidx.core.net.toUri
 import com.example.movieretrofit.data.Food
-=======
 import com.example.movieretrofit.data.Nutrients
->>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
 import com.example.movieretrofit.databinding.ActivityMainBinding
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
-<<<<<<< HEAD
+
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
+
 import com.squareup.picasso.Picasso
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
-=======
+
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+    lateinit var binding: ActivityMainBinding
+    lateinit var auth: FirebaseAuth
+    lateinit var name: String
+    //lateinit var adapter: UserAdapter
+    private val PERMISSION_REQUEST_CODE = 200
 
->>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
+    lateinit var database: FirebaseDatabase
+    lateinit var myRef: DatabaseReference
+
     private var launcher: ActivityResultLauncher<Intent>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +46,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-<<<<<<< HEAD
+        auth = Firebase.auth
+        Log.e("item", auth.currentUser!!.displayName.toString() )
+        //name = auth.currentUser!!.displayName.toString()
+
         var kcal = intent.getStringExtra("kcal")
         var fat = intent.getStringExtra("fat")
         var procnt = intent.getStringExtra("procnt")
@@ -74,12 +84,11 @@ class MainActivity : AppCompatActivity() {
         entries.add(BarEntry(1f, kcal, "kcal"))
         entries.add(BarEntry(2f, fat, "fat"))
         entries.add(BarEntry(3f, procnt, "procnt"))
-=======
+
         launcher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 if (result.resultCode == RESULT_OK) handleNutrientsData(result.data)
             }
-
         onClickSearch()
     }
 
@@ -113,19 +122,17 @@ class MainActivity : AppCompatActivity() {
         entries.add(BarEntry(1f, calories ?: 0f, "kcal"))
         entries.add(BarEntry(2f, fat ?: 0f, "fat"))
         entries.add(BarEntry(3f, protein ?: 0f, "protein"))
->>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
 
         val barDataSet = BarDataSet(entries, "g")
         val data = BarData(barDataSet)
         binding.barChart.data = data // set the data and list of lables into chart
-<<<<<<< HEAD
+
         barDataSet.color = resources.getColor(R.color.dark_green)
 
         binding.barChart.animateY(5000)
-=======
+
         barDataSet.color = this.getColor(R.color.purple)
 
         binding.barChart.animateY(500)
->>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
     }
 }
