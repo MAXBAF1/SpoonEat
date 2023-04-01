@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "455962893257",
+    "firebase_url": "https://voiceassistant-c700e-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "voiceassistant-c700e",
+    "storage_bucket": "voiceassistant-c700e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:455962893257:android:3971581feb8984eeaae618",
+        "android_client_info": {
+          "package_name": "com.example.movieretrofit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "455962893257-l46q2punjjatojci8q2q9ssm2hhf6ppd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.movieretrofit",
+            "certificate_hash": "a26fd18e6907f98ad2d31550df45646280162a59"
+          }
+        },
+        {
+          "client_id": "455962893257-3r4acnn45ec937blv18mqnn9jpcphvml.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjHRc5WucLS_9-om7sG4dFAFTJVXwPg3o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "455962893257-3r4acnn45ec937blv18mqnn9jpcphvml.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
