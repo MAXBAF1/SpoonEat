@@ -12,9 +12,21 @@ import com.example.movieretrofit.databinding.ActivityMainBinding
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+    lateinit var binding: ActivityMainBinding
+    lateinit var auth: FirebaseAuth
+    lateinit var name: String
+    //lateinit var adapter: UserAdapter
+    private val PERMISSION_REQUEST_CODE = 200
+
+    lateinit var database: FirebaseDatabase
+    lateinit var myRef: DatabaseReference
 
     private var launcher: ActivityResultLauncher<Intent>? = null
 
@@ -23,11 +35,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        auth = Firebase.auth
+        Log.e("item", auth.currentUser!!.displayName.toString() )
+        //name = auth.currentUser!!.displayName.toString()
+
         launcher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 if (result.resultCode == RESULT_OK) handleNutrientsData(result.data)
             }
-
         onClickSearch()
     }
 
