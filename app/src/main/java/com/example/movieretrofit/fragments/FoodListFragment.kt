@@ -1,6 +1,9 @@
 package com.example.movieretrofit.fragments
 
+<<<<<<< HEAD
+=======
 import android.content.Context
+>>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,12 +11,21 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+<<<<<<< HEAD
+=======
 import android.widget.Button
 import android.widget.Toast
+>>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+<<<<<<< HEAD
+import com.example.movieretrofit.adapter.FoodAdapter
+import com.example.movieretrofit.adapter.FoodClickListener
+import com.example.movieretrofit.adapter.FoodTextInputEditTextAdapter
+import com.example.movieretrofit.databinding.FragmentFoodListBinding
+=======
 import com.example.movieretrofit.MainActivity
 import com.example.movieretrofit.R
 import com.example.movieretrofit.SearchActivity
@@ -23,6 +35,7 @@ import com.example.movieretrofit.data.Nutrients
 import com.example.movieretrofit.databinding.FragmentFoodListBinding
 import com.example.movieretrofit.interfaces.AddFoodListener
 import com.example.movieretrofit.interfaces.FoodClickListener
+>>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
 import com.example.movieretrofit.model.FoodViewModel
 import com.example.retrofittraining.Utils.inputCheck
 import kotlinx.coroutines.delay
@@ -30,12 +43,20 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
+<<<<<<< HEAD
+class FoodListFragment : Fragment(), FoodClickListener {
+=======
 class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
+>>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
     lateinit var foodViewModel: FoodViewModel
     var binding: FragmentFoodListBinding? = null
 
     val adapterTextInput = FoodTextInputEditTextAdapter(this)
+<<<<<<< HEAD
+    private val adapter = FoodAdapter()
+=======
     private val adapter = FoodAdapter(this)
+>>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -150,6 +171,8 @@ class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
             }
         }
     }
+<<<<<<< HEAD
+=======
 
     override fun onNutrientsReceived(nutrients: Nutrients) {
         val activity = requireActivity() as SearchActivity
@@ -157,4 +180,5 @@ class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
         // закрываем фрагмент
         activity.onBackPressed()
     }
+>>>>>>> 1ef3a416805247a36f1ec45aceb99df055fa17a8
 }
