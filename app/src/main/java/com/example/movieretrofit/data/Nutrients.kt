@@ -18,4 +18,11 @@ class Nutrients() : java.io.Serializable {
 
         return Nutrients(calories, protein, fat)
     }
+
+    operator fun plus(newNutrients: Nutrients): Nutrients {
+        calories = calories!! + newNutrients.calories!!
+        protein = protein!! + newNutrients.protein!!
+        fat = fat!! + newNutrients.fat!!
+        return this
+    }
 }
