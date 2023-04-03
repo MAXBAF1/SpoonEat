@@ -20,4 +20,11 @@ class Nutrients() : java.io.Serializable {
         val carbs = (calories !!- (fat !!* 9.3 + protein !!* 4.1)/4.1).toString().split('.')[0].toFloat()
         return Nutrients(calories, protein, fat, carbs)
     }
+
+    operator fun plus(newNutrients: Nutrients): Nutrients {
+        calories = calories!! + newNutrients.calories!!
+        protein = protein!! + newNutrients.protein!!
+        fat = fat!! + newNutrients.fat!!
+        return this
+    }
 }

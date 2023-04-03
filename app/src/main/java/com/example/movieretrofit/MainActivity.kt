@@ -28,6 +28,8 @@ class MainActivity : AppCompatActivity() {
     private val PERMISSION_REQUEST_CODE = 200
     private var launcher: ActivityResultLauncher<Intent>? = null
 
+    private var nutrients = Nutrients(0f, 0f, 0f)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -92,11 +94,13 @@ class MainActivity : AppCompatActivity() {
         Log.e("item", auth.currentUser!!.displayName.toString() )
     }
 
+
     private fun handleNutrientsData(data: Intent?) {
         if (data == null) {
             Log.d("MyLog", "Data is NULL")
             return
         }
+        
         val nutrients = data.getSerializableExtra("Nutrients") as Nutrients
         getNutrientsFromFirebase()
         sendDataToFirebase(nutrients)
@@ -162,14 +166,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+//<<<<<<< main
     private fun setBarChart(protein: Float?, fat: Float?, carb: Float?) {
+//=======
+    private fun setBarChart(nutrients: Nutrients) {
+//>>>>>>> master
 
         val entries = ArrayList<BarEntry>()
 
         /*  x -  координаты для обозначения кол-ва данных; у - длина графика  */
+//<<<<<<< main
         entries.add(BarEntry(3f, protein ?: 0f, "protein"))
         entries.add(BarEntry(2f, fat ?: 0f, "fat"))
         entries.add(BarEntry(1f, carb ?: 0f, "carb"))
+//=======
+        entries.add(BarEntry(1f, nutrients.calories ?: 0f, "kcal"))
+        entries.add(BarEntry(2f, nutrients.fat ?: 0f, "fat"))
+        entries.add(BarEntry(3f, nutrients.protein ?: 0f, "protein"))
+//>>>>>>> master
 
         val barDataSet = BarDataSet(entries, "g")
         val data = BarData(barDataSet)
