@@ -1,5 +1,6 @@
 package com.example.movieretrofit.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,11 +9,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
+import com.example.movieretrofit.MainActivity
 import com.example.movieretrofit.R
 import com.example.movieretrofit.data.Food
 import com.example.movieretrofit.data.Nutrients
 import com.example.movieretrofit.interfaces.AddFoodListener
 import com.squareup.picasso.Picasso
+import kotlin.coroutines.coroutineContext
 
 class FoodAdapter(private val addFoodListener: AddFoodListener) : RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
     var foodList = emptyList<Food>()
