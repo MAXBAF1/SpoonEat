@@ -12,8 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.movieretrofit.Firebase
 import com.example.movieretrofit.R
+import com.example.movieretrofit.adapter.FoodAdapter
 import com.example.movieretrofit.data.Nutrients
 import com.example.movieretrofit.databinding.FragmentHomeBinding
+import com.example.movieretrofit.interfaces.AddFoodListener
 import com.example.movieretrofit.model.SharedViewModel
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
@@ -23,10 +25,11 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), AddFoodListener {
     lateinit var binding: FragmentHomeBinding
     lateinit var firebase: Firebase
     private var launcher: ActivityResultLauncher<Intent>? = null
+    private val adapter = FoodAdapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,7 +77,7 @@ class HomeFragment : Fragment() {
     private fun updateNutrients() {
         val viewModel: SharedViewModel by activityViewModels()
         viewModel.data.observe(viewLifecycleOwner) { data ->
-            firebase.sendDataToFirebase(data)
+            firebase.sendDataToFirebase(data, grams = adapter.grams)
             firebase.getNutrientsFromFirebase { setBarChart(it) }
         }
     }
@@ -99,4 +102,6 @@ class HomeFragment : Fragment() {
         @JvmStatic
         fun newInstance() = HomeFragment()
     }
+
+    override fun onNutrientsReceived(nutrients: Nutrients) {}
 }

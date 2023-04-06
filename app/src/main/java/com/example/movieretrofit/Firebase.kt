@@ -46,14 +46,17 @@ class Firebase {
     fun signOut(){
         auth.signOut()
     }
-    fun sendDataToFirebase(nutrients: Nutrients) {
+    fun sendDataToFirebase(nutrients: Nutrients, grams: Int) {
         val query = dateRef.child(usersRef.push().key ?: "blablabla")
 
-        query.child("calories").setValue(nutrients.calories)
-        query.child("protein").setValue(nutrients.protein)
-        query.child("fat").setValue(nutrients.fat)
+        Log.e("item", " in Firebase ${grams}")
+
+        query.child("grams").setValue(grams)
+        query.child("calories").setValue(nutrients.calories * grams)
+        query.child("protein").setValue(nutrients.protein * grams)
+        query.child("fat").setValue(nutrients.fat * grams)
         query.child("carbs").setValue(
-            ((nutrients.calories - (nutrients.fat * 9.3 + nutrients.protein * 4.1)) / 4.1).toInt()
+            (((nutrients.calories  - (nutrients.fat * 9.3 + nutrients.protein * 4.1)) / 4.1) * grams).toInt()
         )
     }
 

@@ -1,16 +1,21 @@
 package com.example.movieretrofit.fragments.ui
 
+import android.content.Context
+import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.movieretrofit.R
-import com.example.movieretrofit.databinding.FragmentHomeBinding
 import com.example.movieretrofit.databinding.FragmentVoiceBinding
+import com.justai.aimybox.components.AimyboxAssistantFragment
+
 
 class VoiceFragment : Fragment() {
     lateinit var binding: FragmentVoiceBinding
+    private var animationDrawable: AnimationDrawable? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -19,7 +24,28 @@ class VoiceFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {}
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        startFrameAnimation()
+
+//        val aimyboxFragment = AimyboxAssistantFragment()
+//        val transaction = childFragmentManager.beginTransaction()
+//        transaction.replace(R.id.layout_root, aimyboxFragment)
+//        transaction.addToBackStack(null)
+//        transaction.commit()
+    }
+
+    private fun startFrameAnimation()
+    {
+        val layout = binding.layoutRoot
+        animationDrawable = layout.background as AnimationDrawable
+        animationDrawable!!.setEnterFadeDuration(3)
+        animationDrawable!!.setExitFadeDuration(5000)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        animationDrawable!!.start()
+    }
 
     companion object {
         @JvmStatic

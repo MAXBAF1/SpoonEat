@@ -38,6 +38,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.ar:core:1.36.0'
     def lifecycle_version = "2.4.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
@@ -75,4 +76,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-database-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
+
+    implementation("com.just-ai.aimybox:components:0.17.5.1")
+    implementation("com.just-ai.aimybox:core:0.17.5.1")
+    implementation("com.just-ai.aimybox:google-platform-speechkit:0.17.5.1")
 }
