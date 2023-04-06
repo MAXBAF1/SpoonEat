@@ -7,9 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.movieretrofit.R
 import com.example.movieretrofit.databinding.FragmentVoiceBinding
-import com.justai.aimybox.components.AimyboxAssistantFragment
 
 
 class VoiceFragment : Fragment() {

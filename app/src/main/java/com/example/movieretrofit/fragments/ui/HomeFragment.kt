@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.movieretrofit.Firebase
 import com.example.movieretrofit.R
-import com.example.movieretrofit.adapter.FoodAdapter
 import com.example.movieretrofit.data.Nutrients
 import com.example.movieretrofit.databinding.FragmentHomeBinding
 import com.example.movieretrofit.interfaces.AddFoodListener
@@ -29,7 +28,6 @@ class HomeFragment : Fragment(), AddFoodListener {
     lateinit var binding: FragmentHomeBinding
     lateinit var firebase: Firebase
     private var launcher: ActivityResultLauncher<Intent>? = null
-    private val adapter = FoodAdapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -77,7 +75,7 @@ class HomeFragment : Fragment(), AddFoodListener {
     private fun updateNutrients() {
         val viewModel: SharedViewModel by activityViewModels()
         viewModel.data.observe(viewLifecycleOwner) { data ->
-            firebase.sendDataToFirebase(data, grams = adapter.grams)
+            firebase.sendDataToFirebase(data)
             firebase.getNutrientsFromFirebase { setBarChart(it) }
         }
     }
@@ -104,4 +102,5 @@ class HomeFragment : Fragment(), AddFoodListener {
     }
 
     override fun onNutrientsReceived(nutrients: Nutrients) {}
+
 }

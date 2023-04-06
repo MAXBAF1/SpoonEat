@@ -1,9 +1,9 @@
 package com.example.movieretrofit
 
 import android.util.Log
+import com.example.movieretrofit.adapter.FoodAdapter
 import com.example.movieretrofit.data.Nutrients
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
@@ -46,10 +46,11 @@ class Firebase {
     fun signOut(){
         auth.signOut()
     }
-    fun sendDataToFirebase(nutrients: Nutrients, grams: Int) {
-        val query = dateRef.child(usersRef.push().key ?: "blablabla")
+    fun sendDataToFirebase(nutrients: Nutrients) {
+        val grams = nutrients.grams / 100
+        Log.e("item", " in Firebase $grams")
 
-        Log.e("item", " in Firebase ${grams}")
+        val query = dateRef.child(usersRef.push().key ?: "blablabla")
 
         query.child("grams").setValue(grams)
         query.child("calories").setValue(nutrients.calories * grams)
@@ -67,13 +68,14 @@ class Firebase {
                 for (mealSnapshot in dataSnapshot.children) {
                     val meal = mealSnapshot.getValue(Nutrients::class.java)
                     meal?.let {
-                        nutrients += Nutrients(it.calories, it.protein, it.fat, it.carbs)
+                        nutrients += Nutrients(0, it.calories, it.protein, it.fat, it.carbs)
                     }
                 }
                 callback(nutrients)
             }
-            override fun onCancelled(error: DatabaseError) {
 
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("item", "in Firebase onCancelled")
             }
         })
     }

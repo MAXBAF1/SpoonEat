@@ -1,7 +1,6 @@
 package com.example.movieretrofit.adapter
 
-import android.content.Intent
-import android.text.Editable
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,11 +15,14 @@ import com.example.movieretrofit.MainActivity
 import com.example.movieretrofit.R
 import com.example.movieretrofit.data.Food
 import com.example.movieretrofit.data.Nutrients
+import com.example.movieretrofit.fragments.ui.HomeFragment
 import com.example.movieretrofit.interfaces.AddFoodListener
 import com.squareup.picasso.Picasso
 import kotlin.coroutines.coroutineContext
+import kotlin.properties.Delegates
 
-class FoodAdapter(private val addFoodListener: AddFoodListener) : RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
+class FoodAdapter(private val addFoodListener: AddFoodListener) :
+    RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
     var foodList = emptyList<Food>()
     //private var addFoodListener: AddFoodListener? = null
 
@@ -41,17 +43,19 @@ class FoodAdapter(private val addFoodListener: AddFoodListener) : RecyclerView.A
 
         holder.itemView.findViewById<TextView>(R.id.food_name).text = currentItem.name
         val nutrients = Nutrients().getNutrients(currentItem.content!!)
+        Log.e("item", "nutrients in Food adapter $nutrients")
+
         initNutrientsTv(holder, nutrients)
 
         holder.itemView.findViewById<Button>(R.id.button_add_food).setOnClickListener {
-            addFoodListener.onNutrientsReceived(nutrients)
-
-            val etGrams =  holder.itemView.findViewById<EditText>(R.id.et_gram).text
-            val grams = if (etGrams.isEmpty()) 100
-            else {
-               etGrams.toString().toInt() / 100
+            val etGrams = holder.itemView.findViewById<EditText>(R.id.et_gram).text
+            val grams: Int = if (etGrams.isEmpty()) 100 else {
+                etGrams.toString().toInt()
             }
-            Log.e("item", " in Food adapter ${grams}")
+            nutrients.grams = grams
+            Log.e("item", " in Food adapter $grams")
+
+            addFoodListener.onNutrientsReceived(nutrients)
         }
     }
 

@@ -14,7 +14,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         openFragment(HomeFragment.newInstance())
         onBottomNavClick()
     }
@@ -48,7 +47,6 @@ class MainActivity : AppCompatActivity() {
             if (supportFragmentManager.fragments[0].javaClass == f.javaClass) return
 
         supportFragmentManager.beginTransaction()
-            //.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
             .replace(R.id.placeHolder, f)
             .commit()
     }

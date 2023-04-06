@@ -77,7 +77,4 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
 
-    implementation("com.just-ai.aimybox:components:0.17.5.1")
-    implementation("com.just-ai.aimybox:core:0.17.5.1")
-    implementation("com.just-ai.aimybox:google-platform-speechkit:0.17.5.1")
 }
