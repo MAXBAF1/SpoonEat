@@ -1,9 +1,9 @@
 package com.example.movieretrofit
 
-import android.os.Bundle
 import android.util.Log
 import com.example.movieretrofit.data.Diet
 import com.example.movieretrofit.data.Nutrients
+import com.example.movieretrofit.fragments.ui.HomeFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
@@ -13,6 +13,7 @@ import java.util.*
 
 
 class Firebase {
+    var diet: Diet = Diet()
     var username: String
     var database: FirebaseDatabase
     var usersRef: DatabaseReference
@@ -49,13 +50,50 @@ class Firebase {
     }
 
     fun sendUserDietToFirebase(diet: Diet) {
-        Log.e("item", "in Firebase sendUserDietToFirebase ${diet.protetnCoeff}")
+        Log.e("item", "in Firebase sendUserDietToFirebase ${diet.proteinCoeff}")
         val query = usersRef.child(username)
-        query.child("diet").child("protein").setValue(diet.protetnCoeff.toInt())
+        query.child("diet").child("protein").setValue(diet.proteinCoeff.toInt())
         query.child("diet").child("fat").setValue(diet.fatCoeff.toInt())
         query.child("diet").child("carbs").setValue(diet.carbsCoeff.toInt())
     }
-    
+
+    fun getUserDietFromFirebase(callback: (diet: Diet) -> Unit) {
+        val query = usersRef.child(username)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val dietList = mutableListOf<Float>()
+                for (dietSnapshot in dataSnapshot.child("diet").children) {
+                    val dietValue = dietSnapshot.getValue(Float::class.java)
+                    dietValue?.let { dietList.add(it) }
+                }
+                Log.e("item", "----onDataChange----  in getUserDietFromFirebase Firebase  proteinCoeff ${dietList.first()}")
+                diet = Diet(dietList.first(), dietList[1], dietList.last())
+                Log.e("item", "----onDataChange----  in getUserDietFromFirebase Firebase proteinCoeff diet ${diet.proteinCoeff}")
+                callback(diet)
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("item", "in getNutrientsFromFirebase Firebase onCancelled")
+            }
+        })
+    }
+    fun getNutrientsFromFirebase(callback: (nutrients: Nutrients) -> Unit) {
+        var nutrients = Nutrients()
+        dateRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (mealSnapshot in dataSnapshot.children) {
+                    val meal = mealSnapshot.getValue(Nutrients::class.java)
+                    meal?.let {
+                        nutrients += Nutrients(0, it.calories, it.protein, it.fat, it.carbs)
+                    }
+                }
+                callback(nutrients)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("item", "in getNutrientsFromFirebase Firebase onCancelled")
+            }
+        })
+    }
     fun sendDataToFirebase(nutrients: Nutrients) {
         val grams = nutrients.grams / 100
         Log.e("item", " in Firebase $grams")
@@ -71,22 +109,5 @@ class Firebase {
         )
     }
 
-    fun getNutrientsFromFirebase(callback: (nutrients: Nutrients) -> Unit) {
-        var nutrients = Nutrients()
-        dateRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (mealSnapshot in dataSnapshot.children) {
-                    val meal = mealSnapshot.getValue(Nutrients::class.java)
-                    meal?.let {
-                        nutrients += Nutrients(0, it.calories, it.protein, it.fat, it.carbs)
-                    }
-                }
-                callback(nutrients)
-            }
 
-            override fun onCancelled(error: DatabaseError) {
-                Log.e("item", "in Firebase onCancelled")
-            }
-        })
-    }
 }

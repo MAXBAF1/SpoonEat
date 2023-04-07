@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.movieretrofit.data.Diet
@@ -36,6 +37,8 @@ class AccountSettingsFragment : Fragment() {
         binding.sendDietToFirebase.setOnClickListener {
             firebase = com.example.movieretrofit.Firebase()
             firebase.sendUserDietToFirebase(diet)
+            Log.e("item", "createSaveDiet in AccountSettingsFragment, fatCoeff is  ${diet.fatCoeff}")
+            Toast.makeText(requireContext(), "Сохранено", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -55,11 +58,11 @@ class AccountSettingsFragment : Fragment() {
 
             diet = Diet()
             if (slider.values.isNotEmpty()) {
-                diet.protetnCoeff = proteinCoefficient
+                diet.proteinCoeff = proteinCoefficient
                 diet.fatCoeff = fatCoefficient.toFloat()
                 diet.carbsCoeff = carbsCoefficient
             } else {
-                diet.protetnCoeff = 25.0F
+                diet.proteinCoeff = 25.0F
                 diet.fatCoeff = 25.0F
                 diet.carbsCoeff = 25.0F
             }
@@ -68,8 +71,6 @@ class AccountSettingsFragment : Fragment() {
             Log.e("item", "$proteinCoefficient, $carbsCoefficient, $fatCoefficient")
         }
     }
-
-
 
     private fun setUpUserPicture(imageView: ImageView, userName: TextView) {
             Glide.with(this)

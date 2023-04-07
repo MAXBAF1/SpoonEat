@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.movieretrofit.Firebase
 import com.example.movieretrofit.R
+import com.example.movieretrofit.data.Diet
 import com.example.movieretrofit.data.Nutrients
 import com.example.movieretrofit.databinding.FragmentHomeBinding
 import com.example.movieretrofit.interfaces.AddFoodListener
@@ -25,6 +26,10 @@ import com.google.firebase.database.ValueEventListener
 
 
 class HomeFragment : Fragment(), AddFoodListener {
+    var proteinCoeff = 1f
+    var fatCoeff = 1f
+    var carbsCoeff = 1f
+
     lateinit var binding: FragmentHomeBinding
     lateinit var firebase: Firebase
     private var launcher: ActivityResultLauncher<Intent>? = null
@@ -40,6 +45,7 @@ class HomeFragment : Fragment(), AddFoodListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         firebase = Firebase()
         firebase.loadUser()
+        firebase.getUserDietFromFirebase{getCoeffDiet(it)}
         firebase.getNutrientsFromFirebase { setBarChart(it) }
 
 //        launcher =
@@ -63,6 +69,7 @@ class HomeFragment : Fragment(), AddFoodListener {
                     lastChildKey?.let { key ->
                         query.child(key).removeValue()
                     }
+                    firebase.getUserDietFromFirebase{getCoeffDiet(it)}
                     firebase.getNutrientsFromFirebase { setBarChart(it) }
                 }
                 override fun onCancelled(databaseError: DatabaseError) {
@@ -76,17 +83,22 @@ class HomeFragment : Fragment(), AddFoodListener {
         val viewModel: SharedViewModel by activityViewModels()
         viewModel.data.observe(viewLifecycleOwner) { data ->
             firebase.sendDataToFirebase(data)
-            firebase.getNutrientsFromFirebase { setBarChart(it) }
+            firebase.getUserDietFromFirebase{getCoeffDiet(it)}
+            firebase.getNutrientsFromFirebase {setBarChart(it) }
         }
     }
-
-
+    private fun getCoeffDiet(diet: Diet){
+        proteinCoeff = diet.proteinCoeff / 100
+        fatCoeff = diet.fatCoeff / 100
+        carbsCoeff = diet.carbsCoeff / 100
+    }
     private fun setBarChart(nutrients: Nutrients) {
+        Log.e("item", "diet in setBarChart, protetnCoeff is  $proteinCoeff")
         val entries = ArrayList<BarEntry>()
 
-        entries.add(BarEntry(3f, nutrients.protein, "protein"))
-        entries.add(BarEntry(2f, nutrients.fat, "fat"))
-        entries.add(BarEntry(1f, nutrients.carbs, "carbs"))
+        entries.add(BarEntry(3f, nutrients.protein * proteinCoeff, "protein"))
+        entries.add(BarEntry(2f, nutrients.fat * fatCoeff, "fat"))
+        entries.add(BarEntry(1f, nutrients.carbs * carbsCoeff, "carbs"))
 
         val barDataSet = BarDataSet(entries, "g")
         val data = BarData(barDataSet)
