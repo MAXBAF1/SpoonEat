@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.voice -> {
                     openFragment(VoiceFragment.newInstance())
                 }
-
                 R.id.search -> {
                     openFragment(SearchFragment.newInstance())
                 }
