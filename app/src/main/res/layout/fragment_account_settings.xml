@@ -79,4 +79,14 @@
             android:text="fat" />
     </LinearLayout>
 
+    <Button
+        android:id="@+id/send_diet_to_firebase"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Сохранить диету"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonSignOut" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

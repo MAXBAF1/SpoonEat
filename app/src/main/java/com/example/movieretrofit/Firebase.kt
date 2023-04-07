@@ -1,7 +1,8 @@
 package com.example.movieretrofit
 
+import android.os.Bundle
 import android.util.Log
-import com.example.movieretrofit.adapter.FoodAdapter
+import com.example.movieretrofit.data.Diet
 import com.example.movieretrofit.data.Nutrients
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -46,6 +47,15 @@ class Firebase {
     fun signOut(){
         auth.signOut()
     }
+
+    fun sendUserDietToFirebase(diet: Diet) {
+        Log.e("item", "in Firebase sendUserDietToFirebase ${diet.protetnCoeff}")
+        val query = usersRef.child(username)
+        query.child("diet").child("protein").setValue(diet.protetnCoeff.toInt())
+        query.child("diet").child("fat").setValue(diet.fatCoeff.toInt())
+        query.child("diet").child("carbs").setValue(diet.carbsCoeff.toInt())
+    }
+    
     fun sendDataToFirebase(nutrients: Nutrients) {
         val grams = nutrients.grams / 100
         Log.e("item", " in Firebase $grams")

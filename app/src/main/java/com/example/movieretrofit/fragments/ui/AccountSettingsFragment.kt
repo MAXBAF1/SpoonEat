@@ -9,11 +9,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.example.movieretrofit.data.Diet
 import com.example.movieretrofit.databinding.FragmentAccountSettingsBinding
 import com.google.firebase.auth.FirebaseAuth
 
 class AccountSettingsFragment : Fragment() {
     lateinit var binding: FragmentAccountSettingsBinding
+    lateinit var firebase: com.example.movieretrofit.Firebase
+    lateinit var diet: Diet
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,6 +29,14 @@ class AccountSettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setUpUserPicture(binding.avatar, binding.tvUsername)
         createSeekBar()
+        createSaveDiet()
+    }
+
+    private fun createSaveDiet() {
+        binding.sendDietToFirebase.setOnClickListener {
+            firebase = com.example.movieretrofit.Firebase()
+            firebase.sendUserDietToFirebase(diet)
+        }
     }
 
     private fun createSeekBar() {
@@ -42,11 +53,23 @@ class AccountSettingsFragment : Fragment() {
             val carbsCoefficient = values.last() - values.first()
             val fatCoefficient = 100.0 - values.last()
 
+            diet = Diet()
+            if (slider.values.isNotEmpty()) {
+                diet.protetnCoeff = proteinCoefficient
+                diet.fatCoeff = fatCoefficient.toFloat()
+                diet.carbsCoeff = carbsCoefficient
+            } else {
+                diet.protetnCoeff = 25.0F
+                diet.fatCoeff = 25.0F
+                diet.carbsCoeff = 25.0F
+            }
+
+            Log.e("item", "diet is $diet")
             Log.e("item", "$proteinCoefficient, $carbsCoefficient, $fatCoefficient")
-
-
         }
     }
+
+
 
     private fun setUpUserPicture(imageView: ImageView, userName: TextView) {
             Glide.with(this)
