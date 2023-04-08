@@ -84,21 +84,26 @@ class HomeFragment : Fragment(), AddFoodListener {
         viewModel.data.observe(viewLifecycleOwner) { data ->
             firebase.sendDataToFirebase(data)
             firebase.getUserDietFromFirebase{getCoeffDiet(it)}
-            firebase.getNutrientsFromFirebase {setBarChart(it) }
+            firebase.getNutrientsFromFirebase{setBarChart(it)}
         }
     }
+
     private fun getCoeffDiet(diet: Diet){
         proteinCoeff = diet.proteinCoeff / 100
         fatCoeff = diet.fatCoeff / 100
         carbsCoeff = diet.carbsCoeff / 100
     }
+
     private fun setBarChart(nutrients: Nutrients) {
         Log.e("item", "diet in setBarChart, protetnCoeff is  $proteinCoeff")
+        Log.e("item", "diet in setBarChart, carbsCoeff is  $carbsCoeff")
+        Log.e("item", "diet in setBarChart, fatCoeff is  $fatCoeff")
         val entries = ArrayList<BarEntry>()
+        var sum = nutrients.protein + nutrients.fat + nutrients.carbs
 
-        entries.add(BarEntry(3f, nutrients.protein * proteinCoeff, "protein"))
-        entries.add(BarEntry(2f, nutrients.fat * fatCoeff, "fat"))
-        entries.add(BarEntry(1f, nutrients.carbs * carbsCoeff, "carbs"))
+        entries.add(BarEntry(3f, nutrients.protein / sum / proteinCoeff, "protein"))
+        entries.add(BarEntry(2f, nutrients.fat/ sum / fatCoeff, "fat"))
+        entries.add(BarEntry(1f, nutrients.carbs/ sum / carbsCoeff, "carbs"))
 
         val barDataSet = BarDataSet(entries, "g")
         val data = BarData(barDataSet)

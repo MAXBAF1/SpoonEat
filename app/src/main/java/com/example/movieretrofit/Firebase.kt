@@ -3,7 +3,6 @@ package com.example.movieretrofit
 import android.util.Log
 import com.example.movieretrofit.data.Diet
 import com.example.movieretrofit.data.Nutrients
-import com.example.movieretrofit.fragments.ui.HomeFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
@@ -18,6 +17,7 @@ class Firebase {
     var database: FirebaseDatabase
     var usersRef: DatabaseReference
     var dateRef: DatabaseReference
+    var dietRef: DatabaseReference
 
     private var auth: FirebaseAuth = Firebase.auth
     private val sdf = SimpleDateFormat("dd:MM:yyyy", Locale.getDefault())
@@ -28,6 +28,7 @@ class Firebase {
         database = FirebaseDatabase.getInstance()
         usersRef = database.getReference("users")
         dateRef = usersRef.child(username).child("meal").child(date)
+        dietRef = usersRef.child(username).child("diet")
     }
 
     fun loadUser() {
@@ -38,6 +39,7 @@ class Firebase {
                     usersRef.child(username).setValue("")
                 }
             }
+
             override fun onCancelled(databaseError: DatabaseError) {
                 // Обработка ошибок
             }
@@ -45,37 +47,39 @@ class Firebase {
         Log.e("item", auth.currentUser!!.displayName.toString())
     }
 
-    fun signOut(){
+    fun signOut() {
         auth.signOut()
     }
 
     fun sendUserDietToFirebase(diet: Diet) {
         Log.e("item", "in Firebase sendUserDietToFirebase ${diet.proteinCoeff}")
-        val query = usersRef.child(username)
-        query.child("diet").child("protein").setValue(diet.proteinCoeff.toInt())
-        query.child("diet").child("fat").setValue(diet.fatCoeff.toInt())
-        query.child("diet").child("carbs").setValue(diet.carbsCoeff.toInt())
+
+        dietRef.child("protein").setValue(diet.proteinCoeff.toInt())
+        dietRef.child("fat").setValue(diet.fatCoeff.toInt())
+        dietRef.child("carbs").setValue(diet.carbsCoeff.toInt())
     }
 
     fun getUserDietFromFirebase(callback: (diet: Diet) -> Unit) {
-        val query = usersRef.child(username)
-        query.addListenerForSingleValueEvent(object : ValueEventListener {
+        dietRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val dietList = mutableListOf<Float>()
-                for (dietSnapshot in dataSnapshot.child("diet").children) {
-                    val dietValue = dietSnapshot.getValue(Float::class.java)
-                    dietValue?.let { dietList.add(it) }
-                }
-                Log.e("item", "----onDataChange----  in getUserDietFromFirebase Firebase  proteinCoeff ${dietList.first()}")
-                diet = Diet(dietList.first(), dietList[1], dietList.last())
-                Log.e("item", "----onDataChange----  in getUserDietFromFirebase Firebase proteinCoeff diet ${diet.proteinCoeff}")
+                val dietHashMap = dataSnapshot.value as? HashMap<*, *>
+
+                if (dietHashMap != null)
+                    diet = Diet(
+                        dietHashMap["protein"] as? Float ?: 30f,
+                        dietHashMap["fat"] as? Float ?: 30f,
+                        dietHashMap["carbs"] as? Float ?: 40f
+                    )
+
                 callback(diet)
             }
+
             override fun onCancelled(error: DatabaseError) {
                 Log.e("item", "in getNutrientsFromFirebase Firebase onCancelled")
             }
         })
     }
+
     fun getNutrientsFromFirebase(callback: (nutrients: Nutrients) -> Unit) {
         var nutrients = Nutrients()
         dateRef.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -94,6 +98,7 @@ class Firebase {
             }
         })
     }
+
     fun sendDataToFirebase(nutrients: Nutrients) {
         val grams = nutrients.grams / 100
         Log.e("item", " in Firebase $grams")
@@ -105,7 +110,7 @@ class Firebase {
         query.child("protein").setValue(nutrients.protein * grams)
         query.child("fat").setValue(nutrients.fat * grams)
         query.child("carbs").setValue(
-            (((nutrients.calories  - (nutrients.fat * 9.3 + nutrients.protein * 4.1)) / 4.1) * grams).toInt()
+            (((nutrients.calories - (nutrients.fat * 9.3 + nutrients.protein * 4.1)) / 4.1) * grams).toInt()
         )
     }
 
