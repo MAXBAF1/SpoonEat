@@ -1,5 +1,6 @@
 package com.example.movieretrofit.fragments.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,14 +11,22 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.example.movieretrofit.R
+import com.example.movieretrofit.SignInActivity
 import com.example.movieretrofit.data.Diet
 import com.example.movieretrofit.databinding.FragmentAccountSettingsBinding
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.auth.api.signin.SignInAccount
 import com.google.firebase.auth.FirebaseAuth
 
 class AccountSettingsFragment : Fragment() {
     lateinit var binding: FragmentAccountSettingsBinding
     lateinit var firebase: com.example.movieretrofit.Firebase
     lateinit var diet: Diet
+    lateinit var googleSignInClient: GoogleSignInClient
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +40,16 @@ class AccountSettingsFragment : Fragment() {
         setUpUserPicture(binding.avatar, binding.tvUsername)
         createSeekBar()
         createSaveDiet()
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        googleSignInClient= GoogleSignIn.getClient(requireActivity(),gso)
+
+        binding.buttonSignOut.setOnClickListener {
+            buttonSignOut()
+        }
     }
 
     private fun createSaveDiet() {
@@ -79,16 +98,15 @@ class AccountSettingsFragment : Fragment() {
             userName.text = FirebaseAuth.getInstance().currentUser!!.displayName
     }
 
-//    private fun buttonSignOut() {
-//        var firebase = Firebase()
-//        firebase.signOut()
-//        val intent = Intent(activity, SignInActivity::class.java)
-//        startActivity(intent)
-//    }
+    private fun buttonSignOut() {
+        googleSignInClient.signOut().addOnCompleteListener {
+            val intent= Intent(requireActivity(), SignInActivity::class.java)
+            startActivity(intent)
+        }
+    }
 
     companion object {
         @JvmStatic
         fun newInstance() = AccountSettingsFragment()
-
     }
 }
