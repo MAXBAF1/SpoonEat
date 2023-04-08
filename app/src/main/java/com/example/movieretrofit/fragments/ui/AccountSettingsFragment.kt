@@ -37,7 +37,10 @@ class AccountSettingsFragment : Fragment() {
         binding.sendDietToFirebase.setOnClickListener {
             firebase = com.example.movieretrofit.Firebase()
             firebase.sendUserDietToFirebase(diet)
-            Log.e("item", "createSaveDiet in AccountSettingsFragment, fatCoeff is  ${diet.fatCoeff}")
+            Log.e(
+                "item",
+                "createSaveDiet in AccountSettingsFragment, fatCoeff is  ${diet.fatCoeff}"
+            )
             Toast.makeText(requireContext(), "Сохранено", Toast.LENGTH_SHORT).show()
         }
     }
@@ -73,10 +76,10 @@ class AccountSettingsFragment : Fragment() {
     }
 
     private fun setUpUserPicture(imageView: ImageView, userName: TextView) {
-            Glide.with(this)
+        Glide.with(this)
             .load(FirebaseAuth.getInstance().currentUser?.photoUrl)
             .into(imageView)
-            userName.text = FirebaseAuth.getInstance().currentUser!!.displayName
+        userName.text = FirebaseAuth.getInstance().currentUser!!.displayName
     }
 
 //    private fun buttonSignOut() {

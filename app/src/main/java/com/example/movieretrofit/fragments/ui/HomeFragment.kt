@@ -45,7 +45,7 @@ class HomeFragment : Fragment(), AddFoodListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         firebase = Firebase()
         firebase.loadUser()
-        firebase.getUserDietFromFirebase{getCoeffDiet(it)}
+        firebase.getUserDietFromFirebase { getCoeffDiet(it) }
         firebase.getNutrientsFromFirebase { setBarChart(it) }
 
 //        launcher =
@@ -69,9 +69,10 @@ class HomeFragment : Fragment(), AddFoodListener {
                     lastChildKey?.let { key ->
                         query.child(key).removeValue()
                     }
-                    firebase.getUserDietFromFirebase{getCoeffDiet(it)}
+                    firebase.getUserDietFromFirebase { getCoeffDiet(it) }
                     firebase.getNutrientsFromFirebase { setBarChart(it) }
                 }
+
                 override fun onCancelled(databaseError: DatabaseError) {
                     Log.e("item", "onCancelled", databaseError.toException())
                 }
@@ -83,12 +84,12 @@ class HomeFragment : Fragment(), AddFoodListener {
         val viewModel: SharedViewModel by activityViewModels()
         viewModel.data.observe(viewLifecycleOwner) { data ->
             firebase.sendDataToFirebase(data)
-            firebase.getUserDietFromFirebase{getCoeffDiet(it)}
-            firebase.getNutrientsFromFirebase{setBarChart(it)}
+            firebase.getUserDietFromFirebase { getCoeffDiet(it) }
+            firebase.getNutrientsFromFirebase { setBarChart(it) }
         }
     }
 
-    private fun getCoeffDiet(diet: Diet){
+    private fun getCoeffDiet(diet: Diet) {
         proteinCoeff = diet.proteinCoeff / 100
         fatCoeff = diet.fatCoeff / 100
         carbsCoeff = diet.carbsCoeff / 100
@@ -102,8 +103,8 @@ class HomeFragment : Fragment(), AddFoodListener {
         var sum = nutrients.protein + nutrients.fat + nutrients.carbs
 
         entries.add(BarEntry(3f, nutrients.protein / sum / proteinCoeff, "protein"))
-        entries.add(BarEntry(2f, nutrients.fat/ sum / fatCoeff, "fat"))
-        entries.add(BarEntry(1f, nutrients.carbs/ sum / carbsCoeff, "carbs"))
+        entries.add(BarEntry(2f, nutrients.fat / sum / fatCoeff, "fat"))
+        entries.add(BarEntry(1f, nutrients.carbs / sum / carbsCoeff, "carbs"))
 
         val barDataSet = BarDataSet(entries, "g")
         val data = BarData(barDataSet)

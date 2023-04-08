@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun onBottomNavClick() {
         binding.bNav.setOnItemSelectedListener {
-            when (it.itemId){
+            when (it.itemId) {
                 R.id.home -> {
                     openFragment(HomeFragment.newInstance())
                 }

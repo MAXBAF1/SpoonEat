@@ -33,8 +33,7 @@ class VoiceFragment : Fragment() {
 
     }
 
-    private fun startFrameAnimation()
-    {
+    private fun startFrameAnimation() {
         val layout = binding.layoutRoot
         animationDrawable = layout.background as AnimationDrawable
         animationDrawable!!.setEnterFadeDuration(3)
