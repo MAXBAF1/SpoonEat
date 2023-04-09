@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.example.movieretrofit.R
 import com.example.movieretrofit.data.Diet
 import com.example.movieretrofit.databinding.FragmentAccountSettingsBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -17,7 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 class AccountSettingsFragment : Fragment() {
     lateinit var binding: FragmentAccountSettingsBinding
     lateinit var firebase: com.example.movieretrofit.Firebase
-    lateinit var diet: Diet
+    private var diet: Diet = Diet()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,51 +29,60 @@ class AccountSettingsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        firebase = com.example.movieretrofit.Firebase()
         setUpUserPicture(binding.avatar, binding.tvUsername)
-        createSeekBar()
+        createRangeSlider()
         createSaveDiet()
     }
 
-    private fun createSaveDiet() {
-        binding.sendDietToFirebase.setOnClickListener {
-            firebase = com.example.movieretrofit.Firebase()
-            firebase.sendUserDietToFirebase(diet)
-            Log.e(
-                "item",
-                "createSaveDiet in AccountSettingsFragment, fatCoeff is  ${diet.fatCoeff}"
-            )
-            Toast.makeText(requireContext(), "Сохранено", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun createSeekBar() {
+    private fun createRangeSlider() {
         val rangeSlider = binding.slider
         rangeSlider.valueFrom = 0f
         rangeSlider.valueTo = 100f
+        rangeSlider.stepSize = 5f
 
-        rangeSlider.values = listOf(25f, 75f)
+        firebase.getUserDietFromFirebase {
+            rangeSlider.values = listOf(it.proteinCoeff, it.proteinCoeff + it.fatCoeff)
+        }
 
         rangeSlider.addOnChangeListener { slider, _, _ ->
             val values = slider.values // Get the current values
             Log.e("item", values.toString())
-            val proteinCoefficient = values.first()
-            val carbsCoefficient = values.last() - values.first()
-            val fatCoefficient = 100.0 - values.last()
+            val proteinCf = values.first()
+            val fatCf = values.last() - values.first()
+            val carbCf = (100.0 - values.last()).toFloat()
 
-            diet = Diet()
-            if (slider.values.isNotEmpty()) {
-                diet.proteinCoeff = proteinCoefficient
-                diet.fatCoeff = fatCoefficient.toFloat()
-                diet.carbsCoeff = carbsCoefficient
-            } else {
-                diet.proteinCoeff = 25.0F
-                diet.fatCoeff = 25.0F
-                diet.carbsCoeff = 25.0F
-            }
+            updateTvCf(proteinCf, fatCf, carbCf)
+
+            diet = Diet(proteinCf, fatCf, carbCf)
 
             Log.e("item", "diet is $diet")
-            Log.e("item", "$proteinCoefficient, $carbsCoefficient, $fatCoefficient")
+            Log.e("item", "$proteinCf, $carbCf, $fatCf")
         }
+    }
+
+    private fun createSaveDiet() {
+        binding.sendDietToFirebase.setOnClickListener {
+            Log.e(
+                "item",
+                "createSaveDiet in AccountSettingsFragment, fatCoeff is  ${diet.fatCoeff}"
+            )
+            if (diet.proteinCoeff != 0f && diet.fatCoeff != 0f && diet.carbsCoeff != 0f) {
+                firebase.sendUserDietToFirebase(diet)
+                Toast.makeText(requireContext(), "Сохранено", Toast.LENGTH_SHORT).show()
+            }
+            else
+                Toast.makeText(requireContext(), "Не может быть 0%!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun updateTvCf(proteinCf: Float, fatCf: Float, carbCf: Float) {
+        val proteinText = "${getString(R.string.protein)} ${proteinCf.toInt()}%"
+        val fatText = "${getString(R.string.fat)} ${fatCf.toInt()}%"
+        val carbText = "${getString(R.string.carb)} ${carbCf.toInt()}%"
+        binding.tvProtein.text = proteinText
+        binding.tvFat.text = fatText
+        binding.tvCarb.text = carbText
     }
 
     private fun setUpUserPicture(imageView: ImageView, userName: TextView) {

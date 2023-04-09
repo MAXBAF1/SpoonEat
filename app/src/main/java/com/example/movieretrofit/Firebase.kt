@@ -62,14 +62,10 @@ class Firebase {
     fun getUserDietFromFirebase(callback: (diet: Diet) -> Unit) {
         dietRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val dietHashMap = dataSnapshot.value as? HashMap<*, *>
+                val dietHashMap = dataSnapshot.value as? HashMap<*, Float>
 
                 if (dietHashMap != null)
-                    diet = Diet(
-                        dietHashMap["protein"] as? Float ?: 30f,
-                        dietHashMap["fat"] as? Float ?: 30f,
-                        dietHashMap["carbs"] as? Float ?: 40f
-                    )
+                    diet = Diet(dietHashMap["protein"]!!, dietHashMap["fat"]!!, dietHashMap["carbs"]!!)
 
                 callback(diet)
             }

@@ -7,4 +7,8 @@
     <string name="home">Home</string>
     <string name="statistics">Statistics</string>
     <string name="search">Search</string>
+
+    <string name="protein">Белки</string>
+    <string name="fat">Жиры</string>
+    <string name="carb">Углеводы</string>
 </resources>

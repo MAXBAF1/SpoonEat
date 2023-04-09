@@ -100,7 +100,7 @@ class HomeFragment : Fragment(), AddFoodListener {
         Log.e("item", "diet in setBarChart, carbsCoeff is  $carbsCoeff")
         Log.e("item", "diet in setBarChart, fatCoeff is  $fatCoeff")
         val entries = ArrayList<BarEntry>()
-        var sum = nutrients.protein + nutrients.fat + nutrients.carbs
+        val sum = nutrients.protein + nutrients.fat + nutrients.carbs
 
         entries.add(BarEntry(3f, nutrients.protein / sum / proteinCoeff, "protein"))
         entries.add(BarEntry(2f, nutrients.fat / sum / fatCoeff, "fat"))
@@ -109,7 +109,8 @@ class HomeFragment : Fragment(), AddFoodListener {
         val barDataSet = BarDataSet(entries, "g")
         val data = BarData(barDataSet)
         binding.barChart.data = data // set the data and list of lables into chart
-        barDataSet.color = getColor(requireContext(), R.color.purple)
+        barDataSet.color = getColor(requireContext(), R.color.colorGradientEnd)
+
 
         binding.barChart.animateY(0)
     }
