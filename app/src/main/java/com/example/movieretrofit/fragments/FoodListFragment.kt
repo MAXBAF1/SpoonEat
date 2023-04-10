@@ -13,7 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieretrofit.adapter.FoodAdapter
 import com.example.movieretrofit.adapter.FoodTextInputEditTextAdapter
-import com.example.movieretrofit.data.Nutrients
+import com.example.movieretrofit.data.Food
 import com.example.movieretrofit.databinding.FragmentFoodListBinding
 import com.example.movieretrofit.fragments.ui.SearchFragment
 import com.example.movieretrofit.interfaces.AddFoodListener
@@ -146,8 +146,8 @@ class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
         }
     }
 
-    override fun onNutrientsReceived(nutrients: Nutrients) {
+    override fun onFoodReceived(food: Food) {
         val searchFragment = parentFragment?.requireParentFragment() as SearchFragment
-        searchFragment.handleNutrientsData(nutrients)
+        searchFragment.handleNutrientsData(food)
     }
 }

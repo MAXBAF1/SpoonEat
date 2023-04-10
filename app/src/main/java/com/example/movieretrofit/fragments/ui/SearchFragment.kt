@@ -10,7 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.movieretrofit.R
-import com.example.movieretrofit.data.Nutrients
+import com.example.movieretrofit.data.Food
 import com.example.movieretrofit.databinding.FragmentSearchBinding
 import com.example.movieretrofit.model.SharedViewModel
 
@@ -40,7 +40,7 @@ class SearchFragment : Fragment() {
         )
     }
 
-    fun handleNutrientsData(nutrients: Nutrients) {
+    fun handleNutrientsData(nutrients: Food) {
         val viewModel: SharedViewModel by activityViewModels()
 
         viewModel.data.value = nutrients

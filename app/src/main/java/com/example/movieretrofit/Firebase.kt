@@ -4,7 +4,6 @@ import android.util.Log
 import com.example.movieretrofit.data.Diet
 import com.example.movieretrofit.data.Food
 import com.example.movieretrofit.data.Nutrients
-import com.example.movieretrofit.utils.MySharedPreferences
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
@@ -19,7 +18,6 @@ class Firebase {
     var usersRef: DatabaseReference
     var dateRef: DatabaseReference
     var dietRef: DatabaseReference
-    val sharedPreferences = MySharedPreferences(MainActivity())
 
     private var auth: FirebaseAuth = Firebase.auth
     private val sdf = SimpleDateFormat("dd:MM:yyyy", Locale.getDefault())
@@ -70,10 +68,6 @@ class Firebase {
                     }
                 }
                 callback(foodData)
-
-                for (food in foodData) {
-                    sharedPreferences.saveFood(food)
-                }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -116,8 +110,6 @@ class Firebase {
                     * foodDataToSend.nutrients!!.grams)
                 .toInt()
         )
-
-        sharedPreferences.saveFood(foodDataToSend)
     }
 
     fun sendUserDietToFirebase(diet: Diet) {
