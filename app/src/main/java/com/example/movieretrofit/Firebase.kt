@@ -1,6 +1,5 @@
 package com.example.movieretrofit
 
-import android.content.SharedPreferences
 import android.util.Log
 import com.example.movieretrofit.data.Diet
 import com.example.movieretrofit.data.Food
@@ -67,7 +66,7 @@ class Firebase {
                             it.nutrients!!.fat,
                             it.nutrients!!.carbs
                         )
-                        foodData.add(Food(it.name, it.image, nutrients))
+                        foodData.add(Food(it.name, it.image, it.content, nutrients))
                     }
                 }
                 callback(foodData)
