@@ -1,5 +1,6 @@
 package com.example.movieretrofit.fragments.ui
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,6 +19,7 @@ import com.example.movieretrofit.data.Food
 import com.example.movieretrofit.data.Nutrients
 import com.example.movieretrofit.databinding.FragmentHomeBinding
 import com.example.movieretrofit.model.SharedViewModel
+import com.example.movieretrofit.utils.MySharedPreferences
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
@@ -98,6 +100,14 @@ class HomeFragment : Fragment() {
             firebase.sendCurrentMealDataToFirebase(data)
             firebase.getUserDietFromFirebase { updateDiet(it) }
             firebase.getCurrentDayFoodDataFromFirebase { setBarChart(it) }
+
+            val mySharedPreferences = MySharedPreferences()
+            firebaseFirestore.collection("foods").add(newFood)
+            mySharedPreferences.saveFood(newFood)
+
+
+
+
         }
     }
 
