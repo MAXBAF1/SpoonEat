@@ -13,7 +13,7 @@ import com.example.movieretrofit.R
 import com.example.movieretrofit.data.Nutrients
 import com.example.movieretrofit.databinding.FragmentSearchBinding
 import com.example.movieretrofit.model.SharedViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationView
+
 
 //const val API_KEY = "6e787e3ba6ae4fdf8ff34be760e2b14e" // maxlepinskih
 //const val API_KEY = "3895be68fe5b44b49bb4e3848c012498" // polina
@@ -45,8 +45,21 @@ class SearchFragment : Fragment() {
 
         viewModel.data.value = nutrients
         // Открытие другого фрагмента
-        val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bNav)
-        bottomNav.selectedItemId = R.id.home
+
+//        val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bNav)
+//        bottomNav.selectedItemId = R.id.home
+
+        val f = HomeFragment.newInstance()
+//        if (requireActivity().supportFragmentManager.fragments.isNotEmpty())
+//            if (requireActivity().supportFragmentManager.fragments[0].javaClass == f.javaClass) return
+//
+//        requireActivity().supportFragmentManager.beginTransaction()
+//            .replace(R.id.placeHolder, f)
+//            .commit()
+        fragmentManager?.beginTransaction()
+            ?.replace(R.id.placeHolder, f)
+            ?.commit()
+
     }
 
     companion object {

@@ -147,8 +147,6 @@ class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
     }
 
     override fun onNutrientsReceived(nutrients: Nutrients) {
-//        val homeFragment = activity?.supportFragmentManager?.findFragmentById(R.id.home) as? MainFragment
-//        homeFragment?.updateNutrients(nutrients)
         val searchFragment = parentFragment?.requireParentFragment() as SearchFragment
         searchFragment.handleNutrientsData(nutrients)
     }

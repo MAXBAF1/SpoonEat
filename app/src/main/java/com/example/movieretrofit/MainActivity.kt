@@ -4,7 +4,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.movieretrofit.databinding.ActivityMainBinding
-import com.example.movieretrofit.fragments.ui.*
+import com.example.movieretrofit.fragments.ui.AccountSettingsFragment
+import com.example.movieretrofit.fragments.ui.HomeFragment
+import com.example.movieretrofit.fragments.ui.SearchFragment
+import com.example.movieretrofit.fragments.ui.StatisticsFragment
+import com.justai.aimybox.components.AimyboxAssistantFragment
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -27,9 +31,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.statistics -> {
                     openFragment(StatisticsFragment.newInstance())
                 }
-                R.id.voice -> {
-                    openFragment(VoiceFragment.newInstance())
-                }
                 R.id.search -> {
                     openFragment(SearchFragment.newInstance())
                 }
@@ -47,6 +48,7 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.placeHolder, f)
+            .add(R.id.placeHolder, AimyboxAssistantFragment())
             .commit()
     }
 }

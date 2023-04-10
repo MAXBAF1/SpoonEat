@@ -11,7 +11,6 @@ import com.justai.aimybox.speechkit.google.platform.GooglePlatformTextToSpeech
 import java.util.*
 
 class AimyboxApplication : Application(), AimyboxProvider {
-
     companion object {
         private const val AIMYBOX_API_KEY = "rm8HkoUj8r6FehOPOv5XvbnAGCIdAZMT"
     }
