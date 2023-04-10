@@ -5,9 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.movieretrofit.R
 import com.example.movieretrofit.databinding.FragmentStatisticsBinding
-import com.example.movieretrofit.databinding.FragmentVoiceBinding
 
 class StatisticsFragment : Fragment() {
     lateinit var binding: FragmentStatisticsBinding
@@ -23,7 +21,7 @@ class StatisticsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         firebase = com.example.movieretrofit.Firebase()
-        firebase.getNutrientsFromFirebase{ setData() }
+        firebase.getCurrentDayFoodDataFromFirebase{ setData() }
 
     }
 

@@ -2,6 +2,7 @@ package com.example.movieretrofit
 
 import android.util.Log
 import com.example.movieretrofit.data.Diet
+import com.example.movieretrofit.data.Food
 import com.example.movieretrofit.data.Nutrients
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -9,7 +10,6 @@ import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
 import java.util.*
-
 
 class Firebase {
     var diet: Diet = Diet()
@@ -40,9 +40,7 @@ class Firebase {
                 }
             }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Обработка ошибок
-            }
+            override fun onCancelled(databaseError: DatabaseError) {}
         })
         Log.e("item", auth.currentUser!!.displayName.toString())
     }
@@ -51,12 +49,31 @@ class Firebase {
         auth.signOut()
     }
 
-    fun sendUserDietToFirebase(diet: Diet) {
-        Log.e("item", "in Firebase sendUserDietToFirebase ${diet.proteinCoeff}")
 
-        dietRef.child("protein").setValue(diet.proteinCoeff.toInt())
-        dietRef.child("fat").setValue(diet.fatCoeff.toInt())
-        dietRef.child("carbs").setValue(diet.carbsCoeff.toInt())
+    fun getCurrentDayFoodDataFromFirebase(callback: (List<Food>) -> Unit) {
+        val foodData = mutableListOf<Food>()
+        dateRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (mealSnapshot in dataSnapshot.children) {
+                    val meal = mealSnapshot.getValue(Food::class.java)
+                    meal?.let {
+                        val nutrients = Nutrients(
+                            it.nutrients!!.grams,
+                            it.nutrients!!.calories,
+                            it.nutrients!!.protein,
+                            it.nutrients!!.fat,
+                            it.nutrients!!.carbs
+                        )
+                        foodData.add(Food(it.name, it.image, nutrients))
+                    }
+                }
+                callback(foodData)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("item", "in getNutrientsFromFirebase Firebase onCancelled")
+            }
+        })
     }
 
     fun getUserDietFromFirebase(callback: (diet: Diet) -> Unit) {
@@ -65,8 +82,8 @@ class Firebase {
                 val dietHashMap = dataSnapshot.value as? HashMap<*, Float>
 
                 if (dietHashMap != null)
-                    diet = Diet(dietHashMap["protein"]!!, dietHashMap["fat"]!!, dietHashMap["carbs"]!!)
-
+                    diet =
+                        Diet(dietHashMap["protein"]!!, dietHashMap["fat"]!!, dietHashMap["carbs"]!!)
                 callback(diet)
             }
 
@@ -76,39 +93,30 @@ class Firebase {
         })
     }
 
-    fun getNutrientsFromFirebase(callback: (nutrients: Nutrients) -> Unit) {
-        var nutrients = Nutrients()
-        dateRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (mealSnapshot in dataSnapshot.children) {
-                    val meal = mealSnapshot.getValue(Nutrients::class.java)
-                    meal?.let {
-                        nutrients += Nutrients(0, it.calories, it.protein, it.fat, it.carbs)
-                    }
-                }
-                callback(nutrients)
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.e("item", "in getNutrientsFromFirebase Firebase onCancelled")
-            }
-        })
-    }
-
-    fun sendDataToFirebase(nutrients: Nutrients) {
-        val grams = nutrients.grams / 100
-        Log.e("item", " in Firebase $grams")
-
+    fun sendCurrentMealDataToFirebase(foodDataToSend: Food) {
         val query = dateRef.child(usersRef.push().key ?: "blablabla")
 
-        query.child("grams").setValue(grams)
-        query.child("calories").setValue(nutrients.calories * grams)
-        query.child("protein").setValue(nutrients.protein * grams)
-        query.child("fat").setValue(nutrients.fat * grams)
+        query.child("name").setValue(foodDataToSend.name)
+        query.child("image").setValue(foodDataToSend.image)
+        query.child("nutrients").child("grams").setValue(foodDataToSend.nutrients!!.grams)
+        query.child("nutrients").child("calories").setValue(foodDataToSend.nutrients!!.calories)
+        query.child("nutrients").child("protein").setValue(foodDataToSend.nutrients!!.protein)
+        query.child("nutrients").child("calories").setValue(foodDataToSend.nutrients!!.calories)
         query.child("carbs").setValue(
-            (((nutrients.calories - (nutrients.fat * 9.3 + nutrients.protein * 4.1)) / 4.1) * grams).toInt()
+            (((
+                    foodDataToSend!!.nutrients!!.calories
+                            - (foodDataToSend!!.nutrients!!.fat * 9.3
+                            + foodDataToSend!!.nutrients!!.protein * 4.1)) / 4.1)
+                    * foodDataToSend.nutrients!!.grams)
+                .toInt()
         )
     }
 
+    fun sendUserDietToFirebase(diet: Diet) {
+        Log.e("item", "in Firebase sendUserDietToFirebase ${diet.proteinCoeff}")
 
+        dietRef.child("protein").setValue(diet.proteinCoeff.toInt())
+        dietRef.child("fat").setValue(diet.fatCoeff.toInt())
+        dietRef.child("carbs").setValue(diet.carbsCoeff.toInt())
+    }
 }

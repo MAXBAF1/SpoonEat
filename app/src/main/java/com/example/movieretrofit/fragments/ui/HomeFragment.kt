@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.example.movieretrofit.Firebase
 import com.example.movieretrofit.R
 import com.example.movieretrofit.data.Diet
+import com.example.movieretrofit.data.Food
 import com.example.movieretrofit.data.Nutrients
 import com.example.movieretrofit.databinding.FragmentHomeBinding
 import com.example.movieretrofit.model.SharedViewModel
@@ -47,8 +48,8 @@ class HomeFragment : Fragment() {
         firebase.loadUser()
 
         firebase.getUserDietFromFirebase { updateDiet(it) }
-        firebase.getNutrientsFromFirebase { setBarChart(it) }
-        firebase.getNutrientsFromFirebase { setDataToTextView(it) }
+        firebase.getCurrentDayFoodDataFromFirebase { setBarChart(it) }
+        firebase.getCurrentDayFoodDataFromFirebase { setDataToTextView(it) }
 
         onClickDelete()
         updateNutrients()
@@ -80,7 +81,7 @@ class HomeFragment : Fragment() {
                     lastChildKey?.let { key ->
                         query.child(key).removeValue()
                     }
-                    firebase.getNutrientsFromFirebase { setBarChart(it) }
+                    firebase.getCurrentDayFoodDataFromFirebase { setBarChart(it) }
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
@@ -94,9 +95,9 @@ class HomeFragment : Fragment() {
         val viewModel: SharedViewModel by activityViewModels()
         viewModel.data.observe(viewLifecycleOwner) { data ->
             Log.d("MyLog", "updateNutrients")
-            firebase.sendDataToFirebase(data)
+            firebase.sendCurrentMealDataToFirebase(data)
             firebase.getUserDietFromFirebase { updateDiet(it) }
-            firebase.getNutrientsFromFirebase { setBarChart(it) }
+            firebase.getCurrentDayFoodDataFromFirebase { setBarChart(it) }
         }
     }
 
@@ -106,12 +107,12 @@ class HomeFragment : Fragment() {
         carbsCf = diet.carbsCoeff / 100
     }
 
-    private fun setBarChart(nutrients: Nutrients) {
+    private fun setBarChart(dailyFood: List<Food>) {
         Log.e("item", "diet in setBarChart, proteinCf is $proteinCf")
         Log.e("item", "diet in setBarChart, carbsCf is $carbsCf")
         Log.e("item", "diet in setBarChart, fatCf is $fatCf")
         val entries = ArrayList<BarEntry>()
-        val sum = nutrients.protein + nutrients.fat + nutrients.carbs
+        val sum = dailyFood.nutrients!!.protein + dailyFood.nutrients!!.fat + dailyFood.nutrients!!.carbs
 
         entries.add(BarEntry(3f, nutrients.protein / sum / proteinCf, "protein"))
         entries.add(BarEntry(2f, nutrients.fat / sum / fatCf, "fat"))
