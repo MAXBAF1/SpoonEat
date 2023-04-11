@@ -1,13 +1,13 @@
 package com.example.movieretrofit.data
 
 class Diet() : java.io.Serializable {
-    var proteinCoeff: Float = 30f
-    var fatCoeff: Float = 30f
-    var carbsCoeff: Float = 40f
+    var proteinCf: Float = 30f
+    var fatCf: Float = 30f
+    var carbsCf: Float = 40f
 
     constructor(_proteinCf: Float, _fatCf: Float, _carbsCf: Float) : this() {
-        proteinCoeff = _proteinCf
-        fatCoeff = _fatCf
-        carbsCoeff = _carbsCf
+        proteinCf = _proteinCf
+        fatCf = _fatCf
+        carbsCf = _carbsCf
     }
 }

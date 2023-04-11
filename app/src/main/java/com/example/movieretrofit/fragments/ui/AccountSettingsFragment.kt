@@ -42,7 +42,7 @@ class AccountSettingsFragment : Fragment() {
         rangeSlider.stepSize = 5f
 
         firebase.getUserDietFromFirebase {
-            rangeSlider.values = listOf(it.proteinCoeff, it.proteinCoeff + it.fatCoeff)
+            rangeSlider.values = listOf(it.proteinCf, it.proteinCf + it.fatCf)
         }
 
         rangeSlider.addOnChangeListener { slider, _, _ ->
@@ -65,9 +65,9 @@ class AccountSettingsFragment : Fragment() {
         binding.sendDietToFirebase.setOnClickListener {
             Log.e(
                 "item",
-                "createSaveDiet in AccountSettingsFragment, fatCoeff is  ${diet.fatCoeff}"
+                "createSaveDiet in AccountSettingsFragment, fatCoeff is  ${diet.fatCf}"
             )
-            if (diet.proteinCoeff != 0f && diet.fatCoeff != 0f && diet.carbsCoeff != 0f) {
+            if (diet.proteinCf != 0f && diet.fatCf != 0f && diet.carbsCf != 0f) {
                 firebase.sendUserDietToFirebase(diet)
                 Toast.makeText(requireContext(), "Сохранено", Toast.LENGTH_SHORT).show()
             }

@@ -13,12 +13,9 @@ import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.example.movieretrofit.Firebase
 import com.example.movieretrofit.R
-import com.example.movieretrofit.data.Diet
-import com.example.movieretrofit.data.Food
 import com.example.movieretrofit.data.Nutrients
 import com.example.movieretrofit.databinding.FragmentHomeBinding
 import com.example.movieretrofit.model.SharedViewModel
-import com.example.movieretrofit.utils.Helper
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
@@ -29,12 +26,11 @@ import com.google.firebase.database.ValueEventListener
 
 
 class HomeFragment : Fragment() {
-
-    val helper = Helper()
-
     lateinit var binding: FragmentHomeBinding
     lateinit var firebase: Firebase
 
+    private var nutrientsWithCf = Nutrients()
+    private var nutrients = Nutrients()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,26 +44,27 @@ class HomeFragment : Fragment() {
         firebase = Firebase()
         firebase.loadUser()
 
-        firebase.getUserDietFromFirebase { updateDiet(it) }
-        firebase.getCurrentDayFoodDataFromFirebase { setBarChart(it) }
-        firebase.getCurrentDayFoodDataFromFirebase { setDataToTextView(it) }
-
-
-        onClickDelete()
         updateNutrients()
+        onClickDelete()
+        updateNutrientsListener()
     }
 
-    private fun setDataToTextView(foodData: List<Food>) {
-        var totalNutrients = Nutrients()
-
-        for (food in foodData) {
-            totalNutrients = helper.countCurrentDaySum(food)
+    private fun updateNutrients() {
+        firebase.getUserDietFromFirebase { diet ->
+            firebase.getCurrentDayFoodDataFromFirebase { foods ->
+                nutrients = nutrients.getCurrentDaySum(foods)
+                nutrientsWithCf = nutrientsWithCf.getNutrientsWithCf(nutrients, diet)
+                setDataToTextView()
+                setBarChart()
+            }
         }
+    }
 
-        binding.tvCalories.text = "Калории: " + totalNutrients.calories
-        binding.tvProtein.text = "Белки: " + totalNutrients.protein
-        binding.tvFat.text = "Жиры: " + totalNutrients.fat
-        binding.tvCarbs.text = "Углеводы: " + totalNutrients.carbs
+    private fun setDataToTextView() {
+        binding.tvCalories.text = "Калории: " + nutrients.calories
+        binding.tvProtein.text = "Белки: " + nutrients.protein
+        binding.tvFat.text = "Жиры: " + nutrients.fat
+        binding.tvCarbs.text = "Углеводы: " + nutrients.carb
 
         setUpUserPicture(binding.zaglushkaAvatar, binding.zaglushkaName)
     }
@@ -89,8 +86,8 @@ class HomeFragment : Fragment() {
                     lastChildKey?.let { key ->
                         query.child(key).removeValue()
                     }
-                    firebase.getCurrentDayFoodDataFromFirebase { setBarChart(it) }
-                    firebase.getCurrentDayFoodDataFromFirebase { setDataToTextView(it) }
+                    
+                    updateNutrients()
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
@@ -100,40 +97,30 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun updateNutrients() {
+    private fun updateNutrientsListener() {
         val viewModel: SharedViewModel by activityViewModels()
         viewModel.data.observe(viewLifecycleOwner) { data ->
             Log.d("MyLog", "updateNutrients")
-            firebase.sendCurrentMealDataToFirebase(foodDataToSend = data)
-            firebase.getUserDietFromFirebase { updateDiet(it) }
-            firebase.getCurrentDayFoodDataFromFirebase { setBarChart(it) }
+            firebase.sendCurrentMealDataToFirebase(data)
 
-
+            updateNutrients()
         }
     }
 
-    private fun updateDiet(diet: Diet) {
-        helper.nutrientsCoeff.protein = diet.proteinCoeff / 100
-        helper.nutrientsCoeff.fat = diet.fatCoeff / 100
-        helper.nutrientsCoeff.carbs = diet.carbsCoeff / 100
-    }
-
-    private fun setBarChart(dailyFood: List<Food>) {
-        helper.countCoefficientCurrentDaySum(dailyFood)
-        Log.e("item", "diet in setBarChart, proteinCf is ${helper.nutrientsCoeff.protein}")
-        Log.e("item", "diet in setBarChart, carbsCf is ${helper.nutrientsCoeff.fat}")
-        Log.e("item", "diet in setBarChart, fatCf is ${helper.nutrientsCoeff.carbs}")
+    private fun setBarChart() {
+        Log.e("item", "diet in setBarChart, proteinWithCf is ${nutrientsWithCf.protein}")
+        Log.e("item", "diet in setBarChart, carbsWithCf is ${nutrientsWithCf.fat}")
+        Log.e("item", "diet in setBarChart, fatWithCf is ${nutrientsWithCf.carb}")
         val entries = ArrayList<BarEntry>()
 
-        entries.add(BarEntry(3f, helper.nutrientsCoeff.protein,"protein"))
-        entries.add(BarEntry(2f, helper.nutrientsCoeff.fat, "fat"))
-        entries.add(BarEntry(1f, helper.nutrientsCoeff.carbs, "carbs"))
+        entries.add(BarEntry(3f, nutrientsWithCf.protein,"protein"))
+        entries.add(BarEntry(2f, nutrientsWithCf.fat, "fat"))
+        entries.add(BarEntry(1f, nutrientsWithCf.carb, "carbs"))
 
         val barDataSet = BarDataSet(entries, "g")
         val data = BarData(barDataSet)
         binding.barChart.data = data // set the data and list of lables into chart
         if (context != null)
-        //barDataSet.color = getColor(requireContext(), R.color.colorGradientEnd)
             barDataSet.color = getColor(requireContext(), R.color.colorPrimary)
 
         binding.barChart.animateY(0)

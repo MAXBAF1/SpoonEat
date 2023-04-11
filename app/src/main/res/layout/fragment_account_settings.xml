@@ -28,6 +28,7 @@
         app:layout_constraintTop_toBottomOf="@+id/avatar" />
 
     <com.google.android.material.slider.RangeSlider
+        android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"
         android:id="@+id/slider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

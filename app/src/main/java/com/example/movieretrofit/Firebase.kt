@@ -54,15 +54,16 @@ class Firebase {
         val foodData = mutableListOf<Food>()
         dateRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var f = dataSnapshot.value
                 for (mealSnapshot in dataSnapshot.children) {
                     val meal = mealSnapshot.getValue(Food::class.java)
                     meal?.let {
                         val nutrients = Nutrients(
-                            it.nutrients!!.grams,
-                            it.nutrients!!.calories,
-                            it.nutrients!!.protein,
-                            it.nutrients!!.fat,
-                            it.nutrients!!.carbs
+                            it.nutrients.grams,
+                            it.nutrients.calories,
+                            it.nutrients.protein,
+                            it.nutrients.fat,
+                            it.nutrients.carb
                         )
                         foodData.add(Food(it.name, it.image, it.content, nutrients))
                     }
@@ -81,9 +82,8 @@ class Firebase {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val dietHashMap = dataSnapshot.value as? HashMap<*, Float>
 
-                if (dietHashMap != null)
-                    diet =
-                        Diet(dietHashMap["protein"]!!, dietHashMap["fat"]!!, dietHashMap["carbs"]!!)
+                if (dietHashMap != null) diet =
+                    Diet(dietHashMap["protein"]!!, dietHashMap["fat"]!!, dietHashMap["carbs"]!!)
                 callback(diet)
             }
 
@@ -95,28 +95,25 @@ class Firebase {
 
     fun sendCurrentMealDataToFirebase(foodDataToSend: Food) {
         val query = dateRef.child(usersRef.push().key ?: "blablabla")
+        val nutrientsPath = query.child("nutrients")
+        val nutrients = foodDataToSend.nutrients
 
         query.child("name").setValue(foodDataToSend.name)
         query.child("image").setValue(foodDataToSend.image)
-        query.child("nutrients").child("grams").setValue(foodDataToSend.nutrients!!.grams)
-        query.child("nutrients").child("calories").setValue(foodDataToSend.nutrients!!.calories)
-        query.child("nutrients").child("protein").setValue(foodDataToSend.nutrients!!.protein)
-        query.child("nutrients").child("calories").setValue(foodDataToSend.nutrients!!.calories)
-        query.child("carbs").setValue(
-            (((
-                    foodDataToSend!!.nutrients!!.calories
-                            - (foodDataToSend!!.nutrients!!.fat * 9.3
-                            + foodDataToSend!!.nutrients!!.protein * 4.1)) / 4.1)
-                    * foodDataToSend.nutrients!!.grams)
-                .toInt()
+        nutrientsPath.child("grams").setValue(nutrients.grams)
+        nutrientsPath.child("calories").setValue(nutrients.calories)
+        nutrientsPath.child("protein").setValue(nutrients.protein)
+        nutrientsPath.child("fat").setValue(nutrients.fat)
+        nutrientsPath.child("carb").setValue(
+            (((nutrients.calories - (nutrients.fat * 9.3 + nutrients.protein * 4.1)) / 4.1) * nutrients.grams).toInt()
         )
     }
 
     fun sendUserDietToFirebase(diet: Diet) {
-        Log.e("item", "in Firebase sendUserDietToFirebase ${diet.proteinCoeff}")
+        Log.e("item", "in Firebase sendUserDietToFirebase ${diet.proteinCf}")
 
-        dietRef.child("protein").setValue(diet.proteinCoeff.toInt())
-        dietRef.child("fat").setValue(diet.fatCoeff.toInt())
-        dietRef.child("carbs").setValue(diet.carbsCoeff.toInt())
+        dietRef.child("protein").setValue(diet.proteinCf.toInt())
+        dietRef.child("fat").setValue(diet.fatCf.toInt())
+        dietRef.child("carbs").setValue(diet.carbsCf.toInt())
     }
 }

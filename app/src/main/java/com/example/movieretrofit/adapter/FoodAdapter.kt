@@ -48,10 +48,10 @@ class FoodAdapter(private val addFoodListener: AddFoodListener) :
 
         holder.itemView.findViewById<Button>(R.id.button_add_food).setOnClickListener {
             val etGrams = holder.itemView.findViewById<EditText>(R.id.et_gram).text
-            val grams: Int = if (etGrams.isEmpty()) 100 else {
+            val grams: Int = if (etGrams.isEmpty()) 1 else {
                 etGrams.toString().toInt()
             }
-            food.nutrients!!.grams = grams
+            food.nutrients.grams = grams
             Log.e("item", " in Food adapter $grams")
 
             addFoodListener.onFoodReceived(food)
@@ -59,9 +59,9 @@ class FoodAdapter(private val addFoodListener: AddFoodListener) :
     }
 
     private fun initNutrientsTv(holder: FoodViewHolder, food: Food) {
-        val calories = "${food.nutrients!!.calories.toInt()} ккал"
-        val protein = "${food.nutrients!!.protein.toInt()} гр."
-        val fat = "${food.nutrients!!.fat.toInt()} гр."
+        val calories = "${food.nutrients.calories.toInt()} ккал"
+        val protein = "${food.nutrients.protein.toInt()} гр."
+        val fat = "${food.nutrients.fat.toInt()} гр."
 
         holder.itemView.findViewById<TextView>(R.id.food_calories).text = calories
         holder.itemView.findViewById<TextView>(R.id.food_protein).text = protein
