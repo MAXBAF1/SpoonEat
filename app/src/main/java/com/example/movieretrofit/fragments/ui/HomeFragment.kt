@@ -13,10 +13,12 @@ import com.bumptech.glide.Glide
 import com.example.movieretrofit.Firebase
 import com.example.movieretrofit.adapter.LastFoodsAdapter
 import com.example.movieretrofit.charts.BarCharts
+import com.example.movieretrofit.data.Diet
 import com.example.movieretrofit.data.Food
 import com.example.movieretrofit.data.Nutrients
 import com.example.movieretrofit.databinding.FragmentHomeBinding
 import com.example.movieretrofit.model.SharedViewModel
+import com.github.mikephil.charting.data.BarData
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -65,17 +67,30 @@ class HomeFragment : Fragment() {
                         val adapter = LastFoodsAdapter(requireContext(), listOf(reversedFoods[0]))
                         binding.lastFoodsRecyclerView.adapter = adapter
                     }
+                    else -> {
+                        val adapter = LastFoodsAdapter(requireContext(), listOf())
+                        binding.lastFoodsRecyclerView.adapter = adapter
+                    }
                 }
             }
         }
     }
-    
+
     private fun updateNutrients() {
         firebase.getUserDietFromFirebase { diet ->
             firebase.getDayFood(firebase.dateRef) { foods ->
-                nutrients = nutrients.getDaySum(foods)
-                setDataToTextView()
-                BarCharts().setBarChart(binding.barChart, nutrients, diet)
+                Log.e("crash", "foods is $foods, nutrients is $nutrients")
+
+                if(foods.isEmpty()){
+                    Log.e("crash", "isEmpty branch")
+                    BarCharts().setEmptyBarChart(binding.barChart)
+                }
+                else{
+                    nutrients = nutrients.getDaySum(foods)
+                    setDataToTextView()
+                    BarCharts().setBarChart(binding.barChart, nutrients, diet)
+                    Log.e("crash", "setBarChart branch")
+                }
             }
         }
     }
@@ -94,7 +109,7 @@ class HomeFragment : Fragment() {
 
             query.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val lastChildKey = dataSnapshot.children.lastOrNull()?.key
+                    val lastChildKey = dataSnapshot.children.lastOrNull()!!.key
                     lastChildKey?.let { key ->
                         query.child(key).removeValue()
                     }

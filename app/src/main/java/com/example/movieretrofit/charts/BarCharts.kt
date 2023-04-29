@@ -4,6 +4,7 @@ import android.graphics.Color
 import com.example.movieretrofit.data.Diet
 import com.example.movieretrofit.data.Nutrients
 import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.charts.HorizontalBarChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
@@ -88,6 +89,12 @@ class BarCharts {
         barChart.xAxis.setDrawGridLines(false)
         barChart.axisLeft.setDrawGridLines(false)
         barChart.axisRight.setDrawGridLines(false)
+    }
+
+    fun setEmptyBarChart(barChart: HorizontalBarChart){
+        val emptyData = BarData()
+        barChart.data = emptyData
+        barChart.invalidate()
     }
 
     private fun getColor(value: Float): Int {
