@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
@@ -52,41 +53,30 @@ class HomeFragment : Fragment() {
                         binding.textViewSecondFood.text = foods[foods.size - 2].name
                         binding.textViewThirdFood.text = foods.last().name
 
-                        Glide.with(requireContext())
-                            .load(foods[foods.size - 3].image)
-                            .into(binding.imageViewFirstFood)
-                        Glide.with(requireContext())
-                            .load(foods[foods.size - 2].image)
-                            .into(binding.imageViewSecondFood)
-                        Glide.with(requireContext())
-                            .load(foods.last().image)
-                            .into(binding.imageViewThirdFood)
+                        loadImage(foods[foods.size - 3].image, binding.imageViewFirstFood)
+                        loadImage(foods[foods.size - 2].image, binding.imageViewSecondFood)
+                        loadImage(foods.last().image, binding.imageViewThirdFood)
+
                     }
                     foods.size == 2 -> {
-                        binding.textViewFirstFood.text = foods[0].name
-                        binding.textViewSecondFood.text = foods[1].name
+                        binding.textViewSecondFood.text = foods[0].name
+                        binding.textViewThirdFood.text = foods[1].name
 
-                        Glide.with(requireContext())
-                            .load(foods[0].image)
-                            .into(binding.imageViewFirstFood)
-                        Glide.with(requireContext())
-                            .load(foods[1].image)
-                            .into(binding.imageViewSecondFood)
+                        loadImage(foods[0].image, binding.imageViewSecondFood)
+                        loadImage(foods[1].image, binding.imageViewThirdFood)
 
-                        binding.textViewThirdFood.text = ""
-                        binding.imageViewThirdFood.setImageResource(android.R.color.transparent)
+                        binding.textViewFirstFood.text = ""
+                        binding.imageViewFirstFood.setImageResource(android.R.color.transparent)
                     }
                     foods.size == 1 -> {
-                        binding.textViewFirstFood.text = foods.last().name
+                        binding.textViewThirdFood.text = foods.last().name
 
-                        Glide.with(requireContext())
-                            .load(foods.last().image)
-                            .into(binding.imageViewFirstFood)
+                        loadImage(foods.last().image, binding.imageViewThirdFood)
 
                         binding.textViewSecondFood.text = ""
                         binding.imageViewSecondFood.setImageResource(android.R.color.transparent)
-                        binding.textViewThirdFood.text = ""
-                        binding.imageViewThirdFood.setImageResource(android.R.color.transparent)
+                        binding.textViewFirstFood.text = ""
+                        binding.imageViewFirstFood.setImageResource(android.R.color.transparent)
                     }
                     else -> {
                         binding.textViewFirstFood.text = ""
@@ -99,6 +89,12 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun loadImage(url: String?, imageView: ImageView) {
+        Glide.with(requireContext())
+            .load(url)
+            .into(imageView)
     }
 
 //    private fun deleteFood(food: Food) {

@@ -100,6 +100,7 @@
             android:id="@+id/third_food"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/margin_last_food_container"
             android:orientation="horizontal">
 
             <TextView
@@ -122,6 +123,7 @@
             android:id="@+id/second_Food"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/margin_last_food_container"
             android:orientation="horizontal">
 
             <TextView
@@ -145,6 +147,7 @@
             android:id="@+id/first_food"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/margin_last_food_container"
             android:orientation="horizontal">
 
             <TextView
