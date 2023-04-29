@@ -1,0 +1,85 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.MovieRetrofit" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        //<item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+
+        <item name="aimybox_assistantButtonTheme">@style/CustomAssistantButtonTheme</item>
+        <item name="aimybox_recognitionTheme">@style/CustomRecognitionWidgetTheme</item>
+        <item name="aimybox_responseTheme">@style/CustomResponseWidgetTheme</item>
+        <item name="aimybox_imageReplyTheme">@style/CustomImageReplyWidgetTheme</item>
+        <item name="aimybox_buttonReplyTheme">@style/CustomButtonReplyWidgetTheme</item>
+
+    </style>
+    <style name="Theme.VoiceSearchAmybox" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorAccent">@color/teal_200</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/black</item>
+        <item name="colorPrimaryVariant">?attr/colorPrimaryVariant</item>
+        <item name="aimybox_assistantButtonTheme">@style/CustomAssistantButtonTheme</item>
+        <item name="aimybox_recognitionTheme">@style/CustomRecognitionWidgetTheme</item>
+        <item name="aimybox_responseTheme">@style/CustomResponseWidgetTheme</item>
+        <item name="aimybox_imageReplyTheme">@style/CustomImageReplyWidgetTheme</item>
+        <item name="aimybox_buttonReplyTheme">@style/CustomButtonReplyWidgetTheme</item>
+    </style>
+
+    <style name="Theme.RetrofitTrainingNoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryVariant">@color/purple</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/green</item>
+        <item name="colorSecondaryVariant">@color/purple</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/green</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/purple_200</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+
+        <!-- Customize Assistant components here -->
+        <item name="aimybox_assistantButtonTheme">@style/CustomAssistantButtonTheme</item>
+<!--        <item name="aimybox_buttonMarginStart">40dp</item>-->
+        <item name="aimybox_recognitionTheme">@style/CustomRecognitionWidgetTheme</item>
+        <item name="aimybox_responseTheme">@style/CustomResponseWidgetTheme</item>
+        <item name="aimybox_imageReplyTheme">@style/CustomImageReplyWidgetTheme</item>
+        <item name="aimybox_buttonReplyTheme">@style/CustomButtonReplyWidgetTheme</item>
+    </style>
+
+    <style name="CustomAssistantButtonTheme" parent="DefaultAssistantTheme.AssistantButton" >
+<!--        <item name="aimybox_buttonGravity">center</item>-->
+        <item name="aimybox_buttonExpandedColor"> @color/purple</item>
+        <item name="aimybox_buttonGravity">bottom</item>
+        <item name="aimybox_buttonMarginBottom">-30dp</item>
+        <item name="aimybox_buttonMarginStart">169dp</item>
+        <item name="aimybox_backgroundColor">@color/colorPrimary</item>
+\    </style>
+
+
+    <style name="CustomRecognitionWidgetTheme" parent="DefaultAssistantTheme.Widget.Recognition" />
+
+    <style name="CustomResponseWidgetTheme" parent="DefaultAssistantTheme.Widget.Response" />
+
+    <style name="CustomButtonReplyWidgetTheme" parent="DefaultAssistantTheme.Widget.ButtonReply" />
+
+    <style name="CustomImageReplyWidgetTheme" parent="DefaultAssistantTheme.Widget.ImageReply" />
+</resources>

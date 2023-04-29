@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="marginkbzhu">2dp</dimen>
+    <dimen name="marginkbzhuimg">12dp</dimen>
+    <dimen name="boxkbzhu">42dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="margin_for_last_food">20dp</dimen>
+    <dimen name="nutrients_text_size">12sp</dimen>
+    <dimen name="image_last_food_size">75dp</dimen>
+</resources>
