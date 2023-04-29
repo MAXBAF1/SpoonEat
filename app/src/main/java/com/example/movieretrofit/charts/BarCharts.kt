@@ -91,7 +91,7 @@ class BarCharts {
         barChart.axisRight.setDrawGridLines(false)
     }
 
-    fun setEmptyBarChart(barChart: HorizontalBarChart){
+    fun setEmptyBarChart(barChart: HorizontalBarChart) {
         val emptyData = BarData()
         barChart.data = emptyData
         barChart.invalidate()

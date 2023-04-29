@@ -85,8 +85,8 @@ class Firebase {
                 val foods = mutableListOf<Food>()
                 for (dateSnap in snapshot.children.reversed()) {
                     for (foodSnap in snapshot.children.reversed()) {
-                    val food = foodSnap.getValue(Food::class.java)
-                    food?.let { foods.add(it) }
+                        val food = foodSnap.getValue(Food::class.java)
+                        food?.let { foods.add(it) }
                     }
                 }
                 callback(foods)

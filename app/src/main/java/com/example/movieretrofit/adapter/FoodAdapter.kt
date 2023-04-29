@@ -26,8 +26,6 @@ import kotlin.math.roundToInt
 class FoodAdapter(private val addFoodListener: AddFoodListener) :
     RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
     var foodList = emptyList<Food>()
-    //private var addFoodListener: AddFoodListener? = null
-
     class FoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
@@ -48,7 +46,8 @@ class FoodAdapter(private val addFoodListener: AddFoodListener) :
             currentItem.name,
             currentItem.image,
             currentItem.content,
-            Nutrients().getNutrients(currentItem.content!!))
+            Nutrients().getNutrients(currentItem.content!!)
+        )
         Log.e("item", "nutrients in Food adapter ${currentItem.nutrients}")
 
         initNutrientsTv(holder, food)
@@ -68,7 +67,6 @@ class FoodAdapter(private val addFoodListener: AddFoodListener) :
             firebase.sendCurrentMealDataToFirebase(food)
         }
     }
-
 
     private fun initNutrientsTv(holder: FoodViewHolder, food: Food) {
         val calories = "${food.nutrients.calories.roundToInt()} ккал"

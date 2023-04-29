@@ -32,7 +32,8 @@ class LastFoodsAdapter(private val context: Context, private val foods: List<Foo
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.last_food_item, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.last_food_item, parent, false)
         return FoodViewHolder(view)
     }
 

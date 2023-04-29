@@ -56,11 +56,13 @@ class HomeFragment : Fragment() {
                 val reversedFoods = foods.reversed()
                 when {
                     reversedFoods.size >= 3 -> {
-                        val adapter = LastFoodsAdapter(requireContext(), reversedFoods.subList(0, 3))
+                        val adapter =
+                            LastFoodsAdapter(requireContext(), reversedFoods.subList(0, 3))
                         binding.lastFoodsRecyclerView.adapter = adapter
                     }
                     reversedFoods.size == 2 -> {
-                        val adapter = LastFoodsAdapter(requireContext(), reversedFoods.subList(0, 2))
+                        val adapter =
+                            LastFoodsAdapter(requireContext(), reversedFoods.subList(0, 2))
                         binding.lastFoodsRecyclerView.adapter = adapter
                     }
                     reversedFoods.size == 1 -> {
@@ -81,11 +83,10 @@ class HomeFragment : Fragment() {
             firebase.getDayFood(firebase.dateRef) { foods ->
                 Log.e("crash", "foods is $foods, nutrients is $nutrients")
 
-                if(foods.isEmpty()){
+                if (foods.isEmpty()) {
                     Log.e("crash", "isEmpty branch")
                     BarCharts().setEmptyBarChart(binding.barChart)
-                }
-                else{
+                } else {
                     nutrients = nutrients.getDaySum(foods)
                     setDataToTextView()
                     BarCharts().setBarChart(binding.barChart, nutrients, diet)
