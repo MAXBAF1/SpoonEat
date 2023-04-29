@@ -87,84 +87,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout" />
 
-    <LinearLayout
-        android:id="@+id/last_food_layout"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/last_foods_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/btnDelete"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnDelete">
-
-        <LinearLayout
-            android:id="@+id/third_food"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/margin_last_food_container"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView_third_food"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView" />
-
-            <ImageView
-                android:id="@+id/imageView_third_food"
-                android:layout_width="@dimen/image_last_food_size"
-                android:layout_height="@dimen/image_last_food_size"
-                android:layout_marginEnd="@dimen/margin_for_last_food"
-                android:layout_weight="0"
-                tools:src="@tools:sample/avatars" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/second_Food"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/margin_last_food_container"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView_second_Food"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView" />
-
-            <ImageView
-                android:id="@+id/imageView_second_Food"
-                android:layout_width="@dimen/image_last_food_size"
-                android:layout_height="@dimen/image_last_food_size"
-                android:layout_marginEnd="@dimen/margin_for_last_food"
-                android:layout_weight="0"
-                tools:src="@tools:sample/avatars" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/first_food"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/margin_last_food_container"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/textView_first_food"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="TextView" />
-
-            <ImageView
-                android:id="@+id/imageView_first_food"
-                android:layout_width="@dimen/image_last_food_size"
-                android:layout_height="@dimen/image_last_food_size"
-                android:layout_marginEnd="@dimen/margin_for_last_food"
-                android:layout_weight="0"
-                tools:src="@tools:sample/avatars" />
-        </LinearLayout>
-    </LinearLayout>
+        app:layout_constraintStart_toStartOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

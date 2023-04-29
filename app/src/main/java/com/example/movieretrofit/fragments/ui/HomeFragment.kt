@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.movieretrofit.Firebase
+import com.example.movieretrofit.adapter.LastFoodsAdapter
 import com.example.movieretrofit.charts.BarCharts
 import com.example.movieretrofit.data.Food
 import com.example.movieretrofit.data.Nutrients
@@ -38,6 +40,8 @@ class HomeFragment : Fragment() {
         firebase = Firebase()
         firebase.loadUser()
 
+        binding.lastFoodsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
         updateNutrients()
         onClickDelete()
         //updateNutrientsListener()
@@ -47,62 +51,25 @@ class HomeFragment : Fragment() {
     private fun setLastThreeFoods() {
         firebase.getDayFood(firebase.dateRef) { foods ->
             if (activity != null) {
+                val reversedFoods = foods.reversed()
                 when {
-                    foods.size >= 3 -> {
-                        binding.textViewFirstFood.text = foods[foods.size - 3].name
-                        binding.textViewSecondFood.text = foods[foods.size - 2].name
-                        binding.textViewThirdFood.text = foods.last().name
-
-                        loadImage(foods[foods.size - 3].image, binding.imageViewFirstFood)
-                        loadImage(foods[foods.size - 2].image, binding.imageViewSecondFood)
-                        loadImage(foods.last().image, binding.imageViewThirdFood)
-
+                    reversedFoods.size >= 3 -> {
+                        val adapter = LastFoodsAdapter(requireContext(), reversedFoods.subList(0, 3))
+                        binding.lastFoodsRecyclerView.adapter = adapter
                     }
-                    foods.size == 2 -> {
-                        binding.textViewSecondFood.text = foods[0].name
-                        binding.textViewThirdFood.text = foods[1].name
-
-                        loadImage(foods[0].image, binding.imageViewSecondFood)
-                        loadImage(foods[1].image, binding.imageViewThirdFood)
-
-                        binding.textViewFirstFood.text = ""
-                        binding.imageViewFirstFood.setImageResource(android.R.color.transparent)
+                    reversedFoods.size == 2 -> {
+                        val adapter = LastFoodsAdapter(requireContext(), reversedFoods.subList(0, 2))
+                        binding.lastFoodsRecyclerView.adapter = adapter
                     }
-                    foods.size == 1 -> {
-                        binding.textViewThirdFood.text = foods.last().name
-
-                        loadImage(foods.last().image, binding.imageViewThirdFood)
-
-                        binding.textViewSecondFood.text = ""
-                        binding.imageViewSecondFood.setImageResource(android.R.color.transparent)
-                        binding.textViewFirstFood.text = ""
-                        binding.imageViewFirstFood.setImageResource(android.R.color.transparent)
-                    }
-                    else -> {
-                        binding.textViewFirstFood.text = ""
-                        binding.imageViewFirstFood.setImageResource(android.R.color.transparent)
-                        binding.textViewSecondFood.text = ""
-                        binding.imageViewSecondFood.setImageResource(android.R.color.transparent)
-                        binding.textViewThirdFood.text = ""
-                        binding.imageViewThirdFood.setImageResource(android.R.color.transparent)
+                    reversedFoods.size == 1 -> {
+                        val adapter = LastFoodsAdapter(requireContext(), listOf(reversedFoods[0]))
+                        binding.lastFoodsRecyclerView.adapter = adapter
                     }
                 }
             }
         }
     }
-
-    private fun loadImage(url: String?, imageView: ImageView) {
-        Glide.with(requireContext())
-            .load(url)
-            .into(imageView)
-    }
-
-//    private fun deleteFood(food: Food) {
-//        firebase.deleteFood(firebase.dateRef, food) {
-//            setLastThreeFoods()
-//        }
-//    }
-
+    
     private fun updateNutrients() {
         firebase.getUserDietFromFirebase { diet ->
             firebase.getDayFood(firebase.dateRef) { foods ->
