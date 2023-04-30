@@ -5,21 +5,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.example.movieretrofit.Firebase
 import com.example.movieretrofit.adapter.LastFoodsAdapter
 import com.example.movieretrofit.charts.BarCharts
-import com.example.movieretrofit.data.Diet
-import com.example.movieretrofit.data.Food
 import com.example.movieretrofit.data.Nutrients
 import com.example.movieretrofit.databinding.FragmentHomeBinding
 import com.example.movieretrofit.model.SharedViewModel
-import com.github.mikephil.charting.data.BarData
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -45,41 +39,23 @@ class HomeFragment : Fragment() {
 
         binding.lastFoodsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        updateNutrients()
+        updateViews()
         onClickDelete()
         //updateNutrientsListener()
-        setLastThreeFoods()
+        setLastFoods()
     }
 
-    private fun setLastThreeFoods() {
+    private fun setLastFoods() {
         firebase.getDayFood(firebase.dateRef) { foods ->
             if (activity != null) {
-                val reversedFoods = foods.reversed()
-                when {
-                    reversedFoods.size >= 3 -> {
-                        val adapter =
-                            LastFoodsAdapter(requireContext(), reversedFoods.subList(0, 3))
-                        binding.lastFoodsRecyclerView.adapter = adapter
-                    }
-                    reversedFoods.size == 2 -> {
-                        val adapter =
-                            LastFoodsAdapter(requireContext(), reversedFoods.subList(0, 2))
-                        binding.lastFoodsRecyclerView.adapter = adapter
-                    }
-                    reversedFoods.size == 1 -> {
-                        val adapter = LastFoodsAdapter(requireContext(), listOf(reversedFoods[0]))
-                        binding.lastFoodsRecyclerView.adapter = adapter
-                    }
-                    else -> {
-                        val adapter = LastFoodsAdapter(requireContext(), listOf())
-                        binding.lastFoodsRecyclerView.adapter = adapter
-                    }
-                }
+                val adapter = LastFoodsAdapter(requireContext(), foods.reversed())
+                binding.lastFoodsRecyclerView.adapter = adapter
             }
         }
     }
 
-    fun updateNutrients() {
+    fun updateViews() {
+        setLastFoods()
         firebase.getUserDietFromFirebase { diet ->
             firebase.getDayFood(firebase.dateRef) { foods ->
                 Log.e("crash", "foods is $foods, nutrients is $nutrients")
@@ -98,11 +74,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun setDataToTextView() {
-        binding.tvCalories.text = "Калории: ${nutrients.calories.roundToInt()} ккал."
-        binding.tvProtein.text = "Белки: ${nutrients.protein.roundToInt()} гр."
-        binding.tvFat.text = "Жиры: ${nutrients.fat.roundToInt()} гр."
-        binding.tvCarbs.text = "Углеводы: ${nutrients.carb.roundToInt()} гр."
-
+        val caloriesText = "Калории: ${nutrients.calories.roundToInt()} ккал."
+        val proteinText = "Белки: ${nutrients.protein.roundToInt()} гр."
+        val fatText = "Жиры: ${nutrients.fat.roundToInt()} гр."
+        val carbText = "Углеводы: ${nutrients.carb.roundToInt()} гр."
+        binding.tvCalories.text = caloriesText
+        binding.tvProtein.text = proteinText
+        binding.tvFat.text = fatText
+        binding.tvCarbs.text = carbText
     }
 
     private fun onClickDelete() {
@@ -115,8 +94,7 @@ class HomeFragment : Fragment() {
                     lastChildKey?.let { key ->
                         query.child(key).removeValue()
                     }
-                    updateNutrients()
-                    setLastThreeFoods()
+                    updateViews()
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {
@@ -132,7 +110,7 @@ class HomeFragment : Fragment() {
             Log.d("MyLog", "updateNutrients")
             firebase.sendCurrentMealDataToFirebase(data)
 
-            updateNutrients()
+            updateViews()
         }
     }
 

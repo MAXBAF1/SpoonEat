@@ -14,7 +14,6 @@
         android:title="@string/search" />
 
     <item
-        android:id="@+id/placeholder"
         android:orderInCategory="3"
         android:title="" />
 

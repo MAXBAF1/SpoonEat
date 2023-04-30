@@ -11,7 +11,6 @@ import com.example.movieretrofit.fragments.ui.HomeFragment
 import com.example.movieretrofit.fragments.ui.SearchFragment
 import com.example.movieretrofit.fragments.ui.StatisticsFragment
 import com.justai.aimybox.components.AimyboxAssistantFragment
-import com.justai.aimybox.components.AimyboxAssistantViewModel
 
 
 class MainActivity : AppCompatActivity(){

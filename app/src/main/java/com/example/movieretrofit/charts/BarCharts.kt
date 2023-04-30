@@ -6,9 +6,7 @@ import com.example.movieretrofit.data.Nutrients
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.HorizontalBarChart
 import com.github.mikephil.charting.components.LimitLine
-import com.github.mikephil.charting.components.LimitLine.LimitLabelPosition
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
@@ -31,7 +29,7 @@ class BarCharts {
 
         dataSet.colors = arrayListOf(
             getColor(entries[0].y),
-            getColor(entries[1].y),
+            Color.GREEN,
             getColor(entries[2].y)
         )
 
@@ -51,21 +49,16 @@ class BarCharts {
         xAxis.setDrawAxisLine(false)
 
         val leftAxis = barChart.axisLeft
-        leftAxis.setDrawLabels(true)
+        leftAxis.setDrawLabels(false)
         leftAxis.axisMaximum = maxOf(
             balancedNutrients.protein,
             balancedNutrients.fat,
             balancedNutrients.carb
-        ) + 4 // максимальное значение на оси Y
+        ) + 8 // максимальное значение на оси Y
         leftAxis.axisMinimum = 0f
 
         val rightAxis = barChart.axisRight
         rightAxis.setDrawLabels(true)
-        rightAxis.axisMaximum = maxOf(
-            balancedNutrients.protein,
-            balancedNutrients.fat,
-            balancedNutrients.carb
-        ) + 4 // максимальное значение на оси Y
         rightAxis.axisMinimum = 0f
 
         barChart.legend.isEnabled = false
@@ -96,19 +89,16 @@ class BarCharts {
         barChart.axisLeft.setDrawGridLines(false)
         rightAxis.setDrawGridLines(false)
 
-        rightAxis.setValueFormatter(object : ValueFormatter() {
+        rightAxis.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
-                return if (value == 100f) { // проверка, что значение равно 100
-                    "100%"
-                } else {
-                    ""
-                }
+                return "${value.roundToInt()}%"
             }
-        })
+        }
 
         val ll1 = LimitLine(100f)
+        ll1.lineColor = Color.RED
         ll1.lineWidth = 3f
-        ll1.labelPosition = LimitLabelPosition.RIGHT_TOP
+        //ll1.labelPosition = LimitLabelPosition.RIGHT_TOP
 
         leftAxis.removeAllLimitLines() // reset all limit lines to avoid overlapping lines
         leftAxis.addLimitLine(ll1)
@@ -122,6 +112,7 @@ class BarCharts {
 
 
     private fun getColor(value: Float): Int {
+        return Color.GRAY
         return when (value) {
             in 90F..110F -> Color.GREEN
             in 80F..120F -> Color.YELLOW

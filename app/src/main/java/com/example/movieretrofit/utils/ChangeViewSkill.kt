@@ -1,22 +1,15 @@
 package com.example.movieretrofit.utils
 
 import android.content.Context
-import android.content.Intent
 import android.util.Log
 import com.example.movieretrofit.Firebase
 import com.example.movieretrofit.data.Food
 import com.example.movieretrofit.data.Nutrients
-import com.example.movieretrofit.fragments.ui.AccountSettingsFragment
-import com.example.movieretrofit.fragments.ui.HomeFragment
-import com.example.movieretrofit.fragments.ui.SearchFragment
-import com.example.movieretrofit.fragments.ui.StatisticsFragment
-import com.example.movieretrofit.model.FoodViewModel
 import com.example.movieretrofit.model.restFoodApi
 import com.justai.aimybox.Aimybox
 import com.justai.aimybox.api.aimybox.AimyboxRequest
 import com.justai.aimybox.api.aimybox.AimyboxResponse
 import com.justai.aimybox.core.CustomSkill
-import com.justai.aimybox.model.Request
 import com.justai.aimybox.model.Response
 
 class ChangeViewSkill(private val context: Context) : CustomSkill<AimyboxRequest, AimyboxResponse> {
@@ -33,13 +26,13 @@ class ChangeViewSkill(private val context: Context) : CustomSkill<AimyboxRequest
         val foodApiService = restFoodApi
         val allFood = foodApiService.getAllFood(query = queryRequest)
 
-        if (allFood.isSuccessful) {
-            var nameFood = allFood.body()!!.searchResults[0].results[0].name
-            var imageFood = allFood.body()!!.searchResults[0].results[0].image
-            var contentFood = allFood.body()!!.searchResults[0].results[0].content
-            var nutrientsFood = Nutrients().getNutrients(contentFood!!)
+        if (allFood.isSuccessful && allFood.body()!!.searchResults[0].results.isNotEmpty()) {
+            val nameFood = allFood.body()!!.searchResults[0].results[0].name
+            val imageFood = allFood.body()!!.searchResults[0].results[0].image
+            val contentFood = allFood.body()!!.searchResults[0].results[0].content
+            val nutrientsFood = Nutrients().getNutrients(contentFood!!)
 
-            var food = Food(nameFood, imageFood, contentFood, nutrientsFood)
+            val food = Food(nameFood, imageFood, contentFood, nutrientsFood)
 
             sendToFirebase(food)
         } else {
