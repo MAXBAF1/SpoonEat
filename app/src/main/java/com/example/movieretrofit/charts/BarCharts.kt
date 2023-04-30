@@ -78,6 +78,7 @@ class BarCharts {
             labelRotationAngle = -90f
             setDrawLabels(true)
         }
+        
         xAxis.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
                 return when (value) {
@@ -94,7 +95,7 @@ class BarCharts {
         barChart.xAxis.setDrawGridLines(false)
         barChart.axisLeft.setDrawGridLines(false)
         rightAxis.setDrawGridLines(false)
-        
+
         rightAxis.setValueFormatter(object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
                 return if (value == 100f) { // проверка, что значение равно 100
