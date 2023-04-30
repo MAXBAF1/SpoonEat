@@ -72,7 +72,7 @@
         <item name="aimybox_buttonMarginBottom">30dp</item>
         <item name="aimybox_buttonMarginStart">179dp</item>
         <item name="aimybox_backgroundColor">@color/colorPrimary</item>
-\    </style>
+    </style>
 
 
     <style name="CustomRecognitionWidgetTheme" parent="DefaultAssistantTheme.Widget.Recognition" />
