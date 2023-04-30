@@ -1,9 +1,11 @@
 package com.example.movieretrofit
 
 import android.util.Log
+import com.example.movieretrofit.charts.BarCharts
 import com.example.movieretrofit.data.Diet
 import com.example.movieretrofit.data.Food
 import com.example.movieretrofit.data.Nutrients
+import com.example.movieretrofit.fragments.ui.HomeFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*

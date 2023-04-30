@@ -51,6 +51,7 @@ class ChangeViewSkill(private val context: Context) : CustomSkill<AimyboxRequest
     private fun sendToFirebase(food: Food) {
         firebase = Firebase()
         firebase.sendCurrentMealDataToFirebase(food)
+        //HomeFragment().updateNutrients()
     }
 
     override suspend fun onResponse(

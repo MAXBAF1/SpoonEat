@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.movieretrofit.Firebase
@@ -78,7 +79,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun updateNutrients() {
+    fun updateNutrients() {
         firebase.getUserDietFromFirebase { diet ->
             firebase.getDayFood(firebase.dateRef) { foods ->
                 Log.e("crash", "foods is $foods, nutrients is $nutrients")
@@ -125,15 +126,13 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun updateNutrientsListener() {
+    fun updateNutrientsListener() {
         val viewModel: SharedViewModel by activityViewModels()
         viewModel.data.observe(viewLifecycleOwner) { data ->
             Log.d("MyLog", "updateNutrients")
             firebase.sendCurrentMealDataToFirebase(data)
 
             updateNutrients()
-            Log.e("watcher", "3 in Home Fragment updateNutrientsListener")
-
         }
     }
 
