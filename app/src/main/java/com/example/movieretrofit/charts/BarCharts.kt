@@ -5,11 +5,16 @@ import com.example.movieretrofit.data.Diet
 import com.example.movieretrofit.data.Nutrients
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.HorizontalBarChart
+import com.github.mikephil.charting.components.LimitLine
+import com.github.mikephil.charting.components.LimitLine.LimitLabelPosition
 import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
+import kotlin.math.roundToInt
+
 
 class BarCharts {
     fun setBarChart(barChart: BarChart, nutrients: Nutrients, diet: Diet) {
@@ -35,7 +40,7 @@ class BarCharts {
         data.barWidth = 0.7f // ширина колонок
         data.setValueFormatter(object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
-                return "$value%"
+                return "${value.roundToInt()}%"
             }
         })
 
@@ -51,7 +56,7 @@ class BarCharts {
             balancedNutrients.protein,
             balancedNutrients.fat,
             balancedNutrients.carb
-        ) + 10 // максимальное значение на оси Y
+        ) + 4 // максимальное значение на оси Y
         leftAxis.axisMinimum = 0f
 
         val rightAxis = barChart.axisRight
@@ -60,7 +65,7 @@ class BarCharts {
             balancedNutrients.protein,
             balancedNutrients.fat,
             balancedNutrients.carb
-        ) + 3 // максимальное значение на оси Y
+        ) + 4 // максимальное значение на оси Y
         rightAxis.axisMinimum = 0f
 
         barChart.legend.isEnabled = false
@@ -88,7 +93,24 @@ class BarCharts {
         barChart.setFitBars(true)
         barChart.xAxis.setDrawGridLines(false)
         barChart.axisLeft.setDrawGridLines(false)
-        barChart.axisRight.setDrawGridLines(false)
+        rightAxis.setDrawGridLines(false)
+        
+        rightAxis.setValueFormatter(object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                return if (value == 100f) { // проверка, что значение равно 100
+                    "100%"
+                } else {
+                    ""
+                }
+            }
+        })
+
+        val ll1 = LimitLine(100f)
+        ll1.lineWidth = 3f
+        ll1.labelPosition = LimitLabelPosition.RIGHT_TOP
+
+        leftAxis.removeAllLimitLines() // reset all limit lines to avoid overlapping lines
+        leftAxis.addLimitLine(ll1)
     }
 
     fun setEmptyBarChart(barChart: HorizontalBarChart) {
@@ -96,6 +118,7 @@ class BarCharts {
         barChart.data = emptyData
         barChart.invalidate()
     }
+
 
     private fun getColor(value: Float): Int {
         return when (value) {
