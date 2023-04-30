@@ -54,11 +54,17 @@ class BarCharts {
             balancedNutrients.protein,
             balancedNutrients.fat,
             balancedNutrients.carb
-        ) + 8 // максимальное значение на оси Y
+        ) + 4 // максимальное значение на оси Y
         leftAxis.axisMinimum = 0f
 
         val rightAxis = barChart.axisRight
         rightAxis.setDrawLabels(true)
+        rightAxis.axisMaximum = maxOf(
+            balancedNutrients.protein,
+            balancedNutrients.fat,
+            balancedNutrients.carb
+        ) + 4 // максимальное значение на оси Y
+        rightAxis.axisMinimum = 0f
         rightAxis.axisMinimum = 0f
 
         barChart.legend.isEnabled = false
