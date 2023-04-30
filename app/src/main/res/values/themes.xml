@@ -69,8 +69,8 @@
 <!--        <item name="aimybox_buttonGravity">center</item>-->
         <item name="aimybox_buttonExpandedColor"> @color/purple</item>
         <item name="aimybox_buttonGravity">bottom</item>
-        <item name="aimybox_buttonMarginBottom">-30dp</item>
-        <item name="aimybox_buttonMarginStart">169dp</item>
+        <item name="aimybox_buttonMarginBottom">30dp</item>
+        <item name="aimybox_buttonMarginStart">179dp</item>
         <item name="aimybox_backgroundColor">@color/colorPrimary</item>
 \    </style>
 
