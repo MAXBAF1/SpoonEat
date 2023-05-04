@@ -32,7 +32,7 @@ class StatisticsFragment : Fragment() {
         //firebase.getDayFoodFromFirebase{ setData() }
         firebase.getWeeklyNutrients { nutrientList ->
             charts.setLineChartCalories(binding.lCCalories, nutrientList)
-            charts.setLineChartNutrients(binding.lCNutrients, nutrientList)
+            context?.let { charts.setLineChartNutrients(it, binding.lCNutrients, nutrientList) }
 
             //createCalendar(binding.calendarView, nutrientList, requireContext())
             calendar = binding.calendarView

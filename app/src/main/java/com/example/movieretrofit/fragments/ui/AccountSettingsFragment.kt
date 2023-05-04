@@ -1,5 +1,7 @@
 package com.example.movieretrofit.fragments.ui
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,7 +12,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.example.movieretrofit.Firebase
 import com.example.movieretrofit.R
+import com.example.movieretrofit.SignInActivity
 import com.example.movieretrofit.data.Diet
 import com.example.movieretrofit.databinding.FragmentAccountSettingsBinding
 import com.google.android.material.slider.RangeSlider
@@ -18,7 +22,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 class AccountSettingsFragment : Fragment() {
     lateinit var binding: FragmentAccountSettingsBinding
-    lateinit var firebase: com.example.movieretrofit.Firebase
+    lateinit var firebase: Firebase
     private var diet: Diet = Diet()
     lateinit var rangeSlider: RangeSlider
 
@@ -30,10 +34,11 @@ class AccountSettingsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        firebase = com.example.movieretrofit.Firebase()
+        firebase = Firebase()
         setUpUserPicture(binding.avatar, binding.tvUsername)
         createRangeSlider()
         createSaveDiet()
+        buttonSignOut()
 
         chooseDiet()
     }
@@ -101,12 +106,20 @@ class AccountSettingsFragment : Fragment() {
         userName.text = FirebaseAuth.getInstance().currentUser!!.displayName
     }
 
-//    private fun buttonSignOut() {
-//        var firebase = Firebase()
-//        firebase.signOut()
-//        val intent = Intent(activity, SignInActivity::class.java)
-//        startActivity(intent)
-//    }
+    private fun buttonSignOut() {
+        binding.buttonSignOut.setOnClickListener {
+            val firebase = Firebase()
+            firebase.signOut()
+            val intent = Intent(activity, SignInActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+            requireContext().getSharedPreferences("MY_APP", Context.MODE_PRIVATE)
+                .edit()
+                .putBoolean("IS_LOGGED_IN", false)
+                .apply()
+            startActivity(intent)
+        }
+    }
 
     companion object {
         @JvmStatic

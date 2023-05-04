@@ -66,7 +66,7 @@ class HomeFragment : Fragment() {
                 } else {
                     nutrients = nutrients.getDaySum(foods)
                     setDataToTextView()
-                    BarCharts().setBarChart(binding.barChart, nutrients, diet)
+                    context?.let { BarCharts().setBarChart(it, binding.barChart, nutrients, diet) }
                     Log.e("crash", "setBarChart branch")
                 }
             }

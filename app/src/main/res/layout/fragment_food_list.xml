@@ -68,7 +68,7 @@
                 android:id="@+id/tv_food"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Print food"
+                android:hint="@string/enter_food"
                 android:imeOptions="actionSearch"
                 android:inputType="textAutoComplete" />
         </com.google.android.material.textfield.TextInputLayout>

@@ -1,6 +1,8 @@
 package com.example.movieretrofit.charts
 
+import android.content.Context
 import android.graphics.Color
+import com.example.movieretrofit.R
 import com.example.movieretrofit.data.Nutrients
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
@@ -25,7 +27,11 @@ class LineCharts {
         settingsLineChart(lineChart, lineData, startWeek)
     }
 
-    fun setLineChartNutrients(lineChart: LineChart, nutrientList: List<Nutrients>) {
+    fun setLineChartNutrients(
+        context: Context,
+        lineChart: LineChart,
+        nutrientList: List<Nutrients>
+    ) {
         val entriesProtein = mutableListOf<Entry>()
         val entriesFat = mutableListOf<Entry>()
         val entriesCarbs = mutableListOf<Entry>()
@@ -37,11 +43,14 @@ class LineCharts {
         }
 
         val dataSetProtein = LineDataSet(entriesProtein, "Белки")
-        settingsDataSet(dataSetProtein, Color.MAGENTA, Color.MAGENTA)
+        val proteinColor = context.getColor(R.color.protein)
+        settingsDataSet(dataSetProtein, proteinColor, proteinColor)
         val dataSetFat = LineDataSet(entriesFat, "Жиры")
-        settingsDataSet(dataSetFat, Color.LTGRAY, Color.LTGRAY)
+        val fatColor = context.getColor(R.color.fat)
+        settingsDataSet(dataSetFat, fatColor, fatColor)
         val dataSetCarbs = LineDataSet(entriesCarbs, "Углеводы")
-        settingsDataSet(dataSetCarbs, Color.BLUE, Color.BLUE)
+        val carbColor = context.getColor(R.color.carb)
+        settingsDataSet(dataSetCarbs, carbColor,carbColor)
 
         val lineData = LineData(dataSetProtein, dataSetFat, dataSetCarbs)
         settingsLineChart(lineChart, lineData, startWeek)

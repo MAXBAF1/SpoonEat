@@ -1,6 +1,8 @@
 package com.example.movieretrofit.charts
 
+import android.content.Context
 import android.graphics.Color
+import com.example.movieretrofit.R
 import com.example.movieretrofit.data.Diet
 import com.example.movieretrofit.data.Nutrients
 import com.github.mikephil.charting.charts.BarChart
@@ -15,7 +17,7 @@ import kotlin.math.roundToInt
 
 
 class BarCharts {
-    fun setBarChart(barChart: BarChart, nutrients: Nutrients, diet: Diet) {
+    fun setBarChart(context: Context, barChart: BarChart, nutrients: Nutrients, diet: Diet) {
         val balancedNutrients = nutrients.getBalancedNutrientsInPercentage(diet)
 
         val entries = arrayListOf(
@@ -28,9 +30,9 @@ class BarCharts {
         dataSet.stackLabels = arrayOf("Белки", "Жиры", "Углеводы")
 
         dataSet.colors = arrayListOf(
-            getColor(entries[0].y),
-            Color.GREEN,
-            getColor(entries[2].y)
+            context.getColor(R.color.protein),
+            context.getColor(R.color.fat),
+            context.getColor(R.color.carb)
         )
 
         val data = BarData(dataSet)
