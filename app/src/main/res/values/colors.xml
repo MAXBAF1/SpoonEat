@@ -14,8 +14,16 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
+    <color name="orange">#FB6B3D</color>
+    <color name="red">#FD1100</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#A5A3A3</color>
     <color name="green">#673AB7</color>
+    <color name="greenPrimary">#00BF08</color>
     <color name="purple">#673AB7</color>
+
+    <color name="protein">#FBBD60</color>
+    <color name="fat">#FB60AA</color>
+    <color name="carb">#60FBBA</color>
+    <color name="blue">#0D6BF7</color>
 </resources>

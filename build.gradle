@@ -9,6 +9,8 @@ buildscript {
         mavenCentral()  // Maven Central repository
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 
+        maven { url "https://dl.bintray.com/aimybox/aimybox-android-assistant/" }
+        maven { url 'https://dl.bintray.com/aimybox/aimybox-android-sdk/' }
     }
 }
 

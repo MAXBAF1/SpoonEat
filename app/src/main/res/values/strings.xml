@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MovieRetrofit</string>
+    <string name="app_name">SpoonVoice</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="settings">Settings</string>
@@ -7,4 +7,18 @@
     <string name="home">Home</string>
     <string name="statistics">Statistics</string>
     <string name="search">Search</string>
+
+    <string name="enter_food">Введите блюдо</string>
+
+    <string name="calories">Калории</string>
+    <string name="protein">Белки</string>
+    <string name="fat">Жиры</string>
+    <string name="carb">Углеводы</string>
+
+    <string name="recent">Недавние</string>
+
+    <string name="chart">График&#xA0;</string>
+
+    <string name="initial_phrase">"Привет! Чем могу помочь?</string>
+
 </resources>

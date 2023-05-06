@@ -1,14 +1,11 @@
 package com.example.movieretrofit.fragments.ui
 
-import android.content.Context
-import android.content.Intent
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.movieretrofit.AimyActivity
 import com.example.movieretrofit.databinding.FragmentVoiceBinding
 
 
@@ -26,22 +23,25 @@ class VoiceFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         startFrameAnimation()
-
-        binding.button.setOnClickListener {
-            val intent = Intent(activity, AimyActivity::class.java)
-            activity?.startActivity(intent)
-        }
-
     }
 
-    private fun startFrameAnimation()
-    {
+    private fun startFrameAnimation() {
         val layout = binding.layoutRoot
         animationDrawable = layout.background as AnimationDrawable
         animationDrawable!!.setEnterFadeDuration(3)
         animationDrawable!!.setExitFadeDuration(5000)
     }
 
+    override fun onResume() {
+        super.onResume()
+        animationDrawable!!.start()
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance() = VoiceFragment()
+    }
+}
     override fun onResume() {
         super.onResume()
         animationDrawable!!.start()

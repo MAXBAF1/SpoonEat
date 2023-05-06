@@ -1,7 +1,7 @@
 package com.example.movieretrofit.interfaces
 
-import com.example.movieretrofit.data.Nutrients
+import com.example.movieretrofit.data.Food
 
 interface AddFoodListener {
-    fun onNutrientsReceived(nutrients: Nutrients)
+    fun onFoodReceived(food: Food)
 }
