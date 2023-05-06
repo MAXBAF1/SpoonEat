@@ -151,5 +151,3 @@ class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
         searchFragment.handleNutrientsData(food)
     }
 }
-    }
-}

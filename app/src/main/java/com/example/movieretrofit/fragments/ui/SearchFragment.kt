@@ -43,15 +43,3 @@ class SearchFragment : Fragment() {
         fun newInstance() = SearchFragment()
     }
 }
-
-        viewModel.data.value = nutrients
-        // Открытие другого фрагмента
-        val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bNav)
-        bottomNav.selectedItemId = R.id.home
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = SearchFragment()
-    }
-}

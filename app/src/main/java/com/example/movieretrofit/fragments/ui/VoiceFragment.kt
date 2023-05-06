@@ -42,13 +42,3 @@ class VoiceFragment : Fragment() {
         fun newInstance() = VoiceFragment()
     }
 }
-    override fun onResume() {
-        super.onResume()
-        animationDrawable!!.start()
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = VoiceFragment()
-    }
-}
