@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.movieretrofit.Firebase
 import com.example.movieretrofit.adapter.LastFoodsAdapter
 import com.example.movieretrofit.charts.BarCharts
@@ -37,7 +38,7 @@ class HomeFragment : Fragment() {
         firebase = Firebase()
         firebase.loadUser()
 
-        binding.lastFoodsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.lastFoodsRecyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
 
         updateViews()
         onClickDelete()

@@ -11,6 +11,7 @@ import com.example.movieretrofit.R
 import com.example.movieretrofit.data.Food
 import com.example.movieretrofit.interfaces.FoodClickListener
 import com.squareup.picasso.Picasso
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
 
 class FoodTextInputEditTextAdapter(private val foodClickListener: FoodClickListener) :
     RecyclerView.Adapter<FoodTextInputEditTextAdapter.FoodTextInputViewHolder>() {
@@ -21,18 +22,25 @@ class FoodTextInputEditTextAdapter(private val foodClickListener: FoodClickListe
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodTextInputViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(
-                R.layout.foodtextinput_list, parent, false
+                R.layout.last_food_item, parent, false
             )
         return FoodTextInputViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: FoodTextInputViewHolder, position: Int) {
         val currentItem = foodList[position]
-        holder.itemView.findViewById<TextView>(R.id.tv_foodtexinput).text = currentItem.name
+        val nameTextView: TextView = holder.itemView.findViewById(R.id.foodNameTextView)
+        val foodCaloriesTv: TextView = holder.itemView.findViewById(R.id.food_calories_tv)
+        val imageView: ImageView = holder.itemView.findViewById(R.id.foodImageView)
+
+        nameTextView.text = currentItem.name
+        foodCaloriesTv.visibility = View.GONE
         Picasso.get()
             .load(currentItem.image?.toUri())
+            .transform(RoundedCornersTransformation(10, 0))
             .placeholder(R.mipmap.ic_launcher)
-            .into(holder.itemView.findViewById<ImageView>(R.id.imaging))
+            .into(imageView)
+
         holder.itemView.setOnClickListener {
             foodClickListener.onFoodClickListener(currentItem.name!!)
         }

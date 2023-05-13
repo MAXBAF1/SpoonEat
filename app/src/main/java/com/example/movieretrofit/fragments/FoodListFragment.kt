@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieretrofit.adapter.FoodAdapter
 import com.example.movieretrofit.adapter.FoodTextInputEditTextAdapter
@@ -46,7 +47,7 @@ class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
         //Adapter for foodTextInputList
         val recyclerViewTextInput = binding.recyclerwatchlist
         recyclerViewTextInput.adapter = adapterTextInput
-        recyclerViewTextInput.layoutManager = LinearLayoutManager(requireContext())
+        recyclerViewTextInput.layoutManager = GridLayoutManager(requireContext(), 2)
 
         binding.tvFood.addTextChangedListener(simpleTextWatcher)
 

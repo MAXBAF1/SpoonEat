@@ -54,12 +54,17 @@ class MainActivity : AppCompatActivity(){
         supportFragmentManager.fragments.forEach {
             if (it.javaClass == f.javaClass) return
         }
-
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.placeHolder, f)
-            .add(R.id.placeHolder, AimyboxAssistantFragment())
-            .setReorderingAllowed(true)
-            .commit()
+        if (supportFragmentManager.fragments.isEmpty())
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.placeHolder, f)
+                .add(R.id.placeHolder, AimyboxAssistantFragment())
+                .commit()
+        else
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.placeHolder, f)
+                .add(R.id.placeHolder, AimyboxAssistantFragment())
+                .addToBackStack(null)
+                .commit()
     }
 
     override fun onBackPressed() {
