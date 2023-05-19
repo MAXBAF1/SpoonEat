@@ -1,0 +1,56 @@
+package com.example.movieretrofit.charts
+
+import android.content.Context
+import com.example.movieretrofit.R
+import com.github.mikephil.charting.utils.Utils.init
+import com.michalsvec.singlerowcalendar.calendar.CalendarChangesObserver
+import com.michalsvec.singlerowcalendar.calendar.CalendarViewManager
+import com.michalsvec.singlerowcalendar.calendar.SingleRowCalendarAdapter
+import com.michalsvec.singlerowcalendar.selection.CalendarSelectionManager
+import com.michalsvec.singlerowcalendar.utils.DateUtils
+import com.michalsvec.singlerowcalendar.utils.DateUtils.getDates
+import java.util.*
+
+class CalendarRow() {
+
+    private val calendar = Calendar.getInstance()
+    private var currentMonth = 0
+
+
+    fun getDatesOfNextMonth(): List<Date> {
+        currentMonth++ // + because we want next month
+        if (currentMonth == 12) {
+            calendar.set(Calendar.YEAR, calendar[Calendar.YEAR] + 1)
+            currentMonth = 0 // 0 == january
+        }
+        return getDates(mutableListOf())
+    }
+
+    fun getDatesOfPreviousMonth(): List<Date> {
+        currentMonth-- // - because we want previous month
+        if (currentMonth == -1) {
+            // we will switch to december of previous year, when we reach first month of year
+            calendar.set(Calendar.YEAR, calendar[Calendar.YEAR] - 1)
+            currentMonth = 11 // 11 == december
+        }
+        return getDates(mutableListOf())
+    }
+
+    fun getFutureDatesOfCurrentMonth(): List<Date> {
+        currentMonth = calendar[Calendar.MONTH]
+        return getDates(mutableListOf())
+    }
+
+    private fun getDates(list: MutableList<Date>): List<Date> {
+        calendar.set(Calendar.MONTH, currentMonth)
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
+        list.add(calendar.time)
+        while (currentMonth == calendar[Calendar.MONTH]) {
+            calendar.add(Calendar.DATE, +1)
+            if (calendar[Calendar.MONTH] == currentMonth)
+                list.add(calendar.time)
+        }
+        calendar.add(Calendar.DATE, -1)
+        return list
+    }
+}

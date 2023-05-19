@@ -4,6 +4,12 @@
     <color name="colorGradientCenter">@color/white</color>
     <color name="colorGradientEnd">@color/md_yellow_600</color>
 
+    <color name="grey">#7a7a7a</color>
+    <color name="lightGrey">#aaaaaa</color>
+    <color name="veryLightGrey">#f0f0f0</color>
+    <color name="yellow">#ffee00</color>
+
+    <color name="main_background_color">#EFEFEF</color>
     <color name="colorPrimary">@color/md_cyan_600</color>
     <color name="md_yellow_600">#FDD835</color>
     <color name="md_cyan_600">#673AB7</color>
@@ -17,13 +23,15 @@
     <color name="orange">#FB6B3D</color>
     <color name="red">#FD1100</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="grey">#A5A3A3</color>
-    <color name="green">#673AB7</color>
     <color name="greenPrimary">#00BF08</color>
     <color name="purple">#673AB7</color>
 
-    <color name="protein">#FBBD60</color>
-    <color name="fat">#FB60AA</color>
-    <color name="carb">#60FBBA</color>
+    <color name="protein">#3CC2F7</color>
+    <color name="fat">#FAAB37</color>
+    <color name="carb">#FA5A37</color>
+
     <color name="blue">#0D6BF7</color>
+    <color name="gray">#A4A4A4</color>
+    <color name="green">#7CBD3D</color>
+    <color name="light_green">#7CBD3D</color>
 </resources>

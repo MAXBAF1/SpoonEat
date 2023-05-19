@@ -71,7 +71,7 @@ class LineCharts {
 
     private fun settingsDataSet(dataset: LineDataSet, color: Int, pointColor: Int) {
         dataset.mode = LineDataSet.Mode.CUBIC_BEZIER
-        dataset.cubicIntensity = 0.2f // настройка кривизны
+        dataset.cubicIntensity = 0.1f // настройка кривизны
         dataset.color = color
         dataset.setCircleColor(pointColor)
         dataset.lineWidth = 3f

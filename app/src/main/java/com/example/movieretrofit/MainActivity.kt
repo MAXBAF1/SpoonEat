@@ -1,9 +1,11 @@
 package com.example.movieretrofit
 
+import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.movieretrofit.databinding.ActivityMainBinding
 import com.example.movieretrofit.fragments.ui.AccountSettingsFragment
@@ -21,6 +23,11 @@ class MainActivity : AppCompatActivity(){
         setContentView(binding.root)
         binding.bNav.background = null
         binding.bNav.menu.getItem(2).isEnabled = false
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.statusBarColor = ContextCompat.getColor(this, R.color.green)
+        }
 
         openFragment(HomeFragment.newInstance())
         onBottomNavClick()
@@ -54,12 +61,17 @@ class MainActivity : AppCompatActivity(){
         supportFragmentManager.fragments.forEach {
             if (it.javaClass == f.javaClass) return
         }
-
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.placeHolder, f)
-            .add(R.id.placeHolder, AimyboxAssistantFragment())
-            .setReorderingAllowed(true)
-            .commit()
+        if (supportFragmentManager.fragments.isEmpty())
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.placeHolder, f)
+                .add(R.id.placeHolder, AimyboxAssistantFragment())
+                .commit()
+        else
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.placeHolder, f)
+                .add(R.id.placeHolder, AimyboxAssistantFragment())
+                .addToBackStack(null)
+                .commit()
     }
 
     override fun onBackPressed() {

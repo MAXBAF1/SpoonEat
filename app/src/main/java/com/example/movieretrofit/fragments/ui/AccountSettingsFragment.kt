@@ -2,6 +2,7 @@ package com.example.movieretrofit.fragments.ui
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -44,9 +45,9 @@ class AccountSettingsFragment : Fragment() {
     }
 
     private fun chooseDiet() {
-        binding.dietClassic.setOnClickListener { updateDiet(Diet(30, 20, 50)) }
+        binding.dietStandart.setOnClickListener { updateDiet(Diet(30, 30, 40)) }
         binding.dietKeto.setOnClickListener { updateDiet(Diet(20, 75, 5)) }
-        binding.dietProtein.setOnClickListener { updateDiet(Diet(55, 15, 20)) }
+        binding.dietProtein.setOnClickListener { updateDiet(Diet(50, 20, 30)) }
     }
 
     private fun updateDiet(diet: Diet) {
@@ -56,6 +57,12 @@ class AccountSettingsFragment : Fragment() {
 
     private fun createRangeSlider() {
         rangeSlider = binding.slider
+
+        val green = ColorStateList.valueOf(requireContext().getColor(R.color.green))
+        val white = ColorStateList.valueOf(requireContext().getColor(R.color.light_green))
+        rangeSlider.trackActiveTintList = green
+        rangeSlider.trackInactiveTintList = white
+        rangeSlider.thumbTintList = green
 
         rangeSlider.valueFrom = 0f
         rangeSlider.valueTo = 100f

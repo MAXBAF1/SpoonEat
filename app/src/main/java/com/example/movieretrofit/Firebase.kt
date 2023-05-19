@@ -23,7 +23,7 @@ class Firebase {
 
     private var auth: FirebaseAuth = Firebase.auth
     private val sdf = SimpleDateFormat("dd:MM:yyyy", Locale.getDefault())
-    private var date = sdf.format(Calendar.getInstance().time)
+    var date = sdf.format(Calendar.getInstance().time)
 
     init {
         username = auth.currentUser!!.displayName.toString()

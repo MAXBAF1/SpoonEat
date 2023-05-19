@@ -4,28 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/main_background_color"
     tools:context=".fragments.ui.HomeFragment">
 
+    <View
+        android:id="@+id/calories_circle"
+        android:layout_width="match_parent"
+        android:layout_height="127dp"
+        android:layout_marginTop="-7dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/calories_circle"/>
 
     <TextView
         android:id="@+id/tv_calories"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="3dp"
+        android:fontFamily="@font/play"
         android:gravity="center"
         android:text="@string/calories"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="70sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/calories_circle"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.michalsvec.singlerowcalendar.calendar.SingleRowCalendar
+        android:id="@+id/main_single_row_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="2dp"
+        app:layout_constraintTop_toBottomOf="@id/tvDate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:deselection="false"
+        app:longPress="false"
+        app:multiSelection="false" />
 
     <LinearLayout
         android:id="@+id/layout_current_statistic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:orientation="horizontal"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout">
@@ -35,10 +62,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
+            android:fontFamily="@font/main_font"
             android:text="@string/protein"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="7dp"
             android:textColor="@color/protein"
             android:textSize="@dimen/nutrients_text_size"
+            android:layout_marginStart="40dp"
             android:textStyle="bold" />
 
         <TextView
@@ -46,9 +76,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
+            android:fontFamily="@font/main_font"
             android:text="@string/fat"
             android:textColor="@color/fat"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="7dp"
             android:textSize="@dimen/nutrients_text_size"
             android:textStyle="bold" />
 
@@ -57,8 +89,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
+            android:fontFamily="@font/main_font"
             android:text="@string/carb"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="7dp"
             android:textColor="@color/carb"
             android:textSize="@dimen/nutrients_text_size"
             android:textStyle="bold" />
@@ -73,19 +107,20 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_calories">
+        app:layout_constraintTop_toBottomOf="@id/main_single_row_calendar">
 
         <com.github.mikephil.charting.charts.HorizontalBarChart
             android:id="@+id/barChart"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="190dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginTop="10dp"
             android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -95,6 +130,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Удалить последнее блюдо"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_current_statistic" />
@@ -103,24 +139,76 @@
         android:id="@+id/tv_recent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/main_font"
         android:text="@string/recent"
-        android:textColor="@color/blue"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/gray"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnDelete" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_current_statistic" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/last_foods_recycler_view"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="100dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_recent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_recent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/last_foods_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-10dp"
+        android:layout_marginStart="10dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="ВЫБЕРЕТЕ ДАТУ"
+        android:textColor="@color/lightGrey"
+        android:textSize="17sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_calories" />
+
+    <TextView
+        android:id="@+id/tvDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/lightGrey"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDate"
+        app:layout_constraintStart_toEndOf="@+id/tvDate"
+        app:layout_constraintTop_toTopOf="@+id/tvDate" />
+
+    <Button
+        android:id="@+id/btnRight"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/ic_arrow_right_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvDate" />
+
+    <Button
+        android:id="@+id/btnLeft"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/ic_arrow_left_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnRight"
+        app:layout_constraintEnd_toStartOf="@+id/btnRight"
+        app:layout_constraintTop_toTopOf="@+id/btnRight" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,4 +11,9 @@
     <dimen name="nutrients_text_size">12sp</dimen>
     <dimen name="image_last_food_size">75dp</dimen>
     <dimen name="margin_last_food_container">10dp</dimen>
+
+    <dimen name="columsize_h">80dp</dimen>
+    <dimen name="columsize_w">48dp</dimen>
+
+
 </resources>
