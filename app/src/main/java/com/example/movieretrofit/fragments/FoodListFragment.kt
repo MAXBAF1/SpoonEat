@@ -61,20 +61,20 @@ class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
 
                 val tvFoodEditText = binding.tvFood.text.toString()
                 if (inputCheck(tvFoodEditText)) {
-                    val food = foodViewModel.getFoodRecipe(tvFoodEditText)
-                    Log.d("FOOD", "$food")
-                    adapter.setData(food)
+                    val recipes = foodViewModel.getRecipes(tvFoodEditText)
+                    Log.d("FOOD", "$recipes")
+                    adapter.setData(recipes)
                     binding.recyclerFood.visibility = View.VISIBLE
                     binding.progressBar.visibility = View.GONE
 
-                    if (food.isNotEmpty()) {
+                    if (recipes.isNotEmpty()) {
                         binding.recyclerFood.visibility = View.VISIBLE
                         binding.listsearch.visibility = View.GONE
                         binding.errorlist.visibility = View.GONE
                         binding.progressBar.visibility = View.GONE
                     } else binding.errorlist.visibility = View.VISIBLE
-                    Log.d("FOOD", "$food")
-                    adapter.setData(food)
+                    Log.d("FOOD", "$recipes")
+                    adapter.setData(recipes)
                 } else {
                     binding.errorlist.visibility = View.VISIBLE
                     binding.progressBar.visibility = View.GONE
@@ -109,7 +109,7 @@ class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
                         delay(100)
                         if (adapterTextInput.foodList.isEmpty()) delay(300)
                         binding!!.progressBar.visibility = View.VISIBLE
-                        val food = foodViewModel.getFoodRecipe(text)
+                        val food = foodViewModel.getRecipes(text)
                         emit(adapterTextInput.setData(food.takeLast(food.size - 1)))
                         binding!!.progressBar.visibility = View.GONE
                         Log.d("textWatcher", text)
@@ -127,18 +127,22 @@ class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
             val tvFoodEditText = binding!!.tvFood.text.toString()
             if (inputCheck(tvFoodEditText)) {
                 binding!!.tvFood.setText(food)
-                val food = foodViewModel.getFoodRecipe(food)
-                adapter.setData(food.take(1))
+                val recipes = foodViewModel.getRecipes(food)
+                val selectedRecipe = recipes.take(1)
+                val nutrition = foodViewModel.getRecipeNutrients(selectedRecipe[0].id!!)
+                selectedRecipe[0].nutrients.updateWithNutrition(nutrition)
+
+                adapter.setData(selectedRecipe)
                 binding!!.recyclerFood.visibility = View.VISIBLE
                 binding!!.progressBar.visibility = View.GONE
                 binding!!.listsearch.visibility = View.GONE
 
-                if (food.isNotEmpty()) {
+                if (recipes.isNotEmpty()) {
                     binding!!.recyclerFood.visibility = View.VISIBLE
                     binding!!.progressBar.visibility = View.GONE
                 } else binding!!.errorlist.visibility = View.VISIBLE
-                Log.d("FOOD", "$food")
-                adapter.setData(food.take(1))
+                Log.d("FOOD", "$recipes")
+                adapter.setData(selectedRecipe)
             } else {
                 binding!!.errorlist.visibility = View.VISIBLE
                 binding!!.progressBar.visibility = View.GONE

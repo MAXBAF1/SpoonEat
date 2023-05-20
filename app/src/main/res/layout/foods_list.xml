@@ -31,181 +31,107 @@
 
             <ImageView
                 android:id="@+id/food_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleType="matrix" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:background="@color/colorPrimary">
-
-            <TextView
-                android:id="@+id/food_name"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginStart="28dp"
-                android:layout_marginTop="14dp"
-                android:gravity="start"
-                android:isScrollContainer="true"
-                android:text="Pizza Hut"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@color/white"
-                android:textSize="24sp" />
+                android:layout_height="match_parent" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="170dp"
-            android:background="@color/white">
-
-            <LinearLayout
-                android:id="@+id/nutrientslist_energy"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="28dp"
-                android:layout_marginTop="@dimen/boxkbzhu"
-                android:orientation="vertical"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/foodlist">
-
-                <TextView
-                    android:id="@+id/enerckcal"
-                    android:layout_width="100dp"
-                    android:layout_height="24dp"
-                    android:gravity="center"
-                    android:text="Energy"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/purple"
-                    android:textStyle="italic" />
-
-                <TextView
-                    android:id="@+id/food_calories"
-                    android:layout_width="100dp"
-                    android:layout_height="24dp"
-                    android:layout_marginTop="@dimen/marginkbzhu"
-                    android:gravity="center"
-                    android:text="235 kcal"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/purple"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/marginkbzhuimg"
-                    android:background="@drawable/ic_calories" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/devider1"
-                android:layout_width="3dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="@dimen/boxkbzhu"
-                android:background="@color/purple"
-                android:orientation="vertical"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/foodlist">
-
-            </LinearLayout>
-
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center">
 
             <LinearLayout
                 android:id="@+id/nutrientslist_protein"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="@dimen/boxkbzhu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintStart_toEndOf="@id/nutrientslist_energy"
+                app:layout_constraintStart_toEndOf="@id/nutrientslist_carbs"
                 app:layout_constraintTop_toBottomOf="@+id/foodlist">
 
-                <TextView
-                    android:id="@+id/protein"
-                    android:layout_width="100dp"
-                    android:layout_height="24dp"
-                    android:gravity="center"
-                    android:text="Protein"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/purple"
-                    android:textStyle="italic" />
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_proteins"
+                    android:backgroundTint="@color/protein"
+                    tools:ignore="ImageContrastCheck" />
 
                 <TextView
                     android:id="@+id/food_protein"
-                    android:layout_width="100dp"
-                    android:layout_height="24dp"
-                    android:layout_marginTop="@dimen/marginkbzhu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/main_font"
                     android:gravity="center"
-                    android:text="32 g"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/purple"
+                    android:text="32 г"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/marginkbzhuimg"
-                    android:background="@drawable/ic_proteins" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/devider2"
-                android:layout_width="3dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="@dimen/boxkbzhu"
-                android:background="@color/purple"
-                android:orientation="vertical"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/foodlist">
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/nutrientslist_fat"
                 android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="@dimen/boxkbzhu"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
                 android:orientation="vertical"
-                app:layout_constraintStart_toEndOf="@id/nutrientslist_energy"
+                app:layout_constraintStart_toEndOf="@id/nutrientslist_carbs"
                 app:layout_constraintTop_toBottomOf="@+id/foodlist">
 
-                <TextView
-                    android:id="@+id/fat"
-                    android:layout_width="100dp"
-                    android:layout_height="24dp"
-                    android:gravity="center"
-                    android:text="Fat"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/purple"
-                    android:textStyle="italic" />
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_fat"
+                    android:backgroundTint="@color/fat"
+                    android:contentDescription="@string/todo" />
 
                 <TextView
                     android:id="@+id/food_fat"
-                    android:layout_width="100dp"
-                    android:layout_height="24dp"
-                    android:layout_marginTop="@dimen/marginkbzhu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/main_font"
                     android:gravity="center"
-                    android:text="98 g"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/purple"
+                    android:text="98 г"
+                    android:textColor="@android:color/black"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/marginkbzhuimg"
-                    android:background="@drawable/ic_fat" />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/nutrientslist_carbs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/foodlist">
+
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_calories"
+                    android:backgroundTint="@color/carb"
+                    android:contentDescription="@string/todo" />
+
+                <TextView
+                    android:id="@+id/food_carbs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/main_font"
+                    android:gravity="center"
+                    android:text="235 г"
+                    android:textColor="@android:color/black"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
         <TextView
@@ -226,14 +152,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:hint="Введите грамовки"
-            android:inputType="number" />
+            android:inputType="number"
+            android:minHeight="48dp" />
 
         <Button
             android:id="@+id/button_add_food"
             android:layout_width="match_parent"
-            android:background="#673AB6"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
+            android:background="#673AB6"
+            android:fontFamily="@font/main_font"
             android:text="Add food" />
 
     </LinearLayout>

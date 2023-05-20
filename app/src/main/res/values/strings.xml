@@ -19,5 +19,6 @@
     <string name="chart">График&#xA0;</string>
 
     <string name="initial_phrase">"Привет! Чем могу помочь?</string>
+    <string name="todo">TODO</string>
 
 </resources>

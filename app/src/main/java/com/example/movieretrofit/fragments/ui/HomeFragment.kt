@@ -1,7 +1,5 @@
 package com.example.movieretrofit.fragments.ui
 
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,36 +10,24 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movieretrofit.Firebase
-import com.example.movieretrofit.R
 import com.example.movieretrofit.adapter.LastFoodsAdapter
 import com.example.movieretrofit.charts.BarCharts
-import com.example.movieretrofit.charts.CalendarRow
+import com.example.movieretrofit.charts.calendarRow.ScrollingCalendarRow
 import com.example.movieretrofit.data.Nutrients
 import com.example.movieretrofit.databinding.FragmentHomeBinding
 import com.example.movieretrofit.model.SharedViewModel
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.DatabaseReference
 import com.michalsvec.singlerowcalendar.calendar.CalendarChangesObserver
-import com.michalsvec.singlerowcalendar.calendar.CalendarViewManager
-import com.michalsvec.singlerowcalendar.calendar.SingleRowCalendarAdapter
-import com.michalsvec.singlerowcalendar.selection.CalendarSelectionManager
 import com.michalsvec.singlerowcalendar.utils.DateUtils
 import java.util.*
 import kotlin.math.roundToInt
-import com.github.mikephil.charting.utils.Utils.init
-import com.google.firebase.database.DatabaseReference
-import kotlinx.android.synthetic.main.calendar_item.view.*
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var firebase: Firebase
 
-    private val calendar = Calendar.getInstance()
-    private var currentMonth = 0
-
     var nutrients = Nutrients()
-    var calendarRow = CalendarRow()
+    var barCharts = BarCharts()
     lateinit var dateRef: DatabaseReference
 
     override fun onCreateView(
@@ -56,13 +42,45 @@ class HomeFragment : Fragment() {
         firebase = Firebase()
         firebase.loadUser()
         dateRef = firebase.mealRef.child(firebase.date)
-        binding.lastFoodsRecyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+        binding.lastFoodsRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
 
-        updateViews()
-        onClickDelete()
-        //updateNutrientsListener()
+        setCalendar()
+    }
+
+    private fun setCalendar() {
+        val scrollingCalendar = ScrollingCalendarRow(binding.mainSingleRowCalendar)
+        val myCalendarChangesObserver = object : CalendarChangesObserver {
+            override fun whenSelectionChanged(isSelected: Boolean, position: Int, date: Date) {
+                val tvDateText =
+                    "${DateUtils.getDayNumber(date)} ${DateUtils.getMonthName(date)}, ${
+                        DateUtils.getDayName(date)
+                    }"
+                binding.tvDate.text = tvDateText
+                dateRef = firebase.mealRef.child(
+                    "${DateUtils.getDayNumber(date)}:${
+                        DateUtils.getMonthNumber(date)
+                    }:${DateUtils.getYear(date)}"
+                )
+                updateViews()
+                super.whenSelectionChanged(isSelected, position, date)
+            }
+        }
+        scrollingCalendar.initCalendar(myCalendarChangesObserver)
+
+        binding.btnLeft.setOnClickListener { scrollingCalendar.setPreviousMonthDates() }
+        binding.btnRight.setOnClickListener { scrollingCalendar.setNextMonthDates() }
+    }
+
+    fun updateViews() {
         setLastFoods()
-        initCalendar()
+        firebase.getUserDietFromFirebase { diet ->
+            firebase.getDayFood(dateRef) { foods ->
+                nutrients = nutrients.getDaySum(foods)
+                setDataToTextView()
+                context?.let { barCharts.setBarChart(it, binding.barChart, nutrients, diet) }
+            }
+        }
     }
 
     private fun setLastFoods() {
@@ -70,25 +88,6 @@ class HomeFragment : Fragment() {
             if (activity != null) {
                 val adapter = LastFoodsAdapter(requireContext(), foods.reversed())
                 binding.lastFoodsRecyclerView.adapter = adapter
-            }
-        }
-    }
-
-    fun updateViews() {
-        setLastFoods()
-        firebase.getUserDietFromFirebase { diet ->
-            firebase.getDayFood(dateRef) { foods ->
-                Log.e("crash", "foods is $foods, nutrients is $nutrients")
-
-                if (foods.isEmpty()) {
-                    Log.e("crash", "isEmpty branch")
-                    BarCharts().setEmptyBarChart(binding.barChart)
-                } else {
-                    nutrients = nutrients.getDaySum(foods)
-                    setDataToTextView()
-                    context?.let { BarCharts().setBarChart(it, binding.barChart, nutrients, diet) }
-                    Log.e("crash", "setBarChart branch")
-                }
             }
         }
     }
@@ -104,7 +103,7 @@ class HomeFragment : Fragment() {
         binding.tvCarbs.text = carbText
     }
 
-    private fun onClickDelete() {
+    /*private fun onClickDelete() {
         binding.btnDelete.setOnClickListener {
             dateRef.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -120,7 +119,7 @@ class HomeFragment : Fragment() {
                 }
             })
         }
-    }
+    }*/
 
     fun updateNutrientsListener() {
         val viewModel: SharedViewModel by activityViewModels()
@@ -129,87 +128,6 @@ class HomeFragment : Fragment() {
             firebase.sendCurrentMealDataToFirebase(data)
 
             updateViews()
-        }
-    }
-
-    private fun initCalendar() {
-        calendar.time = Date()
-        currentMonth = calendar[Calendar.MONTH]
-
-        val myCalendarViewManager = object :
-            CalendarViewManager {
-            override fun setCalendarViewResourceId(
-                position: Int,
-                date: Date,
-                isSelected: Boolean
-            ): Int {
-                val cal = Calendar.getInstance()
-                cal.time = date
-                return if (isSelected)
-                    when (cal[Calendar.DAY_OF_WEEK]) {
-                        Calendar.MONDAY -> R.layout.first_special_selected_calendar_item
-                        Calendar.WEDNESDAY -> R.layout.second_special_selected_calendar_item
-                        Calendar.FRIDAY -> R.layout.third_special_selected_calendar_item
-                        else -> R.layout.selected_calendar_item
-                    }
-                else
-                    when (cal[Calendar.DAY_OF_WEEK]) {
-                        Calendar.MONDAY -> R.layout.first_special_calendar_item
-                        Calendar.WEDNESDAY -> R.layout.second_special_calendar_item
-                        Calendar.FRIDAY -> R.layout.third_special_calendar_item
-                        else -> R.layout.calendar_item
-                    }
-            }
-
-            override fun bindDataToCalendarView(
-                holder: SingleRowCalendarAdapter.CalendarViewHolder,
-                date: Date,
-                position: Int,
-                isSelected: Boolean
-            ) {
-                holder.itemView.tv_date_calendar_item.text = DateUtils.getDayNumber(date)
-                holder.itemView.tv_day_calendar_item.text = DateUtils.getDay3LettersName(date)
-            }
-        }
-
-        val myCalendarChangesObserver = object :
-            CalendarChangesObserver {
-            override fun whenSelectionChanged(isSelected: Boolean, position: Int, date: Date) {
-                binding.tvDate.text = "${DateUtils.getMonthName(date)}, ${DateUtils.getDayNumber(date)}  "
-                Log.e("item", "${DateUtils.getDayNumber(date)}:${DateUtils.getMonthNumber(date)}:${DateUtils.getYear(date)}")
-                binding.tvDay.text = DateUtils.getDayName(date)
-                dateRef = firebase.mealRef.child("${DateUtils.getDayNumber(date)}:${DateUtils.getMonthNumber(date)}:${DateUtils.getYear(date)}")
-                Log.e("item", "${dateRef}")
-                updateViews()
-                super.whenSelectionChanged(isSelected, position, date)
-            }
-        }
-
-        val mySelectionManager = object : CalendarSelectionManager {
-            override fun canBeItemSelected(position: Int, date: Date): Boolean {
-                val cal = Calendar.getInstance()
-                cal.time = date
-                return when (cal[Calendar.DAY_OF_WEEK]) {
-                    Calendar.SATURDAY -> true
-                    else -> true
-                }
-            }
-        }
-
-        val singleRowCalendar = binding.mainSingleRowCalendar.apply {
-            calendarViewManager = myCalendarViewManager
-            calendarChangesObserver = myCalendarChangesObserver
-            calendarSelectionManager = mySelectionManager
-            setDates(calendarRow.getFutureDatesOfCurrentMonth())
-            init()
-        }
-
-        binding.btnRight.setOnClickListener {
-            singleRowCalendar.setDates(calendarRow.getDatesOfNextMonth())
-        }
-
-        binding.btnLeft.setOnClickListener {
-            singleRowCalendar.setDates(calendarRow.getDatesOfPreviousMonth())
         }
     }
 

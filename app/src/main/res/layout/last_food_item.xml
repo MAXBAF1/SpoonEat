@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/main_font"
                 android:text="TextView"
-                android:textColor="@color/gray"
+                android:textColor="@color/grey"
                 android:textSize="14sp" />
 
         </LinearLayout>

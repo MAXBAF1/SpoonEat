@@ -1,7 +1,5 @@
 package com.example.movieretrofit.data
 
-import kotlin.math.roundToInt
-
 class Nutrients() : java.io.Serializable {
     var grams: Float = 1f
     var calories: Float = 0f
@@ -19,15 +17,11 @@ class Nutrients() : java.io.Serializable {
         carb = _carbs
     }
 
-    fun getNutrients(content: String): Nutrients {
-        val calories =
-            Regex("""\b(\d+)\s*calories\b""").find(content)?.groups?.get(1)?.value?.toFloat()
-        val protein =
-            Regex("""\b(\d+)\s*g of protein\b""").find(content)?.groups?.get(1)?.value?.toFloat()
-        val fat = Regex("""\b(\d+)\s*g of fat\b""").find(content)?.groups?.get(1)?.value?.toFloat()
-        val carbs =
-            (calories!! - (fat!! * 9.3 + protein!! * 4.1) / 4.1).toString().split('.')[0].toFloat()
-        return Nutrients(grams, calories, protein, fat, carbs)
+    fun updateWithNutrition(nutrition: Nutrition){
+        calories = nutrition.calories
+        protein = nutrition.protein.removeSuffix("g").toFloat()
+        fat = nutrition.fat.removeSuffix("g").toFloat()
+        carb = nutrition.carbs.removeSuffix("g").toFloat()
     }
 
     fun getDaySum(foodItems: List<Food>): Nutrients {

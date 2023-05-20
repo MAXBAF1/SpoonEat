@@ -6,7 +6,6 @@ import com.example.movieretrofit.R
 import com.example.movieretrofit.data.Diet
 import com.example.movieretrofit.data.Nutrients
 import com.github.mikephil.charting.charts.BarChart
-import com.github.mikephil.charting.charts.HorizontalBarChart
 import com.github.mikephil.charting.components.LimitLine
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
@@ -104,27 +103,11 @@ class BarCharts {
         }
 
         val ll1 = LimitLine(100f)
-        ll1.lineColor = Color.RED
+        ll1.lineColor = context.getColor(R.color.red)
         ll1.lineWidth = 3f
         //ll1.labelPosition = LimitLabelPosition.RIGHT_TOP
 
         leftAxis.removeAllLimitLines() // reset all limit lines to avoid overlapping lines
         leftAxis.addLimitLine(ll1)
-    }
-
-    fun setEmptyBarChart(barChart: HorizontalBarChart) {
-        val emptyData = BarData()
-        barChart.data = emptyData
-        barChart.invalidate()
-    }
-
-
-    private fun getColor(value: Float): Int {
-        return Color.GRAY
-        return when (value) {
-            in 90F..110F -> Color.GREEN
-            in 80F..120F -> Color.YELLOW
-            else -> Color.RED
-        }
     }
 }

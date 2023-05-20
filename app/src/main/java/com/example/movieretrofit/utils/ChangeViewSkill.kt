@@ -16,11 +16,14 @@ class ChangeViewSkill(private val context: Context) : CustomSkill<AimyboxRequest
 
     lateinit var queryRequest: String
     private lateinit var firebase: Firebase
+   // lateinit var foodViewModel: FoodViewModel
 
     override fun canHandle(response: AimyboxResponse) = response.action == "changeView"
 
     override suspend fun onRequest(request: AimyboxRequest, aimybox: Aimybox): AimyboxRequest {
         queryRequest = request.query
+
+       // foodViewModel = ViewModelProvider(context)[FoodViewModel::class.java]
 
         Log.e("aimybox", "request query is $queryRequest")
         val foodApiService = restFoodApi
@@ -30,9 +33,10 @@ class ChangeViewSkill(private val context: Context) : CustomSkill<AimyboxRequest
             val nameFood = allFood.body()!!.searchResults[0].results[0].name
             val imageFood = allFood.body()!!.searchResults[0].results[0].image
             val contentFood = allFood.body()!!.searchResults[0].results[0].content
-            val nutrientsFood = Nutrients().getNutrients(contentFood!!)
+            val id = allFood.body()!!.searchResults[0].results[0].id
+        //    val nutrientsFood = Nutrients().updateWithNutrition(foodViewModel.getRecipeNutrients(id!!))
 
-            val food = Food(nameFood, imageFood, contentFood, nutrientsFood)
+            val food = Food(nameFood, imageFood, contentFood, id, Nutrients())
 
             sendToFirebase(food)
         } else {
