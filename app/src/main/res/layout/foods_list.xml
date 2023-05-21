@@ -36,9 +36,20 @@
 
         </LinearLayout>
 
+        <EditText
+            android:id="@+id/et_gram"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:hint="Введите грамовки"
+            android:inputType="number"
+            android:minHeight="48dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:background="@color/white"
             android:gravity="center">
 
@@ -114,9 +125,10 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_gravity="center"
-                    android:background="@drawable/ic_calories"
+                    android:background="@drawable/carb_icon"
                     android:backgroundTint="@color/carb"
                     android:contentDescription="@string/todo" />
+
 
                 <TextView
                     android:id="@+id/food_carbs"
@@ -145,15 +157,6 @@
             android:textColor="@color/purple"
             android:textSize="18sp"
             tools:text="" />
-
-        <EditText
-            android:id="@+id/et_gram"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:hint="Введите грамовки"
-            android:inputType="number"
-            android:minHeight="48dp" />
 
         <Button
             android:id="@+id/button_add_food"

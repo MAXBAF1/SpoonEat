@@ -8,7 +8,6 @@ import com.justai.aimybox.components.AimyboxAssistantFragment
 import com.justai.aimybox.components.AimyboxProvider
 
 class AimyActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_aimy_activity)

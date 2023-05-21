@@ -19,6 +19,7 @@ import com.example.movieretrofit.model.SharedViewModel
 import com.google.firebase.database.DatabaseReference
 import com.michalsvec.singlerowcalendar.calendar.CalendarChangesObserver
 import com.michalsvec.singlerowcalendar.utils.DateUtils
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -28,6 +29,7 @@ class HomeFragment : Fragment() {
 
     var nutrients = Nutrients()
     var barCharts = BarCharts()
+    lateinit var monthCounter: String
     lateinit var dateRef: DatabaseReference
 
     override fun onCreateView(
@@ -56,6 +58,10 @@ class HomeFragment : Fragment() {
                     "${DateUtils.getDayNumber(date)} ${DateUtils.getMonthName(date)}, ${
                         DateUtils.getDayName(date)
                     }"
+                monthCounter = DateUtils.getMonthNumber(date)
+                val month = SimpleDateFormat("LLLL").format(date.time)
+                binding.tvMonth.text = month
+
                 binding.tvDate.text = tvDateText
                 dateRef = firebase.mealRef.child(
                     "${DateUtils.getDayNumber(date)}:${
@@ -68,8 +74,19 @@ class HomeFragment : Fragment() {
         }
         scrollingCalendar.initCalendar(myCalendarChangesObserver)
 
-        binding.btnLeft.setOnClickListener { scrollingCalendar.setPreviousMonthDates() }
-        binding.btnRight.setOnClickListener { scrollingCalendar.setNextMonthDates() }
+        val arrayOfMonths = arrayOf("январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь", "ноябрь", "декабрь")
+        binding.btnLeft.setOnClickListener {
+           // monthCounter = (monthCounter.toInt() - 1).toString()
+           // binding.tvMonth.text = arrayOfMonths[monthCounter.toInt()]
+
+            scrollingCalendar.setPreviousMonthDates()
+        }
+        binding.btnRight.setOnClickListener {
+           // monthCounter = (monthCounter.toInt() + 1).toString()
+           // binding.tvMonth.text = arrayOfMonths[monthCounter.toInt()]
+
+            scrollingCalendar.setNextMonthDates()
+        }
     }
 
     fun updateViews() {
@@ -113,7 +130,6 @@ class HomeFragment : Fragment() {
                     }
                     updateViews()
                 }
-
                 override fun onCancelled(databaseError: DatabaseError) {
                     Log.e("item", "onCancelled", databaseError.toException())
                 }
@@ -130,7 +146,6 @@ class HomeFragment : Fragment() {
             updateViews()
         }
     }
-
 
     companion object {
         @JvmStatic
