@@ -1,14 +1,5 @@
-package com.example.movieretrofit.charts
+package com.example.movieretrofit.charts.calendarRow
 
-import android.content.Context
-import com.example.movieretrofit.R
-import com.github.mikephil.charting.utils.Utils.init
-import com.michalsvec.singlerowcalendar.calendar.CalendarChangesObserver
-import com.michalsvec.singlerowcalendar.calendar.CalendarViewManager
-import com.michalsvec.singlerowcalendar.calendar.SingleRowCalendarAdapter
-import com.michalsvec.singlerowcalendar.selection.CalendarSelectionManager
-import com.michalsvec.singlerowcalendar.utils.DateUtils
-import com.michalsvec.singlerowcalendar.utils.DateUtils.getDates
 import java.util.*
 
 class CalendarRow() {

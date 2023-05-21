@@ -19,7 +19,6 @@ import com.example.movieretrofit.model.SharedViewModel
 import com.google.firebase.database.DatabaseReference
 import com.michalsvec.singlerowcalendar.calendar.CalendarChangesObserver
 import com.michalsvec.singlerowcalendar.utils.DateUtils
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -29,7 +28,6 @@ class HomeFragment : Fragment() {
 
     var nutrients = Nutrients()
     var barCharts = BarCharts()
-    lateinit var monthCounter: String
     lateinit var dateRef: DatabaseReference
 
     override fun onCreateView(
@@ -56,11 +54,7 @@ class HomeFragment : Fragment() {
             override fun whenSelectionChanged(isSelected: Boolean, position: Int, date: Date) {
                 val tvDateText =
                     "${DateUtils.getDayNumber(date)} ${DateUtils.getMonthName(date)}, ${
-                        DateUtils.getDayName(date)
-                    }"
-                monthCounter = DateUtils.getMonthNumber(date)
-                val month = SimpleDateFormat("LLLL").format(date.time)
-                binding.tvMonth.text = month
+                        DateUtils.getDayName(date)}"
 
                 binding.tvDate.text = tvDateText
                 dateRef = firebase.mealRef.child(
@@ -74,17 +68,10 @@ class HomeFragment : Fragment() {
         }
         scrollingCalendar.initCalendar(myCalendarChangesObserver)
 
-        val arrayOfMonths = arrayOf("январь", "февраль", "март", "апрель", "май", "июнь", "июль", "август", "сентябрь", "октябрь", "ноябрь", "декабрь")
         binding.btnLeft.setOnClickListener {
-           // monthCounter = (monthCounter.toInt() - 1).toString()
-           // binding.tvMonth.text = arrayOfMonths[monthCounter.toInt()]
-
             scrollingCalendar.setPreviousMonthDates()
         }
         binding.btnRight.setOnClickListener {
-           // monthCounter = (monthCounter.toInt() + 1).toString()
-           // binding.tvMonth.text = arrayOfMonths[monthCounter.toInt()]
-
             scrollingCalendar.setNextMonthDates()
         }
     }

@@ -2,7 +2,6 @@ package com.example.movieretrofit.charts.calendarRow
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieretrofit.R
-import com.example.movieretrofit.charts.CalendarRow
 import com.michalsvec.singlerowcalendar.calendar.CalendarChangesObserver
 import com.michalsvec.singlerowcalendar.calendar.CalendarViewManager
 import com.michalsvec.singlerowcalendar.calendar.SingleRowCalendar
