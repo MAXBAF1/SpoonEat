@@ -31,7 +31,7 @@ class BarCharts {
         val dataSet = BarDataSet(entries, "")
         dataSet.stackLabels = arrayOf("Белки", "Жиры", "Углеводы")
 
-        dataSet.colors = arrayListOf(
+        dataSet.colors = listOf(
             context.getColor(R.color.protein),
             context.getColor(R.color.fat),
             context.getColor(R.color.carb)

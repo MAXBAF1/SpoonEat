@@ -17,8 +17,10 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.movieretrofit.Firebase
 import com.example.movieretrofit.R
 import com.example.movieretrofit.SignInActivity
+import com.example.movieretrofit.charts.PieCharts
 import com.example.movieretrofit.data.Diet
 import com.example.movieretrofit.databinding.FragmentAccountSettingsBinding
+import com.github.mikephil.charting.data.PieEntry
 import com.google.android.material.slider.RangeSlider
 import com.google.firebase.auth.FirebaseAuth
 
@@ -43,6 +45,18 @@ class AccountSettingsFragment : Fragment() {
         buttonSignOut()
 
         chooseDiet()
+        setPieCharts()
+    }
+
+    private fun setPieCharts() {
+        val standardEntries = arrayListOf(PieEntry(30f), PieEntry(30f), PieEntry(40f))
+        context?.let { PieCharts(it, binding.dietStandardChart).setPieChart(standardEntries) }
+
+        val ketoEntries = arrayListOf(PieEntry(20f), PieEntry(75f), PieEntry(5f))
+        context?.let { PieCharts(it, binding.dietKetoChart).setPieChart(ketoEntries) }
+
+        val proteinEntries = arrayListOf(PieEntry(50f), PieEntry(20f), PieEntry(30f))
+        context?.let { PieCharts(it, binding.dietProteinChart).setPieChart(proteinEntries) }
     }
 
     private fun chooseDiet() {

@@ -11,7 +11,7 @@
         android:id="@+id/avatar"
         android:layout_width="170dp"
         android:layout_height="170dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintCircleRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,6 +30,68 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/avatar" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_username">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/protein_dot" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/main_font"
+            android:includeFontPadding="false"
+            android:text="@string/protein"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:src="@drawable/fat_dot" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/main_font"
+            android:includeFontPadding="false"
+            android:text="@string/fat"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:src="@drawable/carb_dot" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/main_font"
+            android:includeFontPadding="false"
+            android:text="@string/carb"
+            android:textColor="@color/black" />
+    </LinearLayout>
 
     <com.google.android.material.slider.RangeSlider
         android:id="@+id/slider"
@@ -88,10 +150,10 @@
         android:id="@+id/tableLayout"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_username">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
         <TableRow
             android:layout_width="match_parent"
@@ -119,8 +181,8 @@
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/diet_standard_Chart"
-                    android:layout_width="110dp"
-                    android:layout_height="110dp" />
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp" />
 
 
             </LinearLayout>
@@ -144,8 +206,8 @@
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/diet_keto_Chart"
-                    android:layout_width="110dp"
-                    android:layout_height="110dp" />
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp" />
 
             </LinearLayout>
 
@@ -153,8 +215,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:id="@+id/diet_protein"
@@ -176,8 +237,8 @@
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/diet_protein_Chart"
-                    android:layout_width="110dp"
-                    android:layout_height="110dp" />
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -199,8 +260,8 @@
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/diet_my_Chart"
-                    android:layout_width="110dp"
-                    android:layout_height="110dp" />
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp" />
 
             </LinearLayout>
 
@@ -213,13 +274,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="24dp"
         android:background="@drawable/add_btn_background"
         android:fontFamily="@font/main_font"
         android:text="Сохранить диету"
         android:textColor="@color/green"
-        android:textSize="24dp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
