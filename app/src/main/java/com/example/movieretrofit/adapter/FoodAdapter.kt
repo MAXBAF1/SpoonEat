@@ -15,6 +15,7 @@ import com.example.movieretrofit.R
 import com.example.movieretrofit.data.Food
 import com.example.movieretrofit.interfaces.AddFoodListener
 import com.squareup.picasso.Picasso
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
 import kotlin.math.roundToInt
 
 class FoodAdapter(private val addFoodListener: AddFoodListener) :
@@ -32,7 +33,10 @@ class FoodAdapter(private val addFoodListener: AddFoodListener) :
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
         val food = foodList[position]
 
-        Picasso.get().load(food.image?.toUri()).placeholder(R.mipmap.ic_launcher)
+        Picasso.get()
+            .load(food.image?.toUri())
+            .transform(RoundedCornersTransformation(10, 0))
+            .placeholder(R.mipmap.ic_launcher)
             .into(holder.itemView.findViewById<ImageView>(R.id.food_image))
 
         //holder.itemView.findViewById<TextView>(R.id.food_name).text = currentItem.name
@@ -40,13 +44,12 @@ class FoodAdapter(private val addFoodListener: AddFoodListener) :
         initNutrientsTv(holder, food)
 
         holder.itemView.findViewById<Button>(R.id.button_add_food).setOnClickListener {
-            val etGrams = holder.itemView.findViewById<EditText>(R.id.et_gram).text
-            val grams: Float = if (etGrams.isEmpty()) 1f else {
-                etGrams.toString().toFloat() / 100f
+            val edGrams = holder.itemView.findViewById<EditText>(R.id.ed_gram).text
+            val grams: Float = if (edGrams.isEmpty()) 1f else {
+                edGrams.toString().toFloat() / 100f
             }
             food.nutrients.grams = grams
             Log.e("item", " in Food adapter $grams")
-
 
             addFoodListener.onFoodReceived(food)
             Log.e("watcher", "1 in Food adapter onBindViewHolder addFoodListener ")

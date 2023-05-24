@@ -13,6 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.movieretrofit.Firebase
 import com.example.movieretrofit.R
 import com.example.movieretrofit.SignInActivity
@@ -109,7 +110,10 @@ class AccountSettingsFragment : Fragment() {
     }
 
     private fun setUpUserPicture(imageView: ImageView, userName: TextView) {
-        Glide.with(this).load(FirebaseAuth.getInstance().currentUser?.photoUrl).into(imageView)
+        Glide.with(this)
+            .load(FirebaseAuth.getInstance().currentUser?.photoUrl)
+            .transform(RoundedCorners(300))
+            .into(imageView)
         userName.text = FirebaseAuth.getInstance().currentUser!!.displayName
     }
 
@@ -131,6 +135,5 @@ class AccountSettingsFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() = AccountSettingsFragment()
-
     }
 }

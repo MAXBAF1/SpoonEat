@@ -16,7 +16,7 @@
         android:layout_gravity="center_horizontal"
         android:fontFamily="sans-serif-black"
         android:gravity="center"
-        android:textColor="@color/grey"
+        android:textColor="@color/gray"
         android:textSize="20sp" />
 
     <TextView
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:fontFamily="sans-serif"
-        android:textColor="@color/grey"
+        android:textColor="@color/gray"
         android:textSize="14sp" />
 
 </LinearLayout>

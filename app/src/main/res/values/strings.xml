@@ -8,11 +8,15 @@
     <string name="statistics">Статистика</string>
 
     <string name="search">Поиск</string>
+    <string name="food_size">Размер порции</string>
 
     <string name="calories">Калории</string>
     <string name="protein">Белки</string>
     <string name="fat">Жиры</string>
     <string name="carb">Углеводы</string>
+
+    <string name="add">Добавить</string>
+    <string name="exit">Выйти</string>
 
     <string name="recent">Недавние блюда</string>
 
