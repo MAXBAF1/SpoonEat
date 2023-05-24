@@ -18,6 +18,8 @@ import kotlin.math.roundToInt
 class BarCharts {
     fun setBarChart(context: Context, barChart: BarChart, nutrients: Nutrients, diet: Diet) {
         barChart.setNoDataText("Съешь что-нибудь)")
+        barChart.isDoubleTapToZoomEnabled = false
+        barChart.setScaleEnabled(false)
         val balancedNutrients = nutrients.getBalancedNutrientsInPercentage(diet)
 
         val entries = arrayListOf(
