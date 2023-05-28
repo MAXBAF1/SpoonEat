@@ -17,17 +17,17 @@ class Nutrients() : java.io.Serializable {
         carb = _carbs
     }
 
-    fun updateWithNutrition(nutrition: Nutrition){
-        calories = nutrition.calories
-        protein = nutrition.protein.removeSuffix("g").toFloat()
-        fat = nutrition.fat.removeSuffix("g").toFloat()
-        carb = nutrition.carbs.removeSuffix("g").toFloat()
+    constructor(nutrition: Nutrition) : this() {
+        calories = nutrition.ENERC_KCAL
+        protein = nutrition.PROCN
+        fat = nutrition.FAT
+        carb = nutrition.CHOCDF
     }
 
     fun getDaySum(foodItems: List<Food>): Nutrients {
         var currentDaySum = Nutrients()
         foodItems.forEach {
-            currentDaySum += it.nutrients
+            currentDaySum += it.realNutrients
         }
 
         return currentDaySum

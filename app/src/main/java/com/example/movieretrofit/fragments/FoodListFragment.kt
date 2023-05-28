@@ -129,8 +129,6 @@ class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
                 binding!!.tvFood.setText(food)
                 val recipes = foodViewModel.getRecipes(food)
                 val selectedRecipe = recipes.take(1)
-                val nutrition = foodViewModel.getRecipeNutrients(selectedRecipe[0].id!!)
-                selectedRecipe[0].nutrients.updateWithNutrition(nutrition)
 
                 adapter.setData(selectedRecipe)
                 binding!!.recyclerFood.visibility = View.VISIBLE

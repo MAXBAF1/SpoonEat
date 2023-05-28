@@ -27,21 +27,21 @@ class ChangeViewSkill(private val context: Context) : CustomSkill<AimyboxRequest
 
         Log.e("aimybox", "request query is $queryRequest")
         val foodApiService = restFoodApi
-        val allFood = foodApiService.getAllFood(query = queryRequest)
+        val allFood = foodApiService.getFoodRecipe(queryRequest)
 
-        if (allFood.isSuccessful && allFood.body()!!.searchResults[0].results.isNotEmpty()) {
-            val nameFood = allFood.body()!!.searchResults[0].results[0].name
-            val imageFood = allFood.body()!!.searchResults[0].results[0].image
-            val contentFood = allFood.body()!!.searchResults[0].results[0].content
-            val id = allFood.body()!!.searchResults[0].results[0].id
-        //    val nutrientsFood = Nutrients().updateWithNutrition(foodViewModel.getRecipeNutrients(id!!))
-
-            val food = Food(nameFood, imageFood, contentFood, id, Nutrients())
-
-            sendToFirebase(food)
-        } else {
-            Log.e("aimybox", "foodApiService error")
-        }
+//        if (allFood.isSuccessful && allFood.body()!!.food.label.isNotEmpty()) {
+//            val nameFood = allFood.body()!!.food.label
+//            val brandFood = allFood.body()!!.food.brand
+//            val imageFood = allFood.body()!!.food.image
+//            val contentFood = allFood.body()!!.food.foodContentsLabel
+//        //    val nutrientsFood = Nutrients().updateWithNutrition(foodViewModel.getRecipeNutrients(id!!))
+//
+//            val food = Food(brandFood, imageFood, nameFood, Nutrients(), contentFood,)
+//
+//            sendToFirebase(food)
+//        } else {
+//            Log.e("aimybox", "foodApiService error")
+//        }
         return request
     }
 

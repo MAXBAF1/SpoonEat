@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movieretrofit.Firebase
 import com.example.movieretrofit.R
 import com.example.movieretrofit.data.Food
+import com.example.movieretrofit.data.Nutrients
 import com.example.movieretrofit.interfaces.AddFoodListener
 import com.squareup.picasso.Picasso
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
@@ -21,6 +22,7 @@ import kotlin.math.roundToInt
 class FoodAdapter(private val addFoodListener: AddFoodListener) :
     RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
     var foodList = emptyList<Food>()
+
     class FoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
@@ -34,12 +36,10 @@ class FoodAdapter(private val addFoodListener: AddFoodListener) :
         val food = foodList[position]
 
         Picasso.get()
-            .load(food.image?.toUri())
+            .load(food.image.toUri())
             .transform(RoundedCornersTransformation(10, 0))
             .placeholder(R.mipmap.ic_launcher)
             .into(holder.itemView.findViewById<ImageView>(R.id.food_image))
-
-        //holder.itemView.findViewById<TextView>(R.id.food_name).text = currentItem.name
 
         initNutrientsTv(holder, food)
 
@@ -48,21 +48,23 @@ class FoodAdapter(private val addFoodListener: AddFoodListener) :
             val grams: Float = if (edGrams.isEmpty()) 1f else {
                 edGrams.toString().toFloat() / 100f
             }
-            food.nutrients.grams = grams
-            Log.e("item", " in Food adapter $grams")
+            food.realNutrients.grams = grams
+            Log.e("item", " in Food adapter grams is $grams")
 
             addFoodListener.onFoodReceived(food)
-            Log.e("watcher", "1 in Food adapter onBindViewHolder addFoodListener ")
 
             val firebase = Firebase()
             firebase.sendCurrentMealDataToFirebase(food)
+            Log.e("edamam", " in Food adapter food to FB is ${food}")
+            Log.e("edamam", " in Food adapter food -fat- to FB is ${food.realNutrients.fat}")
         }
     }
 
     private fun initNutrientsTv(holder: FoodViewHolder, food: Food) {
-        val protein = "${food.nutrients.protein.roundToInt()} г"
-        val fat = "${food.nutrients.fat.roundToInt()} г"
-        val carbs = "${food.nutrients.carb.roundToInt()} г"
+        food.realNutrients = Nutrients(food.nutrients)
+        val protein = "${food.realNutrients.protein.roundToInt()} г"
+        val fat = "${food.realNutrients.fat.roundToInt()} г"
+        val carbs = "${food.realNutrients.carb.roundToInt()} г"
 
         holder.itemView.findViewById<TextView>(R.id.food_protein).text = protein
         holder.itemView.findViewById<TextView>(R.id.food_fat).text = fat
