@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:visibility="gone"
         android:layout_marginEnd="10dp"
         android:backgroundTint="#00FFFFFF"
         android:src="@drawable/ic_calendar"
@@ -22,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,47 +62,44 @@
             android:textSize="@dimen/statistic_title" />
     </LinearLayout>
 
-    <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="0dp"
+    <LinearLayout
+        app:layout_constraintTop_toBottomOf="@id/linearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        tools:context=".fragments.ui.StatisticsFragment">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lCCalories"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="300dp"
+            android:layout_marginTop="30dp" />
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lCNutrients"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:layout_marginTop="20dp" />
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/column_nutrients"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:layout_marginTop="30dp" />
+
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+            android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginTop="70dp"
+            android:visibility="gone"
+            android:layout_marginBottom="80dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:mcv_selectionColor="#00F"
+            app:mcv_showOtherDates="all" />
 
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/lCCalories"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginTop="30dp" />
+    </LinearLayout>
 
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/lCNutrients"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginTop="60dp" />
-
-            <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-                android:id="@+id/calendarView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="70dp"
-                android:layout_marginBottom="80dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:mcv_selectionColor="#00F"
-                app:mcv_showOtherDates="all" />
-
-        </LinearLayout>
-
-    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

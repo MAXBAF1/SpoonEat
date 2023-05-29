@@ -29,7 +29,7 @@
             android:gravity="center"
             android:text="Granola"
             android:textColor="@color/black"
-            android:textSize="34sp" />
+            android:textSize="24sp" />
 
         <LinearLayout
             android:id="@+id/foodlist1"
@@ -44,8 +44,8 @@
 
             <ImageView
                 android:id="@+id/food_image"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
+                android:layout_width="260dp"
+                android:layout_height="260dp"
                 app:srcCompat="@drawable/food_example_image" />
 
         </LinearLayout>
@@ -67,8 +67,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/foodlist">
 
                 <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="@dimen/nutrients_img"
+                    android:layout_height="@dimen/nutrients_img"
                     android:layout_gravity="center"
                     android:background="@drawable/ic_proteins"
                     android:backgroundTint="@color/protein"
@@ -97,8 +97,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/foodlist">
 
                 <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="@dimen/nutrients_img"
+                    android:layout_height="@dimen/nutrients_img"
                     android:layout_gravity="center"
                     android:background="@drawable/ic_fat"
                     android:backgroundTint="@color/fat"
@@ -127,8 +127,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/foodlist">
 
                 <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="@dimen/nutrients_img"
+                    android:layout_height="@dimen/nutrients_img"
                     android:layout_gravity="center"
                     android:background="@drawable/carb_icon"
                     android:backgroundTint="@color/carb"
@@ -159,7 +159,7 @@
             android:gravity="center"
             android:text="@string/food_size"
             android:textColor="@color/black"
-            android:textSize="24sp" />
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/ed_gram"
@@ -170,7 +170,7 @@
             android:gravity="center"
             android:hint="Грамм"
             android:inputType="number"
-            android:minHeight="48dp" />
+            android:minHeight="42dp" />
 
         <Button
             android:id="@+id/button_add_food"
@@ -182,7 +182,7 @@
             android:paddingTop="3dp"
             android:text="@string/add"
             android:textColor="@color/green"
-            android:textSize="24sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
     </LinearLayout>

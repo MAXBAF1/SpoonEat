@@ -71,7 +71,7 @@
         <item name="aimybox_buttonExpandedIconTint">@color/white</item>
         <item name="aimybox_buttonGravity">bottom</item>
         <item name="aimybox_buttonMarginBottom">25dp</item>
-        <item name="aimybox_buttonMarginStart">170dp</item>
+        <item name="aimybox_buttonMarginStart">175dp</item>
         <item name="aimybox_backgroundColor">@color/green</item>
     </style>
 

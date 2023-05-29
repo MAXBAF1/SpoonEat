@@ -40,8 +40,9 @@
 
             <ImageView
                 android:id="@+id/foodImageView"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="120dp"
+                android:layout_height="107dp"
+                android:layout_gravity="center"
                 android:layout_marginBottom="5dp" />
 
             <TextView

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.movieretrofit.Firebase
+import com.example.movieretrofit.charts.ColumnCharts
 import com.example.movieretrofit.charts.LineCharts
 import com.example.movieretrofit.charts.calendar.CalendarDecorator
 import com.example.movieretrofit.charts.calendar.CurrentDayDecorator
@@ -29,6 +30,7 @@ class StatisticsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         firebase = Firebase()
         val charts = LineCharts()
+        val columnCharts = ColumnCharts()
         //firebase.getDayFoodFromFirebase{ setData() }
         firebase.getWeeklyNutrients { nutrientList ->
             charts.setLineChartCalories(binding.lCCalories, nutrientList)
@@ -42,6 +44,18 @@ class StatisticsFragment : Fragment() {
                     CurrentDayDecorator(requireActivity(), today),
                     CalendarDecorator(nutrientList)
                 )
+        }
+
+
+        firebase.getWeeklyNutrients { nutrientList ->
+            val columnCharts = ColumnCharts()
+            context?.let {
+                columnCharts.setColumnChartCalories(
+                    it,
+                    binding.columnNutrients,
+                    nutrientList
+                )
+            }
         }
     }
 
