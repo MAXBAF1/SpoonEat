@@ -33,7 +33,7 @@ class FoodTextInputEditTextAdapter(private val foodClickListener: FoodClickListe
         val foodCaloriesTv: TextView = holder.itemView.findViewById(R.id.food_calories_tv)
         val imageView: ImageView = holder.itemView.findViewById(R.id.foodImageView)
 
-        nameTextView.text = currentItem.name
+        nameTextView.text = currentItem.label
         foodCaloriesTv.visibility = View.GONE
         Picasso.get()
             .load(currentItem.image?.toUri())
@@ -42,14 +42,13 @@ class FoodTextInputEditTextAdapter(private val foodClickListener: FoodClickListe
             .into(imageView)
 
         holder.itemView.setOnClickListener {
-            foodClickListener.onFoodClickListener(currentItem.name!!)
+            foodClickListener.onFoodClickListener(currentItem.label!!)
         }
     }
 
     override fun getItemCount(): Int {
         return foodList.size
     }
-
 
     fun setData(foods: List<Food>) {
         this.foodList = foods

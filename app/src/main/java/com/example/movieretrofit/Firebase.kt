@@ -136,15 +136,13 @@ class Firebase {
         val nutrientsPath = query.child("nutrients")
         val nutrients = foodDataToSend.nutrients
         Log.e("item", nutrients.grams.toString())
-        query.child("name").setValue(foodDataToSend.name)
+        query.child("label").setValue(foodDataToSend.label)
         query.child("image").setValue(foodDataToSend.image)
         nutrientsPath.child("grams").setValue(nutrients.grams)
         nutrientsPath.child("calories").setValue(nutrients.calories * nutrients.grams)
         nutrientsPath.child("protein").setValue(nutrients.protein * nutrients.grams)
         nutrientsPath.child("fat").setValue(nutrients.fat * nutrients.grams)
-        nutrientsPath.child("carb").setValue(
-            (((nutrients.calories - (nutrients.fat * 9.3 + nutrients.protein * 4.1)) / 4.1) * nutrients.grams).toInt()
-        )
+        nutrientsPath.child("carb").setValue(nutrients.carb * nutrients.grams)
     }
 
     fun sendUserDietToFirebase(diet: Diet) {

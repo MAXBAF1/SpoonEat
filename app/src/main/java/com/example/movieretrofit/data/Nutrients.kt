@@ -1,28 +1,14 @@
 package com.example.movieretrofit.data
 
-class Nutrients() : java.io.Serializable {
-    var grams: Float = 1f
-    var calories: Float = 0f
-    var protein: Float = 0f
-    var fat: Float = 0f
-    var carb: Float = 0f
+import com.google.gson.annotations.SerializedName
 
-    constructor(
-        _grams: Float, _calories: Float, _protein: Float, _fat: Float, _carbs: Float
-    ) : this() {
-        grams = _grams
-        calories = _calories
-        protein = _protein
-        fat = _fat
-        carb = _carbs
-    }
-
-    fun updateWithNutrition(nutrition: Nutrition){
-        calories = nutrition.calories
-        protein = nutrition.protein.removeSuffix("g").toFloat()
-        fat = nutrition.fat.removeSuffix("g").toFloat()
-        carb = nutrition.carbs.removeSuffix("g").toFloat()
-    }
+data class Nutrients(
+    var grams: Float = 1f,
+    @SerializedName("ENERC_KCAL") var calories: Float = 0f,
+    @SerializedName("PROCNT") var protein: Float = 0f,
+    @SerializedName("FAT") var fat: Float = 0f,
+    @SerializedName("CHOCDF") var carb: Float = 0f
+) : java.io.Serializable {
 
     fun getDaySum(foodItems: List<Food>): Nutrients {
         var currentDaySum = Nutrients()
@@ -60,6 +46,5 @@ class Nutrients() : java.io.Serializable {
         carb += newNutrients.carb
         return this
     }
-
 }
 
