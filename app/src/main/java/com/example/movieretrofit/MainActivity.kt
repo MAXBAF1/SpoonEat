@@ -1,6 +1,5 @@
 package com.example.movieretrofit
 
-import android.os.Build
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -24,10 +23,8 @@ class MainActivity : AppCompatActivity(){
         binding.bNav.background = null
         binding.bNav.menu.getItem(2).isEnabled = false
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window.statusBarColor = ContextCompat.getColor(this, R.color.green)
-        }
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.green)
 
         openFragment(HomeFragment.newInstance())
         onBottomNavClick()

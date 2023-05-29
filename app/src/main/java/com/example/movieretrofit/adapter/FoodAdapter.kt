@@ -21,6 +21,7 @@ import kotlin.math.roundToInt
 class FoodAdapter(private val addFoodListener: AddFoodListener) :
     RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
     var foodList = emptyList<Food>()
+
     class FoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
@@ -34,14 +35,12 @@ class FoodAdapter(private val addFoodListener: AddFoodListener) :
         val food = foodList[position]
 
         Picasso.get()
-            .load(food.image?.toUri())
+            .load(food.image.toUri())
             .transform(RoundedCornersTransformation(10, 0))
             .placeholder(R.mipmap.ic_launcher)
             .into(holder.itemView.findViewById<ImageView>(R.id.food_image))
 
-        //holder.itemView.findViewById<TextView>(R.id.food_name).text = currentItem.name
-
-        initNutrientsTv(holder, food)
+        initTv(holder, food)
 
         holder.itemView.findViewById<Button>(R.id.button_add_food).setOnClickListener {
             val edGrams = holder.itemView.findViewById<EditText>(R.id.ed_gram).text
@@ -49,17 +48,20 @@ class FoodAdapter(private val addFoodListener: AddFoodListener) :
                 edGrams.toString().toFloat() / 100f
             }
             food.nutrients.grams = grams
-            Log.e("item", " in Food adapter $grams")
+            Log.e("item", " in Food adapter grams is $grams")
 
             addFoodListener.onFoodReceived(food)
-            Log.e("watcher", "1 in Food adapter onBindViewHolder addFoodListener ")
 
             val firebase = Firebase()
             firebase.sendCurrentMealDataToFirebase(food)
+            Log.e("edamam", " in Food adapter food to FB is ${food}")
+            Log.e("edamam", " in Food adapter food -fat- to FB is ${food.nutrients.fat}")
         }
     }
 
-    private fun initNutrientsTv(holder: FoodViewHolder, food: Food) {
+    private fun initTv(holder: FoodViewHolder, food: Food) {
+        holder.itemView.findViewById<TextView>(R.id.tv_food_label).text = food.label
+
         val protein = "${food.nutrients.protein.roundToInt()} г"
         val fat = "${food.nutrients.fat.roundToInt()} г"
         val carbs = "${food.nutrients.carb.roundToInt()} г"
