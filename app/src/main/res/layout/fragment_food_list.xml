@@ -49,6 +49,7 @@
         android:id="@+id/listsearch"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="45dp"
         android:foregroundGravity="center|center_horizontal"
         android:orientation="horizontal"
         android:visibility="visible"

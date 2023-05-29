@@ -37,7 +37,7 @@ class FoodAdapter(private val addFoodListener: AddFoodListener) :
         Picasso.get()
             .load(food.image.toUri())
             .transform(RoundedCornersTransformation(10, 0))
-            .placeholder(R.mipmap.ic_launcher)
+            .placeholder(R.drawable.main_icon)
             .into(holder.itemView.findViewById<ImageView>(R.id.food_image))
 
         initTv(holder, food)

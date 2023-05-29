@@ -36,9 +36,9 @@ class FoodTextInputEditTextAdapter(private val foodClickListener: FoodClickListe
         nameTextView.text = currentItem.label
         foodCaloriesTv.visibility = View.GONE
         Picasso.get()
-            .load(currentItem.image?.toUri())
+            .load(currentItem.image.toUri())
             .transform(RoundedCornersTransformation(10, 0))
-            .placeholder(R.mipmap.ic_launcher)
+            .placeholder(R.drawable.main_icon)
             .into(imageView)
 
         holder.itemView.setOnClickListener {
