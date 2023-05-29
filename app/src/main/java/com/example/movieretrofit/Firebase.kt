@@ -134,9 +134,9 @@ class Firebase {
     fun sendCurrentMealDataToFirebase(foodDataToSend: Food) {
         val query = dateRef.child(usersRef.push().key ?: "blablabla")
         val nutrientsPath = query.child("nutrients")
-        val nutrients = foodDataToSend.realNutrients
+        val nutrients = foodDataToSend.nutrients
         Log.e("item", nutrients.grams.toString())
-        query.child("name").setValue(foodDataToSend.label)
+        query.child("label").setValue(foodDataToSend.label)
         query.child("image").setValue(foodDataToSend.image)
         nutrientsPath.child("grams").setValue(nutrients.grams)
         nutrientsPath.child("calories").setValue(nutrients.calories * nutrients.grams)

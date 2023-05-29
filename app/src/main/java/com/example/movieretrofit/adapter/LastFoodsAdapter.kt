@@ -23,7 +23,7 @@ class LastFoodsAdapter(private val context: Context, private val foods: List<Foo
 
         fun bind(food: Food) {
             nameTextView.text = food.label
-            val caloriesText = "${food.realNutrients.calories.roundToInt()} кКал"
+            val caloriesText = "${food.nutrients.calories.roundToInt()} кКал"
             foodCaloriesTv.text = caloriesText
             loadImage(food.image, imageView)
         }

@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.Log
 import com.example.movieretrofit.Firebase
 import com.example.movieretrofit.data.Food
-import com.example.movieretrofit.data.Nutrients
 import com.example.movieretrofit.model.restFoodApi
 import com.justai.aimybox.Aimybox
 import com.justai.aimybox.api.aimybox.AimyboxRequest

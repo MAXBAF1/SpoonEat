@@ -5,6 +5,3 @@ data class FoodList(
     val text: String
 )
 
-data class FoodWithoutMeasures(
-    val food: Food
-)

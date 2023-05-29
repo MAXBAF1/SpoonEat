@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/foodlist"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         android:gravity="center_horizontal"
         android:orientation="vertical"
@@ -19,6 +19,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
+
+        <TextView
+            android:id="@+id/tv_food_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/main_font"
+            android:gravity="center"
+            android:text="Granola"
+            android:textColor="@color/black"
+            android:textSize="34sp" />
 
         <LinearLayout
             android:id="@+id/foodlist1"
@@ -33,7 +44,7 @@
 
             <ImageView
                 android:id="@+id/food_image"
-                android:layout_width="350dp"
+                android:layout_width="300dp"
                 android:layout_height="300dp"
                 app:srcCompat="@drawable/food_example_image" />
 
@@ -42,6 +53,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
             android:background="@color/white"
             android:gravity="center">
