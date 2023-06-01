@@ -39,7 +39,7 @@ class BarCharts {
 
         val data = BarData(dataSet)
         dataSet.valueTextColor = Color.BLACK
-        data.barWidth = 0.7f // ширина колонок
+        data.barWidth = 0.8f // ширина колонок
         data.setValueFormatter(object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
                 return "${value.roundToInt()}%"
@@ -96,7 +96,6 @@ class BarCharts {
         }
 
         barChart.data = data
-        barChart.setFitBars(true)
         barChart.xAxis.setDrawGridLines(false)
         barChart.axisLeft.setDrawGridLines(false)
         rightAxis.setDrawGridLines(false)
