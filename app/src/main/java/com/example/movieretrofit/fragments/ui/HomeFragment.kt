@@ -82,7 +82,9 @@ class HomeFragment : Fragment() {
             firebase.getDayFood(dateRef) { foods ->
                 nutrients = nutrients.getDaySum(foods)
                 setDataToTextView()
-                context?.let { barCharts.setBarChart(it, binding.barChart, nutrients, diet) }
+                context?.let {
+                    barCharts.setBarChart(it, binding.barChart,nutrients, diet)
+                }
             }
         }
     }

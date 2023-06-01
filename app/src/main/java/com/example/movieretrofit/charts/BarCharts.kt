@@ -81,7 +81,7 @@ class BarCharts {
             labelRotationAngle = -90f
             setDrawLabels(true)
         }
-        
+
         xAxis.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
                 return when (value) {
@@ -91,6 +91,8 @@ class BarCharts {
                     else -> ""
                 }
             }
+        }.apply {
+            xAxis.setLabelCount(3, false)
         }
 
         barChart.data = data
@@ -110,7 +112,7 @@ class BarCharts {
         ll1.lineWidth = 3f
         //ll1.labelPosition = LimitLabelPosition.RIGHT_TOP
 
-        leftAxis.removeAllLimitLines() // reset all limit lines to avoid overlapping lines
+        leftAxis.removeAllLimitLines()
         leftAxis.addLimitLine(ll1)
     }
 }

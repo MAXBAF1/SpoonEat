@@ -67,6 +67,8 @@ class LineCharts {
         lineChart.legend.isEnabled = true
         lineChart.description.isEnabled = false
 
+        lineChart.isDoubleTapToZoomEnabled = false
+
         lineChart.data = lineData
         lineChart.invalidate()
     }
