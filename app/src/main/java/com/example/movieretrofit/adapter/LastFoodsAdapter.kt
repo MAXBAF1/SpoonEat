@@ -30,10 +30,18 @@ class LastFoodsAdapter(private val context: Context, private val foods: List<Foo
     }
 
     private fun loadImage(url: String?, imageView: ImageView) {
-        Glide.with(context)
-            .load(url)
-            .transform(RoundedCorners(10))
-            .into(imageView)
+        if (url.isNullOrEmpty()){
+            Glide.with(context)
+                .load(R.drawable.main_icon)
+                .transform(RoundedCorners(10))
+                .into(imageView)
+        }
+        else {
+            Glide.with(context)
+                .load(url)
+                .transform(RoundedCorners(10))
+                .into(imageView)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
