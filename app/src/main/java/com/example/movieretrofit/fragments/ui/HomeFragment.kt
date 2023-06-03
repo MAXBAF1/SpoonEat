@@ -20,11 +20,14 @@ import com.google.firebase.database.DatabaseReference
 import com.michalsvec.singlerowcalendar.calendar.CalendarChangesObserver
 import com.michalsvec.singlerowcalendar.utils.DateUtils
 import java.util.*
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var firebase: Firebase
+    private var monthCounter = 5;
+    private lateinit var months: Array<String>;
 
     var nutrients = Nutrients()
     var barCharts = BarCharts()
@@ -45,6 +48,8 @@ class HomeFragment : Fragment() {
         binding.lastFoodsRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
 
+        months = arrayOf("Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь")
+        binding.tvMonth.text = months[abs(monthCounter % 12)]
         setCalendar()
     }
 
@@ -69,9 +74,13 @@ class HomeFragment : Fragment() {
         scrollingCalendar.initCalendar(myCalendarChangesObserver)
 
         binding.btnLeft.setOnClickListener {
+            monthCounter -= 1
+            binding.tvMonth.text = months[abs(monthCounter % 12)]
             scrollingCalendar.setPreviousMonthDates()
         }
         binding.btnRight.setOnClickListener {
+            monthCounter += 1
+            binding.tvMonth.text = months[abs(monthCounter % 12)]
             scrollingCalendar.setNextMonthDates()
         }
     }

@@ -27,5 +27,4 @@ class AimyActivity : AppCompatActivity() {
                 as? AimyboxAssistantFragment)
         if (assistantFragment?.onBackPressed() != true) super.onBackPressed()
     }
-
 }

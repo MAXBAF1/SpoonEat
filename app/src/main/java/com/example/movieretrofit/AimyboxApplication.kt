@@ -27,7 +27,7 @@ class AimyboxApplication : Application(), AimyboxProvider {
         val textToSpeech = GooglePlatformTextToSpeech(context, Locale.ENGLISH)
         val speechToText = GooglePlatformSpeechToText(context, Locale.ENGLISH)
         val dialogApi = AimyboxDialogApi(
-            "<API_KEY>",
+            "<AIMYBOX_API_KEY>",
             unitId,
             customSkills = linkedSetOf(ChangeViewSkill(context))
         )

@@ -2,14 +2,19 @@ package com.example.movieretrofit.utils
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.example.movieretrofit.Firebase
 import com.example.movieretrofit.data.Food
 import com.example.movieretrofit.data.FoodList
 import com.example.movieretrofit.data.Nutrients
+import com.example.movieretrofit.model.FoodApiService
 import com.example.movieretrofit.model.restFoodApi
 import com.justai.aimybox.Aimybox
 import com.justai.aimybox.api.aimybox.AimyboxRequest
 import com.justai.aimybox.api.aimybox.AimyboxResponse
+import com.justai.aimybox.components.AimyboxAssistantViewModel
+import com.justai.aimybox.components.widget.AssistantWidget
+import com.justai.aimybox.components.widget.ResponseWidget
 import com.justai.aimybox.core.CustomSkill
 import com.justai.aimybox.model.Response
 
@@ -29,15 +34,25 @@ class ChangeViewSkill(private val context: Context) : CustomSkill<AimyboxRequest
 
         val words = queryRequest.split(" ")
 
-        if ("calories" in words)  findCalories()
+        if ("calories" in words || "how" in words) findCalories(words, foodApiService)
         else addFood(allFood)
+
+        var aitest = AimyboxAssistantViewModel(aimybox)
+        Log.e("aimybox", "widgets is ${aitest.widgets.value}")
+        aitest.widgets.value
 
         return request
     }
 
-    private fun findCalories() {
+    private suspend fun findCalories(words: List<String>, foodApiService: FoodApiService) {
+        val currFood = foodApiService.getFoodRecipe(words[1])
 
+        if (currFood.isSuccessful) {
+            var calories = currFood.body()!!.hints[0].food.nutrients.calories
+            Log.e("aimybox", "${calories}")
+        }
     }
+
 
     private fun addFood(allFood: retrofit2.Response<FoodList>) {
         if (allFood.isSuccessful) {
@@ -70,6 +85,7 @@ class ChangeViewSkill(private val context: Context) : CustomSkill<AimyboxRequest
         aimybox: Aimybox,
         defaultHandler: suspend (Response) -> Unit
     ) {
+
 
         Log.e("aimybox", "onResponse query request is $queryRequest")
     }
