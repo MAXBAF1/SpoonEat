@@ -50,11 +50,13 @@ class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
         recyclerViewTextInput.layoutManager = GridLayoutManager(requireContext(), 2)
 
         binding.tvFood.addTextChangedListener(simpleTextWatcher)
+        binding.errorlist.visibility = View.VISIBLE
 
         //ViewModel
         foodViewModel = ViewModelProvider(this)[FoodViewModel::class.java]
 
         binding.textInputLayout.setEndIconOnClickListener {
+
             lifecycleScope.launch {
 
                 binding.progressBar.visibility = View.VISIBLE
@@ -64,6 +66,7 @@ class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
                     val recipes = foodViewModel.getFoods(tvFoodEditText)
                     Log.d("FOOD", "$recipes")
                     adapter.setData(recipes)
+                    binding.errorlist.visibility = View.GONE
                     binding.recyclerFood.visibility = View.VISIBLE
                     binding.progressBar.visibility = View.GONE
 
@@ -93,12 +96,12 @@ class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
     // TextWatcher
     private val simpleTextWatcher = object : TextWatcher {
 
-        override fun beforeTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-        }
+        override fun beforeTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {        }
 
         override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
             binding!!.listsearch.visibility = View.VISIBLE
+            binding!!.errorlist.visibility = View.GONE
+
         }
 
         override fun afterTextChanged(s: Editable?) {
@@ -112,8 +115,10 @@ class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
                         val foods = foodViewModel.getFoods(text)
                         emit(adapterTextInput.setData(foods.takeLast(foods.size - 1)))
                         binding!!.progressBar.visibility = View.GONE
-                        Log.d("textWatcher", text)
-                        if (s!!.isEmpty()) binding!!.listsearch.visibility = View.GONE
+                        if (s!!.isEmpty()) {
+                            binding!!.listsearch.visibility = View.GONE
+                            binding!!.errorlist.visibility = View.VISIBLE
+                        }
                     } catch (_: Exception) {
                     }
                 }.collect()

@@ -68,11 +68,11 @@
     </FrameLayout>
 
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/errorlist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:visibility="gone"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -83,18 +83,18 @@
             android:id="@+id/imageView"
             android:layout_width="276dp"
             android:layout_height="200dp"
-            android:src="@drawable/ic_notsearch"
+            android:src="@drawable/baseline_search_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:hint="Food not found"
-            android:layout_width="276dp"
+            android:hint="Начните вводить название продукта"
+            android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textSize="30dp"
+            android:textSize="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
