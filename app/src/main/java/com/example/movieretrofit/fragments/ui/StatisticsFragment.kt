@@ -1,11 +1,13 @@
 package com.example.movieretrofit.fragments.ui
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.movieretrofit.Firebase
+import com.example.movieretrofit.R
 import com.example.movieretrofit.charts.ColumnCharts
 import com.example.movieretrofit.charts.LineCharts
 import com.example.movieretrofit.charts.calendar.CalendarDecorator
@@ -60,6 +62,10 @@ class StatisticsFragment : Fragment() {
 
 
         binding.monthButton.setOnClickListener {
+            binding.monthButton.setBackgroundResource(R.drawable.add_btn_background_blue)
+            binding.weekButton.setBackgroundResource(R.drawable.add_btn_background)
+            binding.weekButton.setTextColor(Color.BLACK)
+            binding.monthButton.setTextColor(Color.WHITE)
             binding.lCNutrients.visibility = View.GONE
             binding.columnNutrients.visibility = View.GONE
           //  binding.lCCalories.visibility = View.GONE
@@ -68,6 +74,10 @@ class StatisticsFragment : Fragment() {
         }
 
         binding.weekButton.setOnClickListener {
+            binding.weekButton.setBackgroundResource(R.drawable.add_btn_background_blue)
+            binding.monthButton.setBackgroundResource(R.drawable.add_btn_background)
+            binding.weekButton.setTextColor(Color.WHITE)
+            binding.monthButton.setTextColor(Color.BLACK)
             binding.lCNutrients.visibility = View.VISIBLE
             binding.columnNutrients.visibility = View.VISIBLE
           //  binding.lCCalories.visibility = View.VISIBLE
