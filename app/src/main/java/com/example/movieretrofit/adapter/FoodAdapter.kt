@@ -52,6 +52,7 @@ class FoodAdapter(private val addFoodListener: AddFoodListener) :
 
             addFoodListener.onFoodReceived(food)
 
+
             val firebase = Firebase()
             firebase.sendCurrentMealDataToFirebase(food)
             Log.e("edamam", " in Food adapter food to FB is ${food}")

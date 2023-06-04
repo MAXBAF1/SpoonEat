@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -21,8 +22,10 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import kotlin.math.roundToInt
 
-class LastFoodsAdapter(private val context: Context, private val foods: List<Food>) :
-    RecyclerView.Adapter<LastFoodsAdapter.FoodViewHolder>() {
+class LastFoodsAdapter(
+    private val context: Context,
+    private val foods: List<Food>
+    ) :  RecyclerView.Adapter<LastFoodsAdapter.FoodViewHolder>() {
 
     inner class FoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val nameTextView: TextView = itemView.findViewById(R.id.foodNameTextView)

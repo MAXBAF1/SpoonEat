@@ -143,7 +143,7 @@ class HomeFragment : Fragment() {
                 for (childSnap in snapshot.children) {
                     if (numToDelete == counter){
                         childSnap.ref.removeValue()
-                        //updateViews()
+                        updateViews()
                         break
                     }
                     else{

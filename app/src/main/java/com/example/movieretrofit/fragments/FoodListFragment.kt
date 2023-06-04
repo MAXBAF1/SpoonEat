@@ -100,6 +100,7 @@ class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
 
         override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
             binding!!.listsearch.visibility = View.VISIBLE
+            binding!!.recyclerFood.visibility = View.GONE
             binding!!.errorlist.visibility = View.GONE
 
         }
@@ -116,6 +117,7 @@ class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
                         emit(adapterTextInput.setData(foods.takeLast(foods.size - 1)))
                         binding!!.progressBar.visibility = View.GONE
                         if (s!!.isEmpty()) {
+                            binding!!.recyclerFood.visibility = View.GONE
                             binding!!.listsearch.visibility = View.GONE
                             binding!!.errorlist.visibility = View.VISIBLE
                         }
