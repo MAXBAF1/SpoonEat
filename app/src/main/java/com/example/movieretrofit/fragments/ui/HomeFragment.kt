@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TimePicker
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -24,7 +25,10 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.michalsvec.singlerowcalendar.calendar.CalendarChangesObserver
 import com.michalsvec.singlerowcalendar.utils.DateUtils
+import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
+import java.time.Month
+import java.time.format.TextStyle
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -153,8 +157,20 @@ class HomeFragment : Fragment() {
 
                     Log.e("dateref", "------------dateString is $dateString")
                     Log.e("dateref", "------------date is $date")
+                    Log.e("dateref", "------------Calendar.MONTH is ${Calendar.MONTH}")
 
-                    if (date.equals(dateString)) {
+                    Log.e("dateref", "------------dateString is $dateString")
+                    Log.e("dateref", "------------date is $date")
+
+                    val calendar = Calendar.getInstance()
+                    val month = calendar.get(Calendar.MONTH)
+                    val symbols = DateFormatSymbols(Locale("ru"))
+                    val monthName = symbols.months[month]
+
+                    Log.e("dateref", "------------monthName is ${monthName}")
+                    Log.e("dateref", "------------binding is ${binding.tvMonth.text }")
+
+                    if (date == dateString) {
                         if (numToDelete == counter) {
                             childSnap.ref.removeValue()
                             //updateViews()
@@ -162,6 +178,9 @@ class HomeFragment : Fragment() {
                         } else {
                             counter--
                         }
+                    }
+                    else{
+                        //Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

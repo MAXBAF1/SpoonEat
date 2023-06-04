@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/sign_in_background"
+    android:background="@drawable/sign_in"
     tools:context=".SignInActivity">
 
     <TextView
@@ -13,9 +13,10 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/main_font"
         android:text="@string/welcome"
-        android:textColor="@color/carb"
-        android:textSize="24sp"
+        android:textColor="@color/protein"
+        android:textSize="36sp"
         android:textStyle="bold"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +33,7 @@
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:text="Войти"
-        android:textColor="@color/protein"
+        android:textColor="@color/white"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
