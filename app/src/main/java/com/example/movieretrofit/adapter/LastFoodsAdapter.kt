@@ -2,6 +2,7 @@ package com.example.movieretrofit.adapter
 
 import android.app.AlertDialog
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +11,20 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.example.movieretrofit.Firebase
 import com.example.movieretrofit.R
 import com.example.movieretrofit.data.Food
+import com.example.movieretrofit.fragments.ui.HomeFragment
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import kotlin.math.roundToInt
 
 class LastFoodsAdapter(private val context: Context, private val foods: List<Food>) :
     RecyclerView.Adapter<LastFoodsAdapter.FoodViewHolder>() {
+    lateinit var dateRef: DatabaseReference
+    private lateinit var firebase: Firebase
 
     inner class FoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val nameTextView: TextView = itemView.findViewById(R.id.foodNameTextView)
@@ -27,6 +36,9 @@ class LastFoodsAdapter(private val context: Context, private val foods: List<Foo
             val caloriesText = "${food.nutrients.calories.roundToInt()} кКал"
             foodCaloriesTv.text = caloriesText
             loadImage(food.image, imageView)
+            firebase = Firebase()
+            firebase.loadUser()
+            dateRef = firebase.mealRef.child(firebase.date)
         }
     }
 
@@ -66,12 +78,33 @@ class LastFoodsAdapter(private val context: Context, private val foods: List<Foo
                         "Углеводы:  ${food.nutrients.carb}" + "\n" + "\n" +
                         "Всего грамм:  ${food.nutrients.grams * 100}"
             )
-            builder.setPositiveButton("Ок") { dialog, which ->
-                // кнопка "Ok" нажата
-            }
+            builder.setPositiveButton("Ок") { dialog, which -> }
             builder.setNegativeButton("Удалить") { dialog, which ->
-                // Удалить
+                Log.e("alert", "position is $position")
+                deleteItemByIndex(position + 1)
             }
             builder.show()
-        }    }
+        }
+    }
+
+    private fun deleteItemByIndex(numToDelete: Int) {
+        var counter = numToDelete
+        dateRef.orderByKey().limitToLast(numToDelete).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (childSnap in snapshot.children) {
+                    if (numToDelete == counter){
+                        childSnap.ref.removeValue()
+                        break
+                    }
+                    else{
+                        counter -- 
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("onDeleteClick", "onCancelled", error.toException())
+            }
+        })
+    }
 }

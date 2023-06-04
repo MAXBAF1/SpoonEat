@@ -16,7 +16,10 @@ import com.example.movieretrofit.charts.calendarRow.ScrollingCalendarRow
 import com.example.movieretrofit.data.Nutrients
 import com.example.movieretrofit.databinding.FragmentHomeBinding
 import com.example.movieretrofit.model.SharedViewModel
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.michalsvec.singlerowcalendar.calendar.CalendarChangesObserver
 import com.michalsvec.singlerowcalendar.utils.DateUtils
 import java.util.*
@@ -118,22 +121,6 @@ class HomeFragment : Fragment() {
         binding.tvCarbs.text = carbText
     }
 
-    /*private fun onClickDelete() {
-        binding.btnDelete.setOnClickListener {
-            dateRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    val lastChildKey = dataSnapshot.children.lastOrNull()!!.key
-                    lastChildKey?.let { key ->
-                        dateRef.child(key).removeValue()
-                    }
-                    updateViews()
-                }
-                override fun onCancelled(databaseError: DatabaseError) {
-                    Log.e("item", "onCancelled", databaseError.toException())
-                }
-            })
-        }
-    }*/
 
     fun updateNutrientsListener() {
         val viewModel: SharedViewModel by activityViewModels()
