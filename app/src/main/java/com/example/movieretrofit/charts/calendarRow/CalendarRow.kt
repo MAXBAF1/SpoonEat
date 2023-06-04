@@ -9,7 +9,7 @@ class CalendarRow() {
 
 
     fun getDatesOfNextMonth(): List<Date> {
-        currentMonth++ // + because we want next month
+        currentMonth++
         if (currentMonth == 12) {
             calendar.set(Calendar.YEAR, calendar[Calendar.YEAR] + 1)
             currentMonth = 0 // 0 == january
@@ -18,9 +18,8 @@ class CalendarRow() {
     }
 
     fun getDatesOfPreviousMonth(): List<Date> {
-        currentMonth-- // - because we want previous month
+        currentMonth--
         if (currentMonth == -1) {
-            // we will switch to december of previous year, when we reach first month of year
             calendar.set(Calendar.YEAR, calendar[Calendar.YEAR] - 1)
             currentMonth = 11 // 11 == december
         }
