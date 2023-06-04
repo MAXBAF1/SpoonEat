@@ -23,8 +23,6 @@ import kotlin.math.roundToInt
 
 class LastFoodsAdapter(private val context: Context, private val foods: List<Food>) :
     RecyclerView.Adapter<LastFoodsAdapter.FoodViewHolder>() {
-    lateinit var dateRef: DatabaseReference
-    private lateinit var firebase: Firebase
 
     inner class FoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val nameTextView: TextView = itemView.findViewById(R.id.foodNameTextView)
@@ -36,9 +34,7 @@ class LastFoodsAdapter(private val context: Context, private val foods: List<Foo
             val caloriesText = "${food.nutrients.calories.roundToInt()} кКал"
             foodCaloriesTv.text = caloriesText
             loadImage(food.image, imageView)
-            firebase = Firebase()
-            firebase.loadUser()
-            dateRef = firebase.mealRef.child(firebase.date)
+
         }
     }
 
@@ -81,30 +77,10 @@ class LastFoodsAdapter(private val context: Context, private val foods: List<Foo
             builder.setPositiveButton("Ок") { dialog, which -> }
             builder.setNegativeButton("Удалить") { dialog, which ->
                 Log.e("alert", "position is $position")
-                deleteItemByIndex(position + 1)
+                var homeFragment = HomeFragment()
+                homeFragment.deleteItemByIndex(position + 1)
             }
             builder.show()
         }
-    }
-
-    private fun deleteItemByIndex(numToDelete: Int) {
-        var counter = numToDelete
-        dateRef.orderByKey().limitToLast(numToDelete).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                for (childSnap in snapshot.children) {
-                    if (numToDelete == counter){
-                        childSnap.ref.removeValue()
-                        break
-                    }
-                    else{
-                        counter -- 
-                    }
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.e("onDeleteClick", "onCancelled", error.toException())
-            }
-        })
     }
 }

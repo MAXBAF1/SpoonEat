@@ -132,6 +132,32 @@ class HomeFragment : Fragment() {
         }
     }
 
+    fun deleteItemByIndex(numToDelete: Int) {
+        var firebase = Firebase()
+        firebase.loadUser()
+        var dateRef = firebase.mealRef.child(firebase.date)
+
+        var counter = numToDelete
+        dateRef.orderByKey().limitToLast(numToDelete).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (childSnap in snapshot.children) {
+                    if (numToDelete == counter){
+                        childSnap.ref.removeValue()
+                        //updateViews()
+                        break
+                    }
+                    else{
+                        counter --
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("onDeleteClick", "onCancelled", error.toException())
+            }
+        })
+    }
+
     companion object {
         @JvmStatic
         fun newInstance() = HomeFragment()
