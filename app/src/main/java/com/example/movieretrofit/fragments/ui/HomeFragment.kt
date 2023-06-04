@@ -1,13 +1,10 @@
 package com.example.movieretrofit.fragments.ui
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TimePicker
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,10 +22,6 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.michalsvec.singlerowcalendar.calendar.CalendarChangesObserver
 import com.michalsvec.singlerowcalendar.utils.DateUtils
-import java.text.DateFormatSymbols
-import java.text.SimpleDateFormat
-import java.time.Month
-import java.time.format.TextStyle
 import java.util.*
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -148,39 +141,13 @@ class HomeFragment : Fragment() {
         dateRef.orderByKey().limitToLast(numToDelete).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (childSnap in snapshot.children) {
-
-                    val dateString = dateRef.toString().split("/").last().replace("%3A", "")
-                    val dateFormat = SimpleDateFormat("dd-MM-yyyy")
-                    val today = Date()
-                    val formattedDate = dateFormat.format(today)
-                    var date: String = formattedDate.replace("-", "")
-
-                    Log.e("dateref", "------------dateString is $dateString")
-                    Log.e("dateref", "------------date is $date")
-                    Log.e("dateref", "------------Calendar.MONTH is ${Calendar.MONTH}")
-
-                    Log.e("dateref", "------------dateString is $dateString")
-                    Log.e("dateref", "------------date is $date")
-
-                    val calendar = Calendar.getInstance()
-                    val month = calendar.get(Calendar.MONTH)
-                    val symbols = DateFormatSymbols(Locale("ru"))
-                    val monthName = symbols.months[month]
-
-                    Log.e("dateref", "------------monthName is ${monthName}")
-                    Log.e("dateref", "------------binding is ${binding.tvMonth.text }")
-
-                    if (date == dateString) {
-                        if (numToDelete == counter) {
-                            childSnap.ref.removeValue()
-                            //updateViews()
-                            break
-                        } else {
-                            counter--
-                        }
+                    if (numToDelete == counter){
+                        childSnap.ref.removeValue()
+                        //updateViews()
+                        break
                     }
                     else{
-                        //Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
+                        counter --
                     }
                 }
             }
