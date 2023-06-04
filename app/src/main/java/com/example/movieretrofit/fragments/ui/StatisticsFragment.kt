@@ -57,7 +57,25 @@ class StatisticsFragment : Fragment() {
                 )
             }
         }
+
+
+        binding.monthButton.setOnClickListener {
+            binding.lCNutrients.visibility = View.GONE
+            binding.columnNutrients.visibility = View.GONE
+          //  binding.lCCalories.visibility = View.GONE
+            binding.calendarView.visibility = View.VISIBLE
+            binding.linearLayout.visibility = View.GONE
+        }
+
+        binding.weekButton.setOnClickListener {
+            binding.lCNutrients.visibility = View.VISIBLE
+            binding.columnNutrients.visibility = View.VISIBLE
+          //  binding.lCCalories.visibility = View.VISIBLE
+            binding.calendarView.visibility = View.GONE
+            binding.linearLayout.visibility = View.VISIBLE
+        }
     }
+
 
     companion object {
         @JvmStatic
