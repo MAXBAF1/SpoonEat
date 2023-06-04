@@ -1,5 +1,6 @@
 package com.example.movieretrofit.adapter
 
+import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -53,6 +54,24 @@ class LastFoodsAdapter(private val context: Context, private val foods: List<Foo
     override fun getItemCount(): Int = foods.size
 
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
-        holder.bind(foods[position])
-    }
+        val food = foods[position]
+        holder.bind(food)
+        holder.itemView.setOnClickListener {
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle(food.label)
+            builder.setMessage(
+                "Калории: ${food.nutrients.calories}" + "\n" +
+                        "Белки: ${food.nutrients.protein}" + "\n" +
+                        "Жиры: ${food.nutrients.fat}" + "\n" +
+                        "Углеводы:  ${food.nutrients.carb}" + "\n" + "\n" +
+                        "Всего грамм:  ${food.nutrients.grams * 100}"
+            )
+            builder.setPositiveButton("Ок") { dialog, which ->
+                // кнопка "Ok" нажата
+            }
+            builder.setNegativeButton("Удалить") { dialog, which ->
+                // Удалить
+            }
+            builder.show()
+        }    }
 }
