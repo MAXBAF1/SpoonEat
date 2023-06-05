@@ -18,6 +18,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
+        <ImageButton
+            android:id="@+id/ctoss_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_weight="0"
+            android:backgroundTint="#00FFFFFF"
+            android:minHeight="48dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_cross" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,22 +39,13 @@
             android:paddingRight="@dimen/margin_last_food_container"
             android:paddingBottom="5dp">
 
-            <ImageButton
-                android:id="@+id/ctoss_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0"
-                android:backgroundTint="#00FFFFFF"
-                android:minHeight="48dp"
-                android:visibility="gone"
-                app:srcCompat="@drawable/ic_cross" />
-
             <ImageView
                 android:id="@+id/foodImageView"
-                android:layout_width="120dp"
-                android:layout_height="107dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp" />
+                android:layout_marginBottom="5dp"
+                app:srcCompat="@drawable/food_example_image" />
 
             <TextView
                 android:id="@+id/foodNameTextView"

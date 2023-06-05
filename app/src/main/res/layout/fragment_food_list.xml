@@ -72,8 +72,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:visibility="gone"
         android:orientation="vertical"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,17 +90,19 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:hint="Начните вводить название продукта"
-            android:layout_width="230dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/main_font"
             android:gravity="center"
-            android:textSize="24dp"
+            android:hint="Начните вводить название продукта"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
-
-            />
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
     </LinearLayout>
 
     <ProgressBar

@@ -58,16 +58,14 @@ class LineCharts {
 
     private fun settingsLineChart(lineChart: LineChart, lineData: LineData, startWeek: Int) {
         //lineChart.axisLeft.setDrawLabels(false)
-        lineChart.isDoubleTapToZoomEnabled = false
-        lineChart.setScaleEnabled(false)
+        lineChart.isDoubleTapToZoomEnabled = false // Предотвращение растяжения пользователем
+        lineChart.setScaleEnabled(false) // Предотвращение растяжения пользователем
         lineChart.axisRight.setDrawLabels(false)
         lineChart.xAxis.setDrawGridLines(false)
         lineChart.xAxis.axisMaximum = startWeek + 6 + 0.5f
 
-        lineChart.legend.isEnabled = true
+        lineChart.legend.isEnabled = false // Легенда
         lineChart.description.isEnabled = false
-
-        lineChart.isDoubleTapToZoomEnabled = false
 
         lineChart.data = lineData
         lineChart.invalidate()

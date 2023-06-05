@@ -23,7 +23,7 @@ class Firebase {
 
     private var auth: FirebaseAuth = Firebase.auth
     private val sdf = SimpleDateFormat("dd:MM:yyyy", Locale.getDefault())
-    var date = sdf.format(Calendar.getInstance().time)
+    private var date = sdf.format(Calendar.getInstance().time)
 
     init {
         username = auth.currentUser!!.displayName.toString()
@@ -33,6 +33,7 @@ class Firebase {
         mealRef = usernameRef.child("meal")
         dateRef = mealRef.child(date)
         dietRef = usernameRef.child("diet")
+        getUserDietFromFirebase { diet = it}
     }
 
     fun loadUser() {
@@ -118,10 +119,10 @@ class Firebase {
     fun getUserDietFromFirebase(callback: (diet: Diet) -> Unit) {
         dietRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val dietHashMap = dataSnapshot.value as? HashMap<*, Int>
+                val dietDict = dataSnapshot.value as? HashMap<*, Int>
 
-                if (dietHashMap != null) diet =
-                    Diet(dietHashMap["protein"]!!, dietHashMap["fat"]!!, dietHashMap["carbs"]!!)
+                if (dietDict != null)
+                    diet = Diet(dietDict["protein"]!!, dietDict["fat"]!!, dietDict["carbs"]!!)
                 callback(diet)
             }
 

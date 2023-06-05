@@ -24,16 +24,13 @@ class CalendarDecorator(private var nutrientList: List<Nutrients>) : DayViewDeco
                 && day.day < today
     }
 
-    private fun getColor(callback: (color: Int) -> Unit) {
-        firebase.getUserDietFromFirebase { diet ->
-            val currCf = nutrientList.last().getBalancedNutrientsInPercentage(diet)
+    private fun getColor(): Int {
+        val currCf = nutrientList.last().getBalancedNutrientsInPercentage(firebase.diet)
 
-            val color = when {
-                isInBounds(currCf, 90F..110F) -> Color.GREEN
-                isInBounds(currCf, 80F..120F) -> Color.YELLOW
-                else -> Color.RED
-            }
-            callback(color)
+        return when {
+            isInBounds(currCf, 90F..110F) -> Color.GREEN
+            isInBounds(currCf, 80F..120F) -> Color.YELLOW
+            else -> Color.RED
         }
     }
 
@@ -43,9 +40,8 @@ class CalendarDecorator(private var nutrientList: List<Nutrients>) : DayViewDeco
     }
 
     override fun decorate(view: DayViewFacade?) {
-        getColor {
-            Log.e("item", "CalendarDecorator, fun decorate, color is " + it.toString())
-            view?.addSpan(object : ForegroundColorSpan(it) {})
-        }
+        val color = getColor()
+        Log.e("item", "CalendarDecorator, fun decorate, color is $color")
+        view?.addSpan(object : ForegroundColorSpan(color) {})
     }
 }

@@ -14,21 +14,17 @@ import java.util.*
 class ColumnCharts {
     private val startWeek = Calendar.getInstance().get(Calendar.DAY_OF_MONTH) - 6
 
-    fun setColumnChartCalories(context: Context, barChart: BarChart, nutrientList: List<Nutrients>) {
+    fun setColumnChartCalories(
+        context: Context, barChart: BarChart, nutrientList: List<Nutrients>
+    ) {
         val entriesProtein = mutableListOf<BarEntry>()
         val entriesFat = mutableListOf<BarEntry>()
         val entriesCarbs = mutableListOf<BarEntry>()
 
         nutrientList.forEachIndexed { index, value ->
-            entriesProtein.add(
-                BarEntry(startWeek + index.toFloat(), value.protein)
-            )
-            entriesFat.add(
-                BarEntry(startWeek + index.toFloat(), value.fat)
-            )
-            entriesCarbs.add(
-                BarEntry(startWeek + index.toFloat(), value.carb)
-            )
+            entriesProtein.add(BarEntry(startWeek + index.toFloat(), value.protein))
+            entriesFat.add(BarEntry(startWeek + index.toFloat(), value.fat))
+            entriesCarbs.add(BarEntry(startWeek + index.toFloat(), value.carb))
         }
 
         val dataSetProtein = BarDataSet(entriesProtein, "Белки")
@@ -43,26 +39,24 @@ class ColumnCharts {
         val carbColor = context.getColor(R.color.carb)
         settingsDataSet(dataSetCarbs, carbColor)
 
-        val groupSpace = 0.06f
-        val barSpace = 0.02f
+        val groupSpace = 0.1f
+        val barSpace = 0.0f
         val barWidth = 0.3f
 
-        val barData = BarData(
-            arrayListOf<IBarDataSet>().apply {
-                if (nutrientList.any { it.protein > 0 && it.fat > 0 && it.carb > 0 }) {
-                    add(dataSetProtein)
-                    add(dataSetFat)
-                    add(dataSetCarbs)
-                } else {
-                    dataSetProtein.color = Color.TRANSPARENT
-                    dataSetFat.color = Color.TRANSPARENT
-                    dataSetCarbs.color = Color.TRANSPARENT
-                    add(dataSetProtein)
-                    add(dataSetFat)
-                    add(dataSetCarbs)
-                }
+        val barData = BarData(arrayListOf<IBarDataSet>().apply {
+            if (nutrientList.any { it.protein > 0 && it.fat > 0 && it.carb > 0 }) {
+                add(dataSetProtein)
+                add(dataSetFat)
+                add(dataSetCarbs)
+            } else {
+                dataSetProtein.color = Color.TRANSPARENT
+                dataSetFat.color = Color.TRANSPARENT
+                dataSetCarbs.color = Color.TRANSPARENT
+                add(dataSetProtein)
+                add(dataSetFat)
+                add(dataSetCarbs)
             }
-        )
+        })
 
         barData.barWidth = barWidth
         barChart.data = barData
@@ -72,10 +66,15 @@ class ColumnCharts {
 
         val xAxis = barChart.xAxis
         xAxis.axisMinimum = startWeek - 0.5f
-        xAxis.axisMaximum = startWeek + barChart.barData.getGroupWidth(groupSpace, barSpace) * nutrientList.size + 0.5f
+        xAxis.axisMaximum = startWeek + barChart.barData.getGroupWidth(
+            groupSpace, barSpace
+        ) * nutrientList.size + 0.5f
 
         barChart.groupBars(startWeek.toFloat(), groupSpace, barSpace)
+        barChart.isDoubleTapToZoomEnabled = false // Предотвращение растяжения пользователем
+        barChart.setScaleEnabled(false) // Предотвращение растяжения пользователем
         barChart.description.isEnabled = false
+        barChart.legend.isEnabled = false // Легенда
         barChart.isDoubleTapToZoomEnabled = false
     }
 

@@ -14,7 +14,7 @@
 
     <dimen name="columsize_h">80dp</dimen>
     <dimen name="columsize_w">48dp</dimen>
-    <dimen name="nutrients_img">50dp</dimen>
+    <dimen name="nutrients_img">75dp</dimen>
 
 
 </resources>
