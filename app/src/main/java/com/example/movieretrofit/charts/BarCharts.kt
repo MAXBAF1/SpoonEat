@@ -69,7 +69,6 @@ class BarCharts {
             balancedNutrients.carb
         ) + 4 // максимальное значение на оси Y
         rightAxis.axisMinimum = 0f
-        rightAxis.axisMinimum = 0f
 
         barChart.legend.isEnabled = false
         barChart.description.isEnabled = false
