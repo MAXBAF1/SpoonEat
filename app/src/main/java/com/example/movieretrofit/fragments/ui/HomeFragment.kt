@@ -1,10 +1,12 @@
 package com.example.movieretrofit.fragments.ui
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,6 +33,7 @@ import kotlin.math.roundToInt
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var firebase: Firebase
+    @RequiresApi(Build.VERSION_CODES.O)
     private var monthCounter = LocalDate.now().monthValue - 1
 
     var nutrients = Nutrients()
@@ -50,9 +53,12 @@ class HomeFragment : Fragment() {
         binding.lastFoodsRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
 
-        setCalendar()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            setCalendar()
+        }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setCalendar() {
         val scrollingCalendar = ScrollingCalendarRow(binding.mainSingleRowCalendar)
         val myCalendarChangesObserver = object : CalendarChangesObserver {

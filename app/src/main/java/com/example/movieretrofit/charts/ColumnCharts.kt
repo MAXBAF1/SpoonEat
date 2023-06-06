@@ -43,10 +43,6 @@ class ColumnCharts {
         val carbColor = context.getColor(R.color.carb)
         settingsDataSet(dataSetCarbs, carbColor)
 
-        val groupSpace = 0.5f
-        val barSpace = 0.0f
-        val barWidth = 0.15f
-
         val barData = BarData(arrayListOf<IBarDataSet>().apply {
             if (nutrientList.any { it.protein > 0 && it.fat > 0 && it.carb > 0 }) {
                 add(dataSetProtein)
@@ -61,6 +57,10 @@ class ColumnCharts {
                 add(dataSetCarbs)
             }
         })
+
+        val groupSpace = 0.5f
+        val barSpace = 0.0f
+        val barWidth = 0.15f
 
         barData.barWidth = barWidth
         barChart.data = barData
@@ -85,7 +85,7 @@ class ColumnCharts {
 
         val ll1 = LimitLine(100f)
         ll1.lineColor = context.getColor(R.color.green)
-        ll1.lineWidth = 3f
+        ll1.lineWidth = 1f
         barChart.axisLeft.removeAllLimitLines()
         barChart.axisLeft.addLimitLine(ll1)
 

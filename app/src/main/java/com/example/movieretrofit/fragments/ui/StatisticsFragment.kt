@@ -30,23 +30,16 @@ class StatisticsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         firebase = Firebase()
-        val charts = LineCharts()
+        val lineCharts = LineCharts()
+        val columnCharts = ColumnCharts()
         //firebase.getDayFoodFromFirebase{ setData() }
         firebase.getWeeklyNutrients { nutrientList ->
-            charts.setLineChartCalories(binding.lCCalories, nutrientList)
-            context?.let { charts.setLineChartNutrients(it, binding.lCNutrients, nutrientList) }
-
-            //createCalendar(binding.calendarView, nutrientList, requireContext())
-            calendar = binding.calendarView
-            val today = CalendarDay.today()
-            if (activity != null) calendar.addDecorators(
-                CurrentDayDecorator(requireActivity(), today), CalendarDecorator(nutrientList)
-            )
-        }
-
-        firebase.getWeeklyNutrients { nutrientList ->
-            val columnCharts = ColumnCharts()
-            context?.let { it ->
+            context?.let {
+                lineCharts.setLineChartNutrients(
+                    it, binding.lCNutrientsWeek, nutrientList
+                )
+            }
+            context?.let {
                 columnCharts.setColumnChartCalories(
                     it,
                     binding.columnChart,
@@ -54,7 +47,26 @@ class StatisticsFragment : Fragment() {
                         nutrients.getBalancedNutrientsInPercentage(
                             firebase.diet
                         )
-                    }
+                    })
+            }
+            //createCalendar(binding.calendarView, nutrientList, requireContext())
+            calendar = binding.calendarView
+            val today = CalendarDay.today()
+            if (activity != null) calendar.addDecorators(
+                CurrentDayDecorator(requireActivity(), today),
+                CalendarDecorator(nutrientList.map { nutrients ->
+                    nutrients.getBalancedNutrientsInPercentage(
+                        firebase.diet
+                    )
+                })
+            )
+        }
+
+        firebase.getMonthNutrients { nutrientList ->
+            //val charts = LineCharts()
+            context?.let {
+                lineCharts.setLineChartNutrients(
+                    it, binding.lCNutrientsMonth, nutrientList
                 )
             }
         }
@@ -64,9 +76,9 @@ class StatisticsFragment : Fragment() {
             binding.monthButton.setBackgroundResource(R.drawable.fill_btn_background_green)
             binding.weekButton.setTextColor(Color.BLACK)
             binding.monthButton.setTextColor(Color.WHITE)
-            binding.lCNutrients.visibility = View.VISIBLE
+            binding.lCNutrientsWeek.visibility = View.VISIBLE
             binding.columnChart.visibility = View.VISIBLE
-            //binding.lCCalories.visibility = View.VISIBLE
+            binding.lCNutrientsMonth.visibility = View.GONE
             binding.calendarView.visibility = View.GONE
             //binding.linLNutHint.visibility = View.VISIBLE
         }
@@ -76,14 +88,13 @@ class StatisticsFragment : Fragment() {
             binding.weekButton.setBackgroundResource(R.drawable.fill_btn_background_green)
             binding.weekButton.setTextColor(Color.WHITE)
             binding.monthButton.setTextColor(Color.BLACK)
-            binding.lCNutrients.visibility = View.GONE
+            binding.lCNutrientsWeek.visibility = View.GONE
             binding.columnChart.visibility = View.GONE
-            //binding.lCCalories.visibility = View.GONE
+            binding.lCNutrientsMonth.visibility = View.VISIBLE
             binding.calendarView.visibility = View.VISIBLE
             //binding.linLNutHint.visibility = View.GONE
         }
     }
-
 
     companion object {
         @JvmStatic

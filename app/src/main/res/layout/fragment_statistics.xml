@@ -129,14 +129,7 @@
         app:layout_constraintVertical_bias="0.0">
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/lCCalories"
-            android:layout_width="match_parent"
-            android:layout_height="280dp"
-            android:layout_marginTop="30dp"
-            android:visibility="gone" />
-
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/lCNutrients"
+            android:id="@+id/lCNutrientsWeek"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
@@ -151,15 +144,21 @@
         <com.prolificinteractive.materialcalendarview.MaterialCalendarView
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="80dp"
+            android:layout_height="400dp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:mcv_selectionColor="#00F"
-            app:mcv_showOtherDates="all" />
+            app:mcv_showOtherDates="all">
+
+        </com.prolificinteractive.materialcalendarview.MaterialCalendarView>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/lCNutrientsMonth"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
 
     </LinearLayout>
 

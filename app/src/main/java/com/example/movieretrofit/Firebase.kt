@@ -33,7 +33,7 @@ class Firebase {
         mealRef = usernameRef.child("meal")
         dateRef = mealRef.child(date)
         dietRef = usernameRef.child("diet")
-        getUserDietFromFirebase { diet = it}
+        getUserDietFromFirebase { diet = it }
     }
 
     fun loadUser() {
@@ -74,12 +74,9 @@ class Firebase {
     }
 
     fun getLastTenFood(callback: (List<Food>) -> Unit) {
-        val databaseRef = FirebaseDatabase.getInstance().reference
-            .child("users")
-            .child(username)
-            .child("meal")
-            .orderByKey()
-            .limitToLast(10)
+        val databaseRef =
+            FirebaseDatabase.getInstance().reference.child("users").child(username).child("meal")
+                .orderByKey().limitToLast(10)
 
         databaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -99,10 +96,16 @@ class Firebase {
         })
     }
 
-    fun getWeeklyNutrients(completion: (List<Nutrients>) -> Unit) {
+    fun getWeeklyNutrients(completion: (List<Nutrients>) -> Unit) =
+        getLastNDaysNutrients(7) { completion(it) }
+
+    fun getMonthNutrients(completion: (List<Nutrients>) -> Unit) =
+        getLastNDaysNutrients(31) { completion(it) }
+
+    private fun getLastNDaysNutrients(daysCnt: Int, completion: (List<Nutrients>) -> Unit) {
         val nutrientList = mutableListOf<Nutrients>()
 
-        for (i in 6 downTo 0) {
+        for (i in daysCnt - 1 downTo 0) {
             val sdf = SimpleDateFormat("dd:MM:yyyy", Locale.getDefault())
             val calendar = Calendar.getInstance()
             calendar.add(Calendar.DAY_OF_YEAR, -i)
@@ -110,19 +113,18 @@ class Firebase {
             val mealsDateRef = getDateRef(sdf.format(calendar.time))
             getDayFood(mealsDateRef) {
                 nutrientList.add(Nutrients().getDaySum(it))
-                if (nutrientList.size == 7)
-                    completion(nutrientList)
+                if (nutrientList.size == daysCnt) completion(nutrientList)
             }
         }
     }
 
-    fun getUserDietFromFirebase(callback: (diet: Diet) -> Unit) {
+    private fun getUserDietFromFirebase(callback: (diet: Diet) -> Unit) {
         dietRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val dietDict = dataSnapshot.value as? HashMap<*, Int>
 
-                if (dietDict != null)
-                    diet = Diet(dietDict["protein"]!!, dietDict["fat"]!!, dietDict["carbs"]!!)
+                if (dietDict != null) diet =
+                    Diet(dietDict["protein"]!!, dietDict["fat"]!!, dietDict["carbs"]!!)
                 callback(diet)
             }
 

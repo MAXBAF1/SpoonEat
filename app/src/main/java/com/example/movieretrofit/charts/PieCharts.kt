@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import com.example.movieretrofit.R
 import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
@@ -19,7 +20,8 @@ class PieCharts(private val context: Context, private val pieChart: PieChart) {
 
         pieChart.legend.isEnabled = false
         pieChart.description.isEnabled = false
-        pieChart.setTouchEnabled(false)
+        //pieChart.setTouchEnabled(false)
+        pieChart.isHighlightPerTapEnabled = false
         pieChart.data = pieData
         pieChart.invalidate()
     }
