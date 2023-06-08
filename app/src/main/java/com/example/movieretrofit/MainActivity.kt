@@ -14,7 +14,7 @@ import com.example.movieretrofit.fragments.ui.StatisticsFragment
 import com.justai.aimybox.components.AimyboxAssistantFragment
 
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +31,11 @@ class MainActivity : AppCompatActivity(){
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
-        ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.RECORD_AUDIO), 1)
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(android.Manifest.permission.RECORD_AUDIO),
+            1
+        )
     }
 
     private fun onBottomNavClick() {

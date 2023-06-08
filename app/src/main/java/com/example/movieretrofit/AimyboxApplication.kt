@@ -2,13 +2,11 @@ package com.example.movieretrofit
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import com.example.movieretrofit.utils.ChangeViewSkill
 import com.justai.aimybox.Aimybox
 import com.justai.aimybox.api.aimybox.AimyboxDialogApi
 import com.justai.aimybox.components.AimyboxProvider
 import com.justai.aimybox.core.Config
-import com.justai.aimybox.core.CustomSkill
 import com.justai.aimybox.speechkit.google.platform.GooglePlatformSpeechToText
 import com.justai.aimybox.speechkit.google.platform.GooglePlatformTextToSpeech
 import java.util.*
@@ -34,6 +32,6 @@ class AimyboxApplication : Application(), AimyboxProvider {
 
         val config = Config.create(speechToText = speechToText, textToSpeech = textToSpeech, dialogApi = dialogApi)
 
-        return Aimybox(config)
+        return Aimybox(config, context)
     }
 }

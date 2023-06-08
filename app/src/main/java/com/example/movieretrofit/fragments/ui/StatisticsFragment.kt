@@ -22,8 +22,7 @@ class StatisticsFragment : Fragment() {
     lateinit var calendar: MaterialCalendarView
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentStatisticsBinding.inflate(inflater, container, false)
         return binding.root
@@ -31,61 +30,71 @@ class StatisticsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         firebase = Firebase()
-        val charts = LineCharts()
+        val lineCharts = LineCharts()
         val columnCharts = ColumnCharts()
         //firebase.getDayFoodFromFirebase{ setData() }
         firebase.getWeeklyNutrients { nutrientList ->
-            charts.setLineChartCalories(binding.lCCalories, nutrientList)
-            context?.let { charts.setLineChartNutrients(it, binding.lCNutrients, nutrientList) }
-
-            //createCalendar(binding.calendarView, nutrientList, requireContext())
-            calendar = binding.calendarView
-            val today = CalendarDay.today()
-            if (activity != null)
-                calendar.addDecorators(
-                    CurrentDayDecorator(requireActivity(), today),
-                    CalendarDecorator(nutrientList)
+            context?.let {
+                lineCharts.setLineChartNutrients(
+                    it, binding.lCNutrientsWeek, nutrientList
                 )
-        }
-
-
-        firebase.getWeeklyNutrients { nutrientList ->
-            val columnCharts = ColumnCharts()
+            }
             context?.let {
                 columnCharts.setColumnChartCalories(
                     it,
-                    binding.columnNutrients,
-                    nutrientList
+                    binding.columnChart,
+                    nutrientList.map { nutrients ->
+                        nutrients.getBalancedNutrientsInPercentage(
+                            firebase.diet
+                        )
+                    })
+            }
+            //createCalendar(binding.calendarView, nutrientList, requireContext())
+            calendar = binding.calendarView
+            val today = CalendarDay.today()
+            if (activity != null) calendar.addDecorators(
+                CurrentDayDecorator(requireActivity(), today),
+                CalendarDecorator(nutrientList.map { nutrients ->
+                    nutrients.getBalancedNutrientsInPercentage(
+                        firebase.diet
+                    )
+                })
+            )
+        }
+
+        firebase.getMonthNutrients { nutrientList ->
+            //val charts = LineCharts()
+            context?.let {
+                lineCharts.setLineChartNutrients(
+                    it, binding.lCNutrientsMonth, nutrientList
                 )
             }
         }
 
-
-        binding.monthButton.setOnClickListener {
-            binding.monthButton.setBackgroundResource(R.drawable.add_btn_background_blue)
+        binding.weekButton.setOnClickListener {
             binding.weekButton.setBackgroundResource(R.drawable.add_btn_background)
+            binding.monthButton.setBackgroundResource(R.drawable.fill_btn_background_green)
             binding.weekButton.setTextColor(Color.BLACK)
             binding.monthButton.setTextColor(Color.WHITE)
-            binding.lCNutrients.visibility = View.GONE
-            binding.columnNutrients.visibility = View.GONE
-          //  binding.lCCalories.visibility = View.GONE
-            binding.calendarView.visibility = View.VISIBLE
-            binding.linearLayout.visibility = View.GONE
+            binding.lCNutrientsWeek.visibility = View.VISIBLE
+            binding.columnChart.visibility = View.VISIBLE
+            binding.lCNutrientsMonth.visibility = View.GONE
+            binding.calendarView.visibility = View.GONE
+            //binding.linLNutHint.visibility = View.VISIBLE
         }
 
-        binding.weekButton.setOnClickListener {
-            binding.weekButton.setBackgroundResource(R.drawable.add_btn_background_blue)
+        binding.monthButton.setOnClickListener {
             binding.monthButton.setBackgroundResource(R.drawable.add_btn_background)
+            binding.weekButton.setBackgroundResource(R.drawable.fill_btn_background_green)
             binding.weekButton.setTextColor(Color.WHITE)
             binding.monthButton.setTextColor(Color.BLACK)
-            binding.lCNutrients.visibility = View.VISIBLE
-            binding.columnNutrients.visibility = View.VISIBLE
-          //  binding.lCCalories.visibility = View.VISIBLE
-            binding.calendarView.visibility = View.GONE
-            binding.linearLayout.visibility = View.VISIBLE
+            binding.lCNutrientsWeek.visibility = View.GONE
+            binding.columnChart.visibility = View.GONE
+            binding.lCNutrientsMonth.visibility = View.VISIBLE
+            binding.calendarView.visibility = View.VISIBLE
+            //binding.linLNutHint.visibility = View.GONE
         }
     }
-
 
     companion object {
         @JvmStatic

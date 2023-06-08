@@ -2,11 +2,9 @@ package com.example.movieretrofit.charts.calendarRow
 
 import java.util.*
 
-class CalendarRow() {
-
+class CalendarRow {
     private val calendar = Calendar.getInstance()
     private var currentMonth = 0
-
 
     fun getDatesOfNextMonth(): List<Date> {
         currentMonth++
@@ -37,8 +35,7 @@ class CalendarRow() {
         list.add(calendar.time)
         while (currentMonth == calendar[Calendar.MONTH]) {
             calendar.add(Calendar.DATE, +1)
-            if (calendar[Calendar.MONTH] == currentMonth)
-                list.add(calendar.time)
+            if (calendar[Calendar.MONTH] == currentMonth) list.add(calendar.time)
         }
         calendar.add(Calendar.DATE, -1)
         return list

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph">
+
+
+        <fragment
+            android:id="@+id/accountSettingsFragment"
+            android:name="com.example.movieretrofit.fragments.ui.AccountSettingsFragment"
+            android:label="Account Settings"
+            />
+
+        <fragment
+            android:id="@+id/dietFragment"
+            android:name="com.example.movieretrofit.fragments.ui.DietFragment"
+            android:label="Diet"
+            />
+
+
+        <action
+            android:id="@+id/action_accountSettingsFragment_to_dietFragment"
+            app:destination="@id/dietFragment" />
+
+</navigation>

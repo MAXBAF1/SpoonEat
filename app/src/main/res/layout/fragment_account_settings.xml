@@ -32,13 +32,13 @@
         app:layout_constraintTop_toBottomOf="@+id/avatar" />
 
     <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:visibility="gone"
+        android:id="@+id/linLNutHint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:orientation="horizontal"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_username">
@@ -93,14 +93,6 @@
             android:text="@string/carb"
             android:textColor="@color/black" />
     </LinearLayout>
-
-    <fragment
-        android:id="@+id/diet_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonSignOut"
-        app:layout_constraintEnd_toEndOf="parent"  />
 
     <Button
         android:id="@+id/buttonDiet"

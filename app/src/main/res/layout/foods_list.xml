@@ -24,6 +24,8 @@
             android:id="@+id/tv_food_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/main_font"
             android:gravity="center"
@@ -44,16 +46,16 @@
 
             <ImageView
                 android:id="@+id/food_image"
-                android:layout_width="260dp"
-                android:layout_height="260dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 app:srcCompat="@drawable/food_example_image" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/linearLayout"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
             android:background="@color/white"
@@ -168,7 +170,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/main_font"
             android:gravity="center"
             android:hint="Грамм"
             android:inputType="number"
@@ -178,6 +180,8 @@
             android:id="@+id/button_add_food"
             android:layout_width="240dp"
             android:layout_height="54dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/add_btn_background"
             android:fontFamily="@font/main_font"
             android:includeFontPadding="false"
@@ -186,6 +190,22 @@
             android:textColor="@color/green"
             android:textSize="18sp"
             android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/button_delete_food"
+            android:layout_width="240dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/exit_btn_background"
+            android:fontFamily="@font/main_font"
+            android:includeFontPadding="false"
+            android:paddingTop="3dp"
+            android:text="@string/delete"
+            android:textColor="@color/carb"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -58,7 +58,6 @@ class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
         binding.textInputLayout.setEndIconOnClickListener {
 
             lifecycleScope.launch {
-
                 binding.progressBar.visibility = View.VISIBLE
 
                 val tvFoodEditText = binding.tvFood.text.toString()
@@ -96,13 +95,12 @@ class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
     // TextWatcher
     private val simpleTextWatcher = object : TextWatcher {
 
-        override fun beforeTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {        }
+        override fun beforeTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
         override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
             binding!!.listsearch.visibility = View.VISIBLE
             binding!!.recyclerFood.visibility = View.GONE
             binding!!.errorlist.visibility = View.GONE
-
         }
 
         override fun afterTextChanged(s: Editable?) {

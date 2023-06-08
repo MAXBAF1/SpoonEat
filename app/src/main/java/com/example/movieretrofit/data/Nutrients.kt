@@ -9,7 +9,6 @@ data class Nutrients(
     @SerializedName("FAT") var fat: Float = 0f,
     @SerializedName("CHOCDF") var carb: Float = 0f
 ) : java.io.Serializable {
-
     fun getDaySum(foodItems: List<Food>): Nutrients {
         var currentDaySum = Nutrients()
         foodItems.forEach {
