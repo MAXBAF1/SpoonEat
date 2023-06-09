@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ui.AccountSettingsFragment">
+    tools:context=".fragments.ui.accountSettingsFragment.AccountSettingsFragment">
 
 
     <ImageView
@@ -30,6 +30,38 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/avatar" />
+
+    <LinearLayout
+        android:id="@+id/diet_selected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/selected_diet_back"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_username">
+
+        <TextView
+            android:id="@+id/selectedDietName"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/diet_tv_bakground"
+            android:fontFamily="@font/main_font"
+            android:gravity="center"
+            android:text="Выбрано"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            tools:ignore="TextContrastCheck" />
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/diet_selected_chart"
+            android:layout_width="match_parent"
+            android:layout_height="130dp" />
+
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linLNutHint"
@@ -95,30 +127,41 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/buttonDiet"
-        app:layout_constraintTop_toBottomOf="@id/tv_username"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/change_diet_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Diet Info" />
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/add_btn_background"
+        android:fontFamily="@font/main_font"
+        android:includeFontPadding="false"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:paddingRight="10dp"
+        android:text="@string/change_diet_text"
+        android:textColor="@color/green"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/diet_selected" />
 
     <Button
         android:id="@+id/buttonSignOut"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="40dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginBottom="100dp"
         android:background="@drawable/exit_btn_background"
         android:fontFamily="@font/main_font"
         android:text="@string/exit"
         android:textColor="@color/carb"
         android:textSize="24sp"
-        app:layout_constraintTop_toBottomOf="@id/buttonDiet"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,7 +6,7 @@
 
         <fragment
             android:id="@+id/accountSettingsFragment"
-            android:name="com.example.movieretrofit.fragments.ui.AccountSettingsFragment"
+            android:name="com.example.movieretrofit.fragments.ui.accountSettingsFragment.AccountSettingsFragment"
             android:label="Account Settings"
             />
 

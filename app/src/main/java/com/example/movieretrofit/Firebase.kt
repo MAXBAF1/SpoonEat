@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class Firebase {
-    var diet: Diet = Diet()
+    lateinit var diet: Diet
     var username: String
     var database: FirebaseDatabase
     var usersRef: DatabaseReference
@@ -118,13 +118,17 @@ class Firebase {
         }
     }
 
-    private fun getUserDietFromFirebase(callback: (diet: Diet) -> Unit) {
-        dietRef.addListenerForSingleValueEvent(object : ValueEventListener {
+     fun getUserDietFromFirebase(callback: (diet: Diet) -> Unit) {
+        dietRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val dietDict = dataSnapshot.value as? HashMap<*, Int>
+                val dietDict = dataSnapshot.value as? HashMap<*, *>
 
-                if (dietDict != null) diet =
-                    Diet(dietDict["protein"]!!, dietDict["fat"]!!, dietDict["carbs"]!!)
+                if (dietDict != null) diet = Diet(
+                    dietDict["name"] as String,
+                    dietDict["protein"].toString().toFloat(),
+                    dietDict["fat"].toString().toFloat(),
+                    dietDict["carbs"].toString().toFloat(),
+                )
                 callback(diet)
             }
 
@@ -151,6 +155,7 @@ class Firebase {
     fun sendUserDietToFirebase(diet: Diet) {
         Log.e("item", "in Firebase sendUserDietToFirebase ${diet.proteinCf}")
 
+        dietRef.child("name").setValue(diet.name)
         dietRef.child("protein").setValue(diet.proteinCf)
         dietRef.child("fat").setValue(diet.fatCf)
         dietRef.child("carbs").setValue(diet.carbsCf)

@@ -3,15 +3,18 @@ package com.example.movieretrofit.charts
 import android.content.Context
 import android.graphics.Color
 import com.example.movieretrofit.R
+import com.example.movieretrofit.data.Diet
 import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
 
 class PieCharts(private val context: Context, private val pieChart: PieChart) {
-    fun setPieChart(entries: ArrayList<PieEntry>) {
+    fun setPieChart(diet: Diet) {
+        val entries = arrayListOf(
+            PieEntry(diet.proteinCf), PieEntry(diet.fatCf), PieEntry(diet.carbsCf)
+        )
         val pieDataSet = PieDataSet(entries, "Colors")
         setDataSet(pieDataSet)
 

@@ -17,6 +17,7 @@
 
     <string name="add">Добавить</string>
     <string name="delete">Удалить</string>
+    <string name="change_diet_text">Изменить диету</string>
     <string name="exit">Выйти</string>
 
     <string name="recent">Недавние блюда</string>

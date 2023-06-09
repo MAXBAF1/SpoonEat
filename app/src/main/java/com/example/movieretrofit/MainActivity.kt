@@ -7,7 +7,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.movieretrofit.databinding.ActivityMainBinding
-import com.example.movieretrofit.fragments.ui.AccountSettingsFragment
+import com.example.movieretrofit.fragments.ui.accountSettingsFragment.AccountSettingsFragment
 import com.example.movieretrofit.fragments.ui.HomeFragment
 import com.example.movieretrofit.fragments.ui.SearchFragment
 import com.example.movieretrofit.fragments.ui.StatisticsFragment

@@ -35,7 +35,7 @@ data class Nutrients(
         )
     }
 
-    private fun getNutrientWithCf(nutrient: Float, sumGrams: Float, cf: Int): Float =
+    private fun getNutrientWithCf(nutrient: Float, sumGrams: Float, cf: Float): Float =
         100 - (cf / grams - (nutrient / sumGrams * 100))
 
     operator fun plus(newNutrients: Nutrients): Nutrients {
