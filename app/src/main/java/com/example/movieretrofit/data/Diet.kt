@@ -1,7 +1,7 @@
 package com.example.movieretrofit.data
 
 class Diet() : java.io.Serializable {
-    var name: String = ""
+    var name: String = "Норма"
     var proteinCf: Float = 30f
     var fatCf: Float = 30f
     var carbsCf: Float = 40f
