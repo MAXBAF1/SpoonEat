@@ -49,6 +49,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
+    //Translator
+    implementation 'com.google.mlkit:translate:17.0.1'
+
     //Charts
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'com.github.pradeepan-prabha:MpAndroidChart-Wrapper:v0.0.5'

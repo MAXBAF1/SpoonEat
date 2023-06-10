@@ -12,8 +12,6 @@ class FoodViewModel(application: Application) : AndroidViewModel(application) {
 
     suspend fun getFoods(foodName: String): List<Food> {
         viewModelScope.launch(Dispatchers.IO) { }
-
-
         return repository.getRecipes(foodName)
     }
 }
