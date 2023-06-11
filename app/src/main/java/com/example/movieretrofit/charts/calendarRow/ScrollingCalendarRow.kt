@@ -14,9 +14,10 @@ import java.util.*
 class ScrollingCalendarRow(private var calendarView: SingleRowCalendar) {
     private var currentMonth = 0
     private var calendarRow = CalendarRow()
+    private lateinit var calendar: Calendar
 
     fun initCalendar(observer: CalendarChangesObserver) {
-        val calendar = Calendar.getInstance(TimeZone.getDefault())
+        calendar = Calendar.getInstance(TimeZone.getDefault())
         calendar.time = Date()
         currentMonth = calendar[Calendar.MONTH]
 
@@ -29,7 +30,9 @@ class ScrollingCalendarRow(private var calendarView: SingleRowCalendar) {
             ): Int {
                 calendar.time = date
                 return if (isSelected)
-                    when (calendar[Calendar.DAY_OF_WEEK]) {
+                    R.layout.selected_calendar_item
+                else R.layout.calendar_item
+                   /* when (calendar[Calendar.DAY_OF_WEEK]) {
                         Calendar.MONDAY -> R.layout.first_special_selected_calendar_item
                         Calendar.WEDNESDAY -> R.layout.second_special_selected_calendar_item
                         Calendar.FRIDAY -> R.layout.third_special_selected_calendar_item
@@ -41,7 +44,7 @@ class ScrollingCalendarRow(private var calendarView: SingleRowCalendar) {
                         Calendar.WEDNESDAY -> R.layout.second_special_calendar_item
                         Calendar.FRIDAY -> R.layout.third_special_calendar_item
                         else -> R.layout.calendar_item
-                    }
+                    }*/
             }
 
             override fun bindDataToCalendarView(

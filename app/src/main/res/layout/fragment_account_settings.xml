@@ -67,13 +67,13 @@
         android:id="@+id/linLNutHint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_username">
+        app:layout_constraintTop_toBottomOf="@+id/diet_selected">
 
         <ImageView
             android:id="@+id/imageView2"
@@ -128,7 +128,7 @@
 
     <Button
         android:id="@+id/change_diet_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="10dp"
@@ -140,22 +140,25 @@
         android:paddingTop="5dp"
         android:paddingRight="10dp"
         android:text="@string/change_diet_text"
+        android:textAllCaps="false"
         android:textColor="@color/green"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/diet_selected" />
+        app:layout_constraintTop_toBottomOf="@+id/linLNutHint" />
 
     <Button
         android:id="@+id/buttonSignOut"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="100dp"
         android:background="@drawable/exit_btn_background"
         android:fontFamily="@font/main_font"
+        android:paddingStart="10dp"
+        android:paddingRight="10dp"
         android:text="@string/exit"
         android:textColor="@color/carb"
         android:textSize="24sp"

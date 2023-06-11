@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.MovieRetrofit" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Primary brand color. -->
@@ -10,7 +10,7 @@
         <item name="colorSecondaryVariant">@color/green</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        //<item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">#BF7CBD3D</item>
         <!-- Customize your theme here. -->
 
         <item name="aimybox_assistantButtonTheme">@style/CustomAssistantButtonTheme</item>
@@ -20,6 +20,7 @@
         <item name="aimybox_buttonReplyTheme">@style/CustomButtonReplyWidgetTheme</item>
 
     </style>
+
     <style name="Theme.VoiceSearchAmybox" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryDark">@color/green</item>
@@ -57,15 +58,15 @@
 
         <!-- Customize Assistant components here -->
         <item name="aimybox_assistantButtonTheme">@style/CustomAssistantButtonTheme</item>
-<!--        <item name="aimybox_buttonMarginStart">40dp</item>-->
+        <!--        <item name="aimybox_buttonMarginStart">40dp</item>-->
         <item name="aimybox_recognitionTheme">@style/CustomRecognitionWidgetTheme</item>
         <item name="aimybox_responseTheme">@style/CustomResponseWidgetTheme</item>
         <item name="aimybox_imageReplyTheme">@style/CustomImageReplyWidgetTheme</item>
         <item name="aimybox_buttonReplyTheme">@style/CustomButtonReplyWidgetTheme</item>
     </style>
 
-    <style name="CustomAssistantButtonTheme" parent="DefaultAssistantTheme.AssistantButton" >
-<!--        <item name="aimybox_buttonGravity">center</item>-->
+    <style name="CustomAssistantButtonTheme" parent="DefaultAssistantTheme.AssistantButton">
+        <!--        <item name="aimybox_buttonGravity">center</item>-->
         <item name="aimybox_buttonExpandedColor">@color/green</item>
         <item name="aimybox_buttonCollapsedColor">@color/green</item>
         <item name="aimybox_buttonExpandedIconTint">@color/white</item>
