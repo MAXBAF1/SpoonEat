@@ -113,18 +113,21 @@ class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
                         delay(100)
                         if (adapterTextInput.foodList.isEmpty()) delay(300)
                         binding!!.progressBar.visibility = View.VISIBLE
-//                        translator.translateRuEn(text) {
-                                val foods = foodViewModel.getFoods(text)
 
-                                emit(adapterTextInput.setData(foods.takeLast(foods.size - 1)))
-                                binding!!.progressBar.visibility = View.GONE
-                                if (s!!.isEmpty()) {
-                                    binding!!.recyclerFood.visibility = View.GONE
-                                    binding!!.listsearch.visibility = View.GONE
-                                    binding!!.errorlist.visibility = View.VISIBLE
-                                }
-//                            }
-//                        }
+                        emit(translator.translateRuEn(text) {
+                            lifecycleScope.launch {
+                                val foods = foodViewModel.getFoods(it)
+                                if (foods.isNotEmpty())
+                                    adapterTextInput.setData(foods.takeLast(foods.size - 1))
+                            }
+
+                            binding!!.progressBar.visibility = View.GONE
+                            if (s!!.isEmpty()) {
+                                binding!!.recyclerFood.visibility = View.GONE
+                                binding!!.listsearch.visibility = View.GONE
+                                binding!!.errorlist.visibility = View.VISIBLE
+                            }
+                        })
                     } catch (e: Exception) {
                         Log.e("MyLog", e.toString())
                     }

@@ -7,21 +7,22 @@ import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.TranslatorOptions
 
 class Translator {
-    val translatorEnRu: com.google.mlkit.nl.translate.Translator
-    val translatorRuEn: com.google.mlkit.nl.translate.Translator
+    private val translatorEnRu: com.google.mlkit.nl.translate.Translator
+    private val translatorRuEn: com.google.mlkit.nl.translate.Translator
 
     init {
-        val options = TranslatorOptions
-            .Builder()
+        val optionsEnRu = TranslatorOptions.Builder()
             .setSourceLanguage(TranslateLanguage.ENGLISH)
             .setTargetLanguage(TranslateLanguage.RUSSIAN)
             .build()
-        translatorEnRu = Translation.getClient(options)
-        translatorRuEn = Translation.getClient(options)
-
-        val conditions = DownloadConditions.Builder()
-            .requireWifi()
+        val optionsRuEn = TranslatorOptions.Builder()
+            .setSourceLanguage(TranslateLanguage.RUSSIAN)
+            .setTargetLanguage(TranslateLanguage.ENGLISH)
             .build()
+        translatorEnRu = Translation.getClient(optionsEnRu)
+        translatorRuEn = Translation.getClient(optionsRuEn)
+
+        val conditions = DownloadConditions.Builder().requireWifi().build()
         translatorEnRu.downloadModelIfNeeded(conditions)
         translatorRuEn.downloadModelIfNeeded(conditions)
     }
@@ -39,14 +40,13 @@ class Translator {
         text: String,
         onSuccess: (String) -> Unit
     ) {
-        translator.translate(text)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val translatedText = task.result
-                    onSuccess(translatedText) // вызываем функцию-обработчик успеха
-                } else {
-                    Log.e("MyLog", "Ошибка перевода ${task.exception}")
-                }
+        translator.translate(text).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val translatedText = task.result
+                onSuccess(translatedText) // вызываем функцию-обработчик успеха
+            } else {
+                Log.e("MyLog", "Ошибка перевода ${task.exception}")
             }
+        }
     }
 }

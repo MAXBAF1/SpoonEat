@@ -23,8 +23,7 @@ class PieCharts(private val context: Context, private val pieChart: PieChart) {
 
         pieChart.legend.isEnabled = false
         pieChart.description.isEnabled = false
-        //pieChart.setTouchEnabled(false)
-        pieChart.isHighlightPerTapEnabled = false
+        pieChart.setTouchEnabled(false)
         pieChart.data = pieData
         pieChart.invalidate()
     }
