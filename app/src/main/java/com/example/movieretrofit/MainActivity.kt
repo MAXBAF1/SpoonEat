@@ -11,6 +11,7 @@ import com.example.movieretrofit.fragments.ui.accountSettingsFragment.AccountSet
 import com.example.movieretrofit.fragments.ui.HomeFragment
 import com.example.movieretrofit.fragments.ui.SearchFragment
 import com.example.movieretrofit.fragments.ui.StatisticsFragment
+import com.example.movieretrofit.fragments.ui.chat.VoiceFragment
 import com.justai.aimybox.components.AimyboxAssistantFragment
 
 
@@ -36,6 +37,10 @@ class MainActivity : AppCompatActivity() {
             arrayOf(android.Manifest.permission.RECORD_AUDIO),
             1
         )
+
+        binding.fab.setOnClickListener{
+            openFragment(VoiceFragment.newInstance())
+        }
     }
 
     private fun onBottomNavClick() {

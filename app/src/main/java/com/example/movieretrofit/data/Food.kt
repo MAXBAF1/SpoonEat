@@ -1,7 +1,7 @@
 package com.example.movieretrofit.data
 
 data class Food(
-    val label: String,
+    var label: String,
     val nutrients: Nutrients,
     val image: String
 ) {

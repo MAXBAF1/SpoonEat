@@ -118,13 +118,13 @@ class ChooseDietAlertDialog(val context: Context, val firebase: Firebase) {
     }
 
     private fun saveDiet(): Boolean {
-        if (diet.proteinCf == 0f || diet.fatCf == 0f || diet.carbsCf == 0f) {
+        return if (diet.proteinCf == 0f || diet.fatCf == 0f || diet.carbsCf == 0f) {
             Toast.makeText(context, "Не может быть 0%!", Toast.LENGTH_SHORT).show()
-            return false
+            false
         } else {
             firebase.sendUserDietToFirebase(diet)
             Toast.makeText(context, "Сохранено", Toast.LENGTH_SHORT).show()
-            return true
+            true
         }
     }
 

@@ -20,6 +20,7 @@ import com.example.movieretrofit.fragments.ui.SearchFragment
 import com.example.movieretrofit.interfaces.AddFoodListener
 import com.example.movieretrofit.interfaces.FoodClickListener
 import com.example.movieretrofit.model.FoodViewModel
+import com.example.movieretrofit.translator.Translator
 import com.example.retrofittraining.Utils.inputCheck
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
@@ -56,27 +57,26 @@ class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
         foodViewModel = ViewModelProvider(this)[FoodViewModel::class.java]
 
         binding.textInputLayout.setEndIconOnClickListener {
-
             lifecycleScope.launch {
                 binding.progressBar.visibility = View.VISIBLE
 
                 val tvFoodEditText = binding.tvFood.text.toString()
                 if (inputCheck(tvFoodEditText)) {
-                    val recipes = foodViewModel.getFoods(tvFoodEditText)
-                    Log.d("FOOD", "$recipes")
-                    adapter.setData(recipes)
+                    val foods = foodViewModel.getFoods(tvFoodEditText)
+                    Log.d("FOOD", "$foods")
+                    adapter.setData(foods)
                     binding.errorlist.visibility = View.GONE
                     binding.recyclerFood.visibility = View.VISIBLE
                     binding.progressBar.visibility = View.GONE
 
-                    if (recipes.isNotEmpty()) {
+                    if (foods.isNotEmpty()) {
                         binding.recyclerFood.visibility = View.VISIBLE
                         binding.listsearch.visibility = View.GONE
                         binding.errorlist.visibility = View.GONE
                         binding.progressBar.visibility = View.GONE
                     } else binding.errorlist.visibility = View.VISIBLE
-                    Log.d("FOOD", "$recipes")
-                    adapter.setData(recipes)
+                    Log.d("FOOD", "$foods")
+                    adapter.setData(foods)
                 } else {
                     binding.errorlist.visibility = View.VISIBLE
                     binding.progressBar.visibility = View.GONE
@@ -91,6 +91,8 @@ class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
         super.onDestroyView()
         binding = null
     }
+
+    private val translator = Translator()
 
     // TextWatcher
     private val simpleTextWatcher = object : TextWatcher {
@@ -111,17 +113,36 @@ class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
                         delay(100)
                         if (adapterTextInput.foodList.isEmpty()) delay(300)
                         binding!!.progressBar.visibility = View.VISIBLE
-                        val foods = foodViewModel.getFoods(text)
-                        emit(adapterTextInput.setData(foods.takeLast(foods.size - 1)))
-                        binding!!.progressBar.visibility = View.GONE
-                        if (s!!.isEmpty()) {
-                            binding!!.recyclerFood.visibility = View.GONE
-                            binding!!.listsearch.visibility = View.GONE
-                            binding!!.errorlist.visibility = View.VISIBLE
-                        }
-                    } catch (_: Exception) {
+
+                        emit(translator.translateRuEn(text) {
+                            lifecycleScope.launch {
+                                val foods = foodViewModel.getFoods(it)
+                                if (foods.isNotEmpty())
+                                    adapterTextInput.setData(foods.takeLast(foods.size - 1))
+                            }
+
+                            binding!!.progressBar.visibility = View.GONE
+                            if (s!!.isEmpty()) {
+                                binding!!.recyclerFood.visibility = View.GONE
+                                binding!!.listsearch.visibility = View.GONE
+                                binding!!.errorlist.visibility = View.VISIBLE
+                            }
+                        })
+                    } catch (e: Exception) {
+                        Log.e("MyLog", e.toString())
                     }
                 }.collect()
+            }
+        }
+    }
+
+    private fun getTranslatedFoods(foods: List<Food>, result: (List<Food>) -> Unit) {
+        val newFoods = arrayListOf<Food>()
+        foods.forEach { food ->
+            translator.translateEnRu(food.label) {
+                food.label = it
+                newFoods.add(food)
+                if (newFoods.size == foods.size) result(newFoods)
             }
         }
     }
@@ -132,20 +153,21 @@ class FoodListFragment : Fragment(), FoodClickListener, AddFoodListener {
             val tvFoodEditText = binding!!.tvFood.text.toString()
             if (inputCheck(tvFoodEditText)) {
                 binding!!.tvFood.setText(food)
-                val recipes = foodViewModel.getFoods(food)
-                val selectedRecipe = recipes.take(1)
-
-                adapter.setData(selectedRecipe)
-                binding!!.recyclerFood.visibility = View.VISIBLE
-                binding!!.progressBar.visibility = View.GONE
-                binding!!.listsearch.visibility = View.GONE
-
-                if (recipes.isNotEmpty()) {
+                val foods = foodViewModel.getFoods(food)
+                val selectedFood = foods.take(1)
+                getTranslatedFoods(selectedFood) {
+                    adapter.setData(it)
                     binding!!.recyclerFood.visibility = View.VISIBLE
                     binding!!.progressBar.visibility = View.GONE
-                } else binding!!.errorlist.visibility = View.VISIBLE
-                Log.d("FOOD", "$recipes")
-                adapter.setData(selectedRecipe)
+                    binding!!.listsearch.visibility = View.GONE
+
+                    if (foods.isNotEmpty()) {
+                        binding!!.recyclerFood.visibility = View.VISIBLE
+                        binding!!.progressBar.visibility = View.GONE
+                    } else binding!!.errorlist.visibility = View.VISIBLE
+                    Log.d("FOOD", "$foods")
+                    adapter.setData(it)
+                }
             } else {
                 binding!!.errorlist.visibility = View.VISIBLE
                 binding!!.progressBar.visibility = View.GONE

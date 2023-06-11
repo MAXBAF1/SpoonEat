@@ -48,6 +48,12 @@ dependencies {
     def lifecycle_version = "2.4.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
+
+    //Translator
+    implementation 'com.google.mlkit:translate:17.0.1'
 
     //Charts
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'

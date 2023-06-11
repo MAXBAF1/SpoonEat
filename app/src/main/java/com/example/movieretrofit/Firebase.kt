@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class Firebase {
-    lateinit var diet: Diet
+    var diet: Diet = Diet()
     var username: String
     var database: FirebaseDatabase
     var usersRef: DatabaseReference
@@ -123,7 +123,7 @@ class Firebase {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val dietDict = dataSnapshot.value as? HashMap<*, *>
 
-                if (dietDict != null) diet = Diet(
+                if (dietDict != null && dietDict.size == 4) diet = Diet(
                     dietDict["name"] as String,
                     dietDict["protein"].toString().toFloat(),
                     dietDict["fat"].toString().toFloat(),
