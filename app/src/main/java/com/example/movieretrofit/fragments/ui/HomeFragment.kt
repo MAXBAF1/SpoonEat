@@ -98,8 +98,8 @@ class HomeFragment : Fragment() {
 
     fun updateViews() {
         setLastFoods()
-        firebase.getDayFood(firebase.dateRef) { foods ->
-            nutrients = nutrients.getDaySum(foods)
+        firebase.getDayFoods(firebase.foodsRef) { foods ->
+            nutrients = nutrients.getSumNutrients(foods)
             setDataToTextView()
             context?.let {
                 barCharts.setBarChart(it, binding.barChart, nutrients, firebase.diet)
@@ -108,7 +108,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setLastFoods() {
-        firebase.getDayFood(firebase.dateRef) { foods ->
+        firebase.getDayFoods(firebase.foodsRef) { foods ->
             if (activity != null) {
                 val adapter = LastFoodsAdapter(requireContext(), foods.reversed(), this)
                 binding.lastFoodsRecyclerView.adapter = adapter
@@ -129,7 +129,7 @@ class HomeFragment : Fragment() {
 
     fun deleteItemByIndex(numToDelete: Int) {
         var counter = numToDelete
-        firebase.dateRef.orderByKey().limitToLast(numToDelete)
+        firebase.dateRef.child("foods").orderByKey().limitToLast(numToDelete)
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     for (childSnap in snapshot.children) {

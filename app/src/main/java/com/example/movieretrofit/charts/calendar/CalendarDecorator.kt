@@ -28,11 +28,13 @@ class CalendarDecorator(private var nutrientList: List<Nutrients>) : DayViewDeco
     }
 
     private fun isInBounds(nutrients: Nutrients, bounds: ClosedRange<Float>): Boolean {
-        if (nutrients.fat in bounds && nutrients.carb in bounds && nutrients.protein in bounds) return true
+        if (nutrients.fat in bounds && nutrients.carb in bounds && nutrients.protein in bounds)
+            return true
         return false
     }
 
     override fun decorate(view: DayViewFacade?) {
+
         view?.addSpan(object : ForegroundColorSpan(getColor(nutrientList.last())) {})
 
     }

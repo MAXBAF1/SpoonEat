@@ -9,13 +9,16 @@ data class Nutrients(
     @SerializedName("FAT") var fat: Float = 0f,
     @SerializedName("CHOCDF") var carb: Float = 0f
 ) : java.io.Serializable {
-    fun getDaySum(foodItems: List<Food>): Nutrients {
-        var currentDaySum = Nutrients()
-        foodItems.forEach {
-            currentDaySum += it.nutrients
-        }
+    fun getSumNutrients(foods: List<Food>): Nutrients {
+        var sum = Nutrients()
+        foods.forEach { sum += it.nutrients }
+        return sum
+    }
 
-        return currentDaySum
+    fun getSum(nutrients: List<Nutrients>): Nutrients {
+        var sum = Nutrients()
+        nutrients.forEach { sum += it }
+        return sum
     }
 
     fun getBalancedNutrientsInPercentage(diet: Diet): Nutrients {
@@ -33,6 +36,12 @@ data class Nutrients(
             cfNutrients.fat,
             cfNutrients.carb
         )
+    }
+
+     fun isInBounds(bounds: ClosedRange<Float>): Boolean {
+        if (fat in bounds && carb in bounds && protein in bounds)
+            return true
+        return false
     }
 
     private fun getNutrientWithCf(nutrient: Float, sumGrams: Float, cf: Float): Float =
