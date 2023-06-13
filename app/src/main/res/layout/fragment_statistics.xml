@@ -56,6 +56,58 @@
         app:layout_constraintTop_toTopOf="@id/btmlayout" />
 
     <LinearLayout
+        android:id="@+id/tvLinLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btmlayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/main_font"
+            android:text="@string/balance"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/balanceCntTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/main_font"
+            android:text="Дни в балансе: 23 дня"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/maxBalanceCntTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/main_font"
+            android:text="Наибольшая серия: 15 дней"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/hintBalanceTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/main_font"
+            android:text="Отличный результат. Так держать!"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/linLNutHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -64,7 +116,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btmlayout">
+        app:layout_constraintTop_toBottomOf="@+id/tvLinLay">
 
         <ImageView
             android:id="@+id/imageView2"
@@ -132,27 +184,15 @@
             android:id="@+id/lCNutrientsWeek"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
             android:layout_weight="1" />
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/column_chart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1">
 
-        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-            android:id="@+id/calendarView"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:mcv_selectionColor="#00F"
-            app:mcv_showOtherDates="all">
-
-        </com.prolificinteractive.materialcalendarview.MaterialCalendarView>
+        </com.github.mikephil.charting.charts.BarChart>
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/lCNutrientsMonth"

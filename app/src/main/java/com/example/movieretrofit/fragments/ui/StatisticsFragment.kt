@@ -10,17 +10,11 @@ import com.example.movieretrofit.Firebase
 import com.example.movieretrofit.R
 import com.example.movieretrofit.charts.ColumnCharts
 import com.example.movieretrofit.charts.LineCharts
-import com.example.movieretrofit.charts.calendar.CalendarDecorator
-import com.example.movieretrofit.charts.calendar.CurrentDayDecorator
 import com.example.movieretrofit.databinding.FragmentStatisticsBinding
-import com.prolificinteractive.materialcalendarview.CalendarDay
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 
 class StatisticsFragment : Fragment() {
     lateinit var binding: FragmentStatisticsBinding
     lateinit var firebase: Firebase
-    lateinit var calendar: MaterialCalendarView
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -32,34 +26,18 @@ class StatisticsFragment : Fragment() {
         firebase = Firebase()
         val lineCharts = LineCharts()
         val columnCharts = ColumnCharts()
-        //firebase.getDayFoodFromFirebase{ setData() }
-        firebase.getWeeklyNutrients { nutrientList ->
+        firebase.getWeeklyNutrients { weeklyNutrients ->
             context?.let {
-                lineCharts.setLineChartNutrients(
-                    it, binding.lCNutrientsWeek, nutrientList
+                lineCharts.setLineChartNutrients(it, binding.lCNutrientsWeek, weeklyNutrients)
+            }
+            context?.let {
+                columnCharts.setColumnChartCalories(it,
+                    binding.columnChart,
+                    weeklyNutrients.map { nutrients ->
+                        nutrients.getBalancedNutrientsInPercentage(firebase.diet)
+                    }
                 )
             }
-            context?.let {
-                columnCharts.setColumnChartCalories(
-                    it,
-                    binding.columnChart,
-                    nutrientList.map { nutrients ->
-                        nutrients.getBalancedNutrientsInPercentage(
-                            firebase.diet
-                        )
-                    })
-            }
-            //createCalendar(binding.calendarView, nutrientList, requireContext())
-            calendar = binding.calendarView
-            val today = CalendarDay.today()
-            if (activity != null) calendar.addDecorators(
-                CurrentDayDecorator(requireActivity(), today),
-                CalendarDecorator(nutrientList.map { nutrients ->
-                    nutrients.getBalancedNutrientsInPercentage(
-                        firebase.diet
-                    )
-                })
-            )
         }
 
         firebase.getMonthNutrients { nutrientList ->
@@ -79,8 +57,7 @@ class StatisticsFragment : Fragment() {
             binding.lCNutrientsWeek.visibility = View.VISIBLE
             binding.columnChart.visibility = View.VISIBLE
             binding.lCNutrientsMonth.visibility = View.GONE
-            binding.calendarView.visibility = View.GONE
-            //binding.linLNutHint.visibility = View.VISIBLE
+            binding.tvLinLay.visibility = View.GONE
         }
 
         binding.monthButton.setOnClickListener {
@@ -91,9 +68,24 @@ class StatisticsFragment : Fragment() {
             binding.lCNutrientsWeek.visibility = View.GONE
             binding.columnChart.visibility = View.GONE
             binding.lCNutrientsMonth.visibility = View.VISIBLE
-            binding.calendarView.visibility = View.VISIBLE
-            //binding.linLNutHint.visibility = View.GONE
+            binding.tvLinLay.visibility = View.VISIBLE
+
+            setBalanceTv()
+
         }
+    }
+
+    private fun setBalanceTv() {
+        firebase.getDayBalanceCnt {
+            val balanceCntText = "Дни в балансе: $it"
+            binding.balanceCntTv.text = balanceCntText
+        }
+
+        firebase.getMaxBalanceCnt {
+            val maxBalanceCntText = "Наибольшая серия дней: $it"
+            binding.maxBalanceCntTv.text = maxBalanceCntText
+        }
+
     }
 
     companion object {
