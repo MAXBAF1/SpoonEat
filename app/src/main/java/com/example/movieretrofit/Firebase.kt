@@ -160,7 +160,7 @@ class Firebase {
         }
     }
 
-    private fun getMaxBalanceCnt(result: (balanceCnt: Int) -> Unit) {
+    fun getMaxBalanceCnt(result: (balanceCnt: Int) -> Unit) {
         val maxBalanceCntRef = usernameRef.child("maxBalanceCnt")
         maxBalanceCntRef.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {

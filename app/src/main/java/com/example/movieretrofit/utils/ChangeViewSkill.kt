@@ -33,10 +33,6 @@ class ChangeViewSkill(private val context: Context) : CustomSkill<AimyboxRequest
         if ("calories" in words || "how" in words) findCalories(words, foodApiService)
         else addFood(allFood)
 
-        val aiTest = AimyboxAssistantViewModel(aimybox)
-        Log.e("aimybox", "widgets is ${aiTest.widgets.value}")
-        aiTest.widgets.value
-
         return request
     }
 

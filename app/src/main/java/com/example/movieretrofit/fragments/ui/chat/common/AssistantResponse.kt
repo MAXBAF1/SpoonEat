@@ -1,20 +1,17 @@
 package com.example.movieretrofit.fragments.ui.chat.common
 
 import android.util.Log
+import androidx.lifecycle.lifecycleScope
 import com.example.movieretrofit.Firebase
 import com.example.movieretrofit.fragments.ui.chat.MessageAdapter
 import com.example.movieretrofit.fragments.ui.chat.common.Constants.OPEN_GOOGLE
 import com.example.movieretrofit.fragments.ui.chat.common.Constants.OPEN_SEARCH
 import com.example.movieretrofit.model.restFoodApi
-import kotlinx.coroutines.launch
+import com.example.movieretrofit.translator.Translator
+import kotlinx.coroutines.*
 import java.sql.Date
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
-import androidx.lifecycle.lifecycleScope
-import com.example.movieretrofit.fragments.ui.chat.VoiceFragment
-import kotlinx.coroutines.coroutineScope
-
-import kotlin.math.roundToInt
 
 object BotResponse {
     private val messageList = mutableListOf<String>()
@@ -30,6 +27,26 @@ object BotResponse {
                 Log.e("response", "food is ${food}")
 
                 "Продукт $food добавлен"
+            }
+
+            message.contains("сколько") && (message.contains("калорий") || message.contains("ккал")) -> {
+                val food: String = message.toLowerCase().substringAfterLast("в ")
+                "В продукте $food калорий:"
+            }
+
+            message.contains("сколько") && (message.contains("белков")) -> {
+                val food: String = message.toLowerCase().substringAfterLast("в ")
+                "В продукте $food белков:"
+            }
+
+            message.contains("сколько") && (message.contains("жиров")) -> {
+                val food: String = message.toLowerCase().substringAfterLast("в ")
+                "В продукте $food жиров:"
+            }
+
+            message.contains("сколько") && (message.contains("углеводов")) -> {
+                val food: String = message.toLowerCase().substringAfterLast("в ")
+                "В продукте $food углеводов:"
             }
 
             //Flips a coin
@@ -53,7 +70,7 @@ object BotResponse {
             }
 
             //Hello
-            message.contains("Привет") -> {
+            message.contains("привет") -> {
                 when (random) {
                     0 -> "Привет!"
                     1 -> "Sup"

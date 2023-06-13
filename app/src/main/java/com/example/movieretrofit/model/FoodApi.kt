@@ -1,6 +1,8 @@
 package com.example.movieretrofit.model
 
+import com.example.movieretrofit.data.Food
 import com.example.movieretrofit.data.FoodList
+import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -26,6 +28,7 @@ interface FoodApiService {
         @Query("app_id") app_id: String = APP_ID,
         @Query("app_key") app_key: String = APP_KEY
     ): Response <FoodList>
+
 }
 
 var okHttpClient = OkHttpClient.Builder().build()

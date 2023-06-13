@@ -81,6 +81,11 @@ class StatisticsFragment : Fragment() {
             binding.balanceCntTv.text = balanceCntText
         }
 
+        firebase.getMaxBalanceCnt {
+            val maxBalanceCntText = "Наибольшая серия дней: $it"
+            binding.maxBalanceCntTv.text = maxBalanceCntText
+        }
+
     }
 
     companion object {

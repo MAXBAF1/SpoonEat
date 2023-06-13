@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieretrofit.Firebase
+import com.example.movieretrofit.data.Food
 import com.example.movieretrofit.databinding.FragmentVoiceBinding
 import com.example.movieretrofit.fragments.ui.chat.common.BotResponse
 import com.example.movieretrofit.fragments.ui.chat.common.Constants
@@ -19,8 +20,10 @@ import com.example.movieretrofit.fragments.ui.chat.common.Time
 import com.example.movieretrofit.fragments.ui.chat.model.Message
 import com.example.movieretrofit.fragments.ui.ui.adapter.ChatAdapter
 import com.example.movieretrofit.model.restFoodApi
+import com.example.movieretrofit.translator.Translator
 import kotlinx.android.synthetic.main.fragment_voice.*
 import kotlinx.coroutines.*
+import kotlin.math.roundToInt
 
 class VoiceFragment : Fragment() {
     lateinit var binding: FragmentVoiceBinding
@@ -28,7 +31,6 @@ class VoiceFragment : Fragment() {
 
     var messagesList = mutableListOf<Message>()
     private lateinit var adapter: ChatAdapter
-    private val botList = listOf("Taha", "Fahmy", "Hend", "Dahi")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,8 +45,7 @@ class VoiceFragment : Fragment() {
 
         recyclerView()
         clickEvents()
-        val random = (0..3).random()
-        customBotMessage("Hello! Today you're speaking with ${botList[random]}, how may I help?")
+        customBotMessage("Здравствуйте! Как я могу вам помочь?")
     }
 
     private fun startFrameAnimation() {
@@ -126,22 +127,91 @@ class VoiceFragment : Fragment() {
 
                 if (response.split(" ")[0] == "Продукт"){
                     suspend fun processMessage(message: String) {
-                        val response = restFoodApi.getFoodRecipe(response.split(" ")[1])
+                        var food = response.split(" ")[1]
 
-                        Log.e("response", "response is $response")
+                        var translator = Translator()
+                        withContext(Dispatchers.IO) {
+                            val translatedFood = translator.translateRuEn2(food).await()
+                            food = translatedFood
+                        }
+
+                        val response = restFoodApi.getFoodRecipe(food)
+                        Log.e("translator", "food is ENG1 $food")
+
                         response.body()?.hints?.filter { it.food.image != "" }?.firstOrNull()?.let {
                             val firebase = Firebase()
+                            Log.e("translator", "food is ENG ${food}")
+                            Log.e("translator", "food it is ENG ${it}")
+                            Log.e("translator", "foodlabel is ENG ${it.food.label}")
                             firebase.sendCurrentMealDataToFirebase(it.food)
+                        }
+
+                    }
+                    lifecycleScope.launch {
+                        processMessage("my message")
+                    }
+                    messagesList.add(Message(response, Constants.RECEIVE_ID, timeStamp))
+                    adapter.insertMessage(Message(response, Constants.RECEIVE_ID, timeStamp))
+                    rv_messages.scrollToPosition(adapter.itemCount - 1)
+                }
+
+                if (response.split(" ")[0] == "В" && response.split(" ")[1] == "продукте") {
+                    suspend fun processMessage(message: String) {
+                        var food = response.split(" ")[2]
+                        var action = response.split(" ")[3]
+
+                        var translator = Translator()
+                        withContext(Dispatchers.IO) {
+                            val translatedFood = translator.translateRuEn2(food).await()
+                            food = translatedFood
+                        }
+
+                        val apiResponse = restFoodApi.getFoodRecipe(food)
+                        Log.e("translator", "food is ENG1 $food")
+
+
+                        when(action) {
+                            "калорий:" -> {
+                                val ans = apiResponse.body()?.hints?.filter { it.food.image != "" }?.firstOrNull()?.let {
+                                    it.food.nutrients.calories.roundToInt().toString()
+                                }
+                                messagesList.add(Message("$response", Constants.RECEIVE_ID, timeStamp))
+                                adapter.insertMessage(Message("$response $ans", Constants.RECEIVE_ID, timeStamp))
+                                rv_messages.scrollToPosition(adapter.itemCount - 1)
+                            }
+                            "белков:" -> {
+                                val ans = apiResponse.body()?.hints?.filter { it.food.image != "" }?.firstOrNull()?.let {
+                                    it.food.nutrients.protein.roundToInt().toString()
+                                }
+                                messagesList.add(Message("$response", Constants.RECEIVE_ID, timeStamp))
+                                adapter.insertMessage(Message("$response $ans", Constants.RECEIVE_ID, timeStamp))
+                                rv_messages.scrollToPosition(adapter.itemCount - 1)
+                            }
+                            "жиров:" -> {
+                                val ans = apiResponse.body()?.hints?.filter { it.food.image != "" }?.firstOrNull()?.let {
+                                    it.food.nutrients.fat.roundToInt().toString()
+                                }
+                                messagesList.add(Message("$response", Constants.RECEIVE_ID, timeStamp))
+                                adapter.insertMessage(Message("$response $ans", Constants.RECEIVE_ID, timeStamp))
+                                rv_messages.scrollToPosition(adapter.itemCount - 1)
+                            }
+                            "углеводов:" -> {
+                                val ans = apiResponse.body()?.hints?.filter { it.food.image != "" }?.firstOrNull()?.let {
+                                    it.food.nutrients.carb.roundToInt().toString()
+                                }
+                                messagesList.add(Message("$response", Constants.RECEIVE_ID, timeStamp))
+                                adapter.insertMessage(Message("$response $ans", Constants.RECEIVE_ID, timeStamp))
+                                rv_messages.scrollToPosition(adapter.itemCount - 1)
+                            }
                         }
                     }
                     lifecycleScope.launch {
                         processMessage("my message")
                     }
+
                 }
 
-                messagesList.add(Message(response, Constants.RECEIVE_ID, timeStamp))
-                adapter.insertMessage(Message(response, Constants.RECEIVE_ID, timeStamp))
-                rv_messages.scrollToPosition(adapter.itemCount - 1)
+
 
                 //Starts Google
                 when (response) {

@@ -1,10 +1,14 @@
 package com.example.movieretrofit.translator
 
 import android.util.Log
+import com.example.movieretrofit.Firebase
+import com.example.movieretrofit.model.restFoodApi
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.TranslatorOptions
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Deferred
 
 class Translator {
     private val translatorEnRu: com.google.mlkit.nl.translate.Translator
@@ -33,6 +37,15 @@ class Translator {
 
     fun translateRuEn(text: String, onSuccess: (String) -> Unit) {
         translate(translatorRuEn, text) { onSuccess(it) }
+    }
+
+    fun translateRuEn2(text: String): Deferred<String> {
+        val deferred = CompletableDeferred<String>()
+
+        translate(translatorRuEn, text) { translatedText ->
+            deferred.complete(translatedText)
+        }
+        return deferred
     }
 
     private fun translate(
