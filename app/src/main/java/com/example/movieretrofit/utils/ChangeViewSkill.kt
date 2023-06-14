@@ -2,7 +2,7 @@ package com.example.movieretrofit.utils
 
 import android.content.Context
 import android.util.Log
-import com.example.movieretrofit.Firebase
+import com.example.movieretrofit.firebase.Firebase
 import com.example.movieretrofit.data.Food
 import com.example.movieretrofit.data.FoodList
 import com.example.movieretrofit.model.FoodApiService

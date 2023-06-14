@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.movieretrofit.Firebase
+import com.example.movieretrofit.firebase.Firebase
 import com.example.movieretrofit.databinding.FragmentVoiceBinding
 import com.example.movieretrofit.fragments.ui.chat.common.BotResponse
 import com.example.movieretrofit.fragments.ui.chat.common.Constants

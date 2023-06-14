@@ -1,20 +1,12 @@
 package com.example.movieretrofit.fragments.ui.chat.common
 
 import android.util.Log
-import com.example.movieretrofit.Firebase
 import com.example.movieretrofit.fragments.ui.chat.MessageAdapter
 import com.example.movieretrofit.fragments.ui.chat.common.Constants.OPEN_GOOGLE
 import com.example.movieretrofit.fragments.ui.chat.common.Constants.OPEN_SEARCH
-import com.example.movieretrofit.model.restFoodApi
-import kotlinx.coroutines.launch
 import java.sql.Date
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
-import androidx.lifecycle.lifecycleScope
-import com.example.movieretrofit.fragments.ui.chat.VoiceFragment
-import kotlinx.coroutines.coroutineScope
-
-import kotlin.math.roundToInt
 
 object BotResponse {
     private val messageList = mutableListOf<String>()

@@ -3,6 +3,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -48,10 +49,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:visibility="gone"
         android:layout_marginEnd="10dp"
         android:backgroundTint="#00FFFFFF"
         android:src="@drawable/ic_calendar"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/btmlayout" />
 
@@ -65,15 +66,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btmlayout">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/main_font"
-            android:text="@string/balance"
-            android:textColor="@color/black"
-            android:textSize="24sp" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/main_font"
+                android:text="@string/balance"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
+
+            <ImageButton
+                android:id="@+id/hintBtn"
+                android:layout_width="30sp"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom|center"
+                android:layout_marginStart="40dp"
+                android:background="@drawable/ic_hint"
+                android:backgroundTint="@color/green" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/balanceCntTv"

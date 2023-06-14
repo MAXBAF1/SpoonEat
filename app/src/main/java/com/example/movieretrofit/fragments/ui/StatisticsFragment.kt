@@ -1,16 +1,17 @@
 package com.example.movieretrofit.fragments.ui
 
+import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.movieretrofit.Firebase
 import com.example.movieretrofit.R
 import com.example.movieretrofit.charts.ColumnCharts
 import com.example.movieretrofit.charts.LineCharts
 import com.example.movieretrofit.databinding.FragmentStatisticsBinding
+import com.example.movieretrofit.firebase.Firebase
 
 class StatisticsFragment : Fragment() {
     lateinit var binding: FragmentStatisticsBinding
@@ -70,23 +71,39 @@ class StatisticsFragment : Fragment() {
             binding.lCNutrientsMonth.visibility = View.VISIBLE
             binding.tvLinLay.visibility = View.VISIBLE
 
-            setBalanceTv()
+            setBalanceViews()
 
         }
     }
 
-    private fun setBalanceTv() {
-        firebase.getDayBalanceCnt {
-            val balanceCntText = "Дни в балансе: $it"
-            binding.balanceCntTv.text = balanceCntText
+    private fun setBalanceViews() {
+        binding.hintBtn.setOnClickListener {
+            val alertDialog = AlertDialog.Builder(context)
+                .setView(R.layout.balance_dialog)
+                .create()
+            alertDialog.window?.setBackgroundDrawableResource(R.drawable.rounded_background)
+            alertDialog.show()
         }
 
-        firebase.getMaxBalanceCnt {
+        firebase.firebaseBalance.getDayBalanceCnt {
+            val balanceCntText = "Дни в балансе: $it"
+            binding.balanceCntTv.text = balanceCntText
+
+
+            binding.hintBalanceTv.text = when {
+                it > 14 -> getString(R.string.greatBalanceResultText)
+                it > 7 -> getString(R.string.wellBalanceResultText)
+                it > 0 -> getString(R.string.startBalanceResultText)
+                else -> ""
+            }
+        }
+
+        firebase.firebaseBalance.getMaxBalanceCnt {
             val maxBalanceCntText = "Наибольшая серия дней: $it"
             binding.maxBalanceCntTv.text = maxBalanceCntText
         }
-
     }
+
 
     companion object {
         @JvmStatic
