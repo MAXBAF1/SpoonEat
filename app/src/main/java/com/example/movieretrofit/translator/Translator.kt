@@ -1,7 +1,6 @@
 package com.example.movieretrofit.translator
 
 import android.util.Log
-import com.example.movieretrofit.Firebase
 import com.example.movieretrofit.model.restFoodApi
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.TranslateLanguage
