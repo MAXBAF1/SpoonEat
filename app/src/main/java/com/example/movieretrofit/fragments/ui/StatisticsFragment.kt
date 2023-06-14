@@ -94,7 +94,7 @@ class StatisticsFragment : Fragment() {
                 it > 14 -> getString(R.string.greatBalanceResultText)
                 it > 7 -> getString(R.string.wellBalanceResultText)
                 it > 0 -> getString(R.string.startBalanceResultText)
-                else -> ""
+                else -> "Всё впереди"
             }
         }
 

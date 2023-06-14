@@ -16,7 +16,7 @@
     <string name="carb">Углеводы</string>
 
     <string name="balance">Соблюдение баланса</string>
-    <string name="balanceHintButtonText">День считается в балансе, если разница с диетой по каждому макронутриенту БЖУ составляет не более 10%</string>
+    <string name="balanceHintButtonText">День считается в балансе, если разница с диетой по каждому макронутриенту БЖУ составляет не более 5%</string>
 
     <string name="greatBalanceResultText">Отличный результат. Так держать!</string>
     <string name="wellBalanceResultText">Ваша выдержка достойна похвалы. \nПродолжайте в том же духе!</string>
