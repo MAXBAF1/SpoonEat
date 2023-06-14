@@ -41,6 +41,10 @@ android {
         checkAllWarnings = true
         warningsAsErrors = false
     }
+
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
 }
 
 dependencies {
@@ -107,5 +111,7 @@ dependencies {
     implementation 'com.github.prolificinteractive:material-calendarview:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'com.michalsvec:single-row-calednar:1.0.0'
+
+    implementation 'com.google.cloud:google-cloud-speech:2.2.0'
 
 }

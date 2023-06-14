@@ -1,18 +1,21 @@
 package com.example.movieretrofit.fragments.ui.chat
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.drawable.AnimationDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.speech.RecognizerIntent
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieretrofit.Firebase
-import com.example.movieretrofit.data.Food
 import com.example.movieretrofit.databinding.FragmentVoiceBinding
 import com.example.movieretrofit.fragments.ui.chat.common.BotResponse
 import com.example.movieretrofit.fragments.ui.chat.common.Constants
@@ -23,11 +26,14 @@ import com.example.movieretrofit.model.restFoodApi
 import com.example.movieretrofit.translator.Translator
 import kotlinx.android.synthetic.main.fragment_voice.*
 import kotlinx.coroutines.*
+import java.util.*
 import kotlin.math.roundToInt
 
-class VoiceFragment : Fragment() {
+class VoiceFragment : Fragment(), TextToSpeech.OnInitListener  {
     lateinit var binding: FragmentVoiceBinding
     private var animationDrawable: AnimationDrawable? = null
+    private val REQUEST_CODE_SPEECH_INPUT = 1
+    private var tts: TextToSpeech? = null
 
     var messagesList = mutableListOf<Message>()
     private lateinit var adapter: ChatAdapter
@@ -42,10 +48,38 @@ class VoiceFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         //startFrameAnimation()
+        tts = TextToSpeech(context, this)
 
         recyclerView()
         clickEvents()
+        createrecordbutton()
         customBotMessage("Здравствуйте! Как я могу вам помочь?")
+    }
+
+    private fun createrecordbutton() {
+        binding.recordbutton.setOnClickListener {
+            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+            intent.putExtra(
+                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+            )
+            intent.putExtra(
+                RecognizerIntent.EXTRA_LANGUAGE,
+                Locale.getDefault()
+            )
+            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to text")
+
+            try {
+                startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT)
+            } catch (e: Exception) {
+                Toast
+                    .makeText(
+                        context, " " + e.message,
+                        Toast.LENGTH_SHORT
+                    )
+                    .show()
+            }
+        }
     }
 
     private fun startFrameAnimation() {
@@ -68,7 +102,8 @@ class VoiceFragment : Fragment() {
 
     private fun clickEvents() {
         btn_send.setOnClickListener {
-            sendMessage()
+            val messagetosend = et_message.text.toString()
+            sendMessage(messagetosend)
         }
 
         et_message.setOnClickListener {
@@ -100,8 +135,7 @@ class VoiceFragment : Fragment() {
         }
     }
 
-    private fun sendMessage() {
-        val message = et_message.text.toString()
+    private fun sendMessage(message: String) {
         val timeStamp = Time.timeStamp()
 
         if (message.isNotEmpty()) {
@@ -153,6 +187,7 @@ class VoiceFragment : Fragment() {
                     messagesList.add(Message(response, Constants.RECEIVE_ID, timeStamp))
                     adapter.insertMessage(Message(response, Constants.RECEIVE_ID, timeStamp))
                     rv_messages.scrollToPosition(adapter.itemCount - 1)
+                    speakOut(response)
                 }
 
                 if (response.split(" ")[0] == "В" && response.split(" ")[1] == "продукте") {
@@ -178,6 +213,7 @@ class VoiceFragment : Fragment() {
                                 messagesList.add(Message("$response", Constants.RECEIVE_ID, timeStamp))
                                 adapter.insertMessage(Message("$response $ans", Constants.RECEIVE_ID, timeStamp))
                                 rv_messages.scrollToPosition(adapter.itemCount - 1)
+                                speakOut("$response $ans")
                             }
                             "белков:" -> {
                                 val ans = apiResponse.body()?.hints?.filter { it.food.image != "" }?.firstOrNull()?.let {
@@ -186,6 +222,7 @@ class VoiceFragment : Fragment() {
                                 messagesList.add(Message("$response", Constants.RECEIVE_ID, timeStamp))
                                 adapter.insertMessage(Message("$response $ans", Constants.RECEIVE_ID, timeStamp))
                                 rv_messages.scrollToPosition(adapter.itemCount - 1)
+                                speakOut("$response $ans")
                             }
                             "жиров:" -> {
                                 val ans = apiResponse.body()?.hints?.filter { it.food.image != "" }?.firstOrNull()?.let {
@@ -194,6 +231,7 @@ class VoiceFragment : Fragment() {
                                 messagesList.add(Message("$response", Constants.RECEIVE_ID, timeStamp))
                                 adapter.insertMessage(Message("$response $ans", Constants.RECEIVE_ID, timeStamp))
                                 rv_messages.scrollToPosition(adapter.itemCount - 1)
+                                speakOut("$response $ans")
                             }
                             "углеводов:" -> {
                                 val ans = apiResponse.body()?.hints?.filter { it.food.image != "" }?.firstOrNull()?.let {
@@ -202,6 +240,7 @@ class VoiceFragment : Fragment() {
                                 messagesList.add(Message("$response", Constants.RECEIVE_ID, timeStamp))
                                 adapter.insertMessage(Message("$response $ans", Constants.RECEIVE_ID, timeStamp))
                                 rv_messages.scrollToPosition(adapter.itemCount - 1)
+                                speakOut("$response $ans")
                             }
                         }
                     }
@@ -210,8 +249,6 @@ class VoiceFragment : Fragment() {
                     }
 
                 }
-
-
 
                 //Starts Google
                 when (response) {
@@ -246,4 +283,39 @@ class VoiceFragment : Fragment() {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_SPEECH_INPUT) {
+            if (resultCode == RESULT_OK && data != null) {
+                val res: ArrayList<String> =
+                    data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS) as ArrayList<String>
+
+                Log.e("tag", "${ Objects.requireNonNull(res)[0]}")
+                sendMessage(Objects.requireNonNull(res)[0])
+
+            }
+        }
+    }
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            val result = tts!!.setLanguage(Locale("ru"))
+
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS","The Language not supported!")
+            }
+        }
+    }
+
+    private fun speakOut(text: String) {
+        tts!!.speak(text, TextToSpeech.QUEUE_FLUSH, null,"")
+    }
+
+    public override fun onDestroy() {
+        if (tts != null) {
+            tts!!.stop()
+            tts!!.shutdown()
+        }
+        super.onDestroy()
+    }
 }

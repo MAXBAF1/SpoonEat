@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.bNav.background = null
-        binding.bNav.menu.getItem(2).isEnabled = false
 
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(this, R.color.green)
@@ -37,15 +36,14 @@ class MainActivity : AppCompatActivity() {
             arrayOf(android.Manifest.permission.RECORD_AUDIO),
             1
         )
-
-        binding.fab.setOnClickListener{
-            openFragment(VoiceFragment.newInstance())
-        }
     }
 
     private fun onBottomNavClick() {
         binding.bNav.setOnItemSelectedListener {
             when (it.itemId) {
+                R.id.chat -> {
+                    openFragment(VoiceFragment.newInstance())
+                }
                 R.id.home -> {
                     openFragment(HomeFragment.newInstance())
                 }

@@ -14,8 +14,10 @@
         android:title="@string/search" />
 
     <item
+        android:id="@+id/chat"
+        android:icon="@drawable/ic_voice"
         android:orderInCategory="3"
-        android:title="" />
+        android:title="Чат" />
 
     <item
         android:id="@+id/statistics"
