@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movieretrofit.Firebase
+import com.example.movieretrofit.firebase.Firebase
 import com.example.movieretrofit.R
 import com.example.movieretrofit.data.Food
 import com.example.movieretrofit.interfaces.AddFoodListener

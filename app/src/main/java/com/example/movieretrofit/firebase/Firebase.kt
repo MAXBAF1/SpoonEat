@@ -1,4 +1,4 @@
-package com.example.movieretrofit
+package com.example.movieretrofit.firebase
 
 import android.util.Log
 import com.example.movieretrofit.data.Diet
@@ -8,7 +8,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
-import java.lang.Integer.max
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -24,8 +23,9 @@ class Firebase {
     var mealRef: DatabaseReference
 
     private var auth: FirebaseAuth = Firebase.auth
-    private val sdf = SimpleDateFormat("dd:MM:yyyy", Locale.getDefault())
+    val sdf = SimpleDateFormat("dd:MM:yyyy", Locale.getDefault())
     private var date = sdf.format(Calendar.getInstance().time)
+    var firebaseBalance: FirebaseBalance
 
     init {
         username = auth.currentUser!!.displayName.toString()
@@ -37,6 +37,8 @@ class Firebase {
         foodsRef = dateRef.child("foods")
         dietRef = usernameRef.child("diet")
         getUserDietFromFirebase { diet = it }
+        firebaseBalance = FirebaseBalance(this)
+        firebaseBalance.updateBalanceInfo()
     }
 
     fun loadUser() {
@@ -57,7 +59,7 @@ class Firebase {
         auth.signOut()
     }
 
-    private fun getDateRef(date: String): DatabaseReference {
+    fun getDateRef(date: String): DatabaseReference {
         return mealRef.child(date)
     }
 
@@ -76,6 +78,9 @@ class Firebase {
         })
     }
 
+    fun getTodayNutrients(completion: (List<Nutrients>) -> Unit) =
+        getLastNDaysNutrients(1) { completion(it) }
+
     fun getWeeklyNutrients(completion: (List<Nutrients>) -> Unit) =
         getLastNDaysNutrients(7) { completion(it) }
 
@@ -84,15 +89,19 @@ class Firebase {
 
     private fun getLastNDaysNutrients(daysCnt: Int, completion: (List<Nutrients>) -> Unit) {
         val nutrientList = mutableListOf<Nutrients>()
-        val calendar = Calendar.getInstance()
 
         for (i in daysCnt - 1 downTo 0) {
+            val sdf = SimpleDateFormat("dd:MM:yyyy", Locale.getDefault())
+            val calendar = Calendar.getInstance()
             calendar.add(Calendar.DAY_OF_YEAR, -i)
 
             val dateRef = getDateRef(sdf.format(calendar.time))
             getDayFoods(dateRef.child("foods")) {
+
                 nutrientList.add(Nutrients().getSumNutrients(it))
-                if (nutrientList.size == daysCnt) completion(nutrientList)
+                if (nutrientList.size == daysCnt) {
+                    completion(nutrientList.toList())
+                }
             }
         }
     }
@@ -117,6 +126,26 @@ class Firebase {
         })
     }
 
+    fun deleteFoodFromFirebase(dateReference: DatabaseReference, numToDelete: Int) {
+        var counter = numToDelete
+        dateReference.child("foods").orderByKey().limitToLast(numToDelete)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (childSnap in snapshot.children) {
+                        if (numToDelete == counter) {
+                            childSnap.ref.removeValue()
+                            firebaseBalance.updateBalanceInfo()
+                            break
+                        } else counter--
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("onDeleteClick", "onCancelled", error.toException())
+                }
+            })
+    }
+
     fun sendCurrentMealDataToFirebase(foodDataToSend: Food) {
         val query = foodsRef.child(usersRef.push().key ?: "blablabla")
         val nutrientsPath = query.child("nutrients")
@@ -130,72 +159,7 @@ class Firebase {
         nutrientsPath.child("fat").setValue(nutrients.fat * nutrients.grams)
         nutrientsPath.child("carb").setValue(nutrients.carb * nutrients.grams)
 
-        updateBalanceInfo()
-    }
-
-    private fun updateBalanceInfo() {
-        val balanceInfoRef = dateRef.child("balanceInfo")
-
-        getLastNDaysNutrients(1) { dayNutrients ->
-            val sumNutrients = Nutrients().getSum(dayNutrients)
-            getUserDietFromFirebase { diet ->
-                val cfNutrients = sumNutrients.getBalancedNutrientsInPercentage(diet)
-                val isInBalance = cfNutrients.isInBounds(90f..110f)
-
-                balanceInfoRef.child("isInBalance").setValue(isInBalance)
-
-                getYesterdayBalanceCnt {
-                    val newBalanceCnt = if (isInBalance) it + 1 else it
-                    balanceInfoRef.child("balanceCnt").setValue(newBalanceCnt)
-                    tryUpdateMaxBalanceCnt(newBalanceCnt)
-                }
-            }
-        }
-    }
-
-    private fun tryUpdateMaxBalanceCnt(newBalanceCnt: Int) {
-        getMaxBalanceCnt { maxBalanceCnt ->
-            usernameRef.child("maxBalanceCnt")
-                .setValue(max(maxBalanceCnt, newBalanceCnt))
-        }
-    }
-
-    fun getMaxBalanceCnt(result: (balanceCnt: Int) -> Unit) {
-        val maxBalanceCntRef = usernameRef.child("maxBalanceCnt")
-        maxBalanceCntRef.get().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val snapshot = task.result
-                result(snapshot.value.toString().toIntOrNull() ?: 0)
-            }
-        }
-    }
-
-    private fun getYesterdayBalanceCnt(result: (balanceCnt: Int) -> Unit) {
-        val calendar = Calendar.getInstance()
-        calendar.add(Calendar.DAY_OF_YEAR, -1)
-        val yesterdayRef = getDateRef(sdf.format(calendar.time))
-        val balanceInfoRef = yesterdayRef.child("balanceInfo")
-        balanceInfoRef.child("isInBalance").get().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val snapshot = task.result
-                val isInBalance = snapshot?.value as? Boolean
-                if (isInBalance == false) result(0)
-                else getBalanceCnt(balanceInfoRef.child("balanceCnt")) { result(it) }
-            }
-        }
-    }
-
-    fun getDayBalanceCnt(result: (balanceCnt: Int) -> Unit) {
-        getBalanceCnt(dateRef.child("balanceInfo").child("balanceCnt")) { result(it) }
-    }
-
-    private fun getBalanceCnt(balanceCntRef: DatabaseReference, result: (balanceCnt: Int) -> Unit) {
-        balanceCntRef.get().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                val snapshot = task.result
-                result(snapshot.value.toString().toIntOrNull() ?: 0)
-            }
-        }
+        firebaseBalance.updateBalanceInfo()
     }
 
     fun sendUserDietToFirebase(diet: Diet) {

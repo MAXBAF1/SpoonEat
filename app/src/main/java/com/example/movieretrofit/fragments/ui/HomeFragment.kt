@@ -2,7 +2,6 @@ package com.example.movieretrofit.fragments.ui
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,15 +9,12 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movieretrofit.Firebase
 import com.example.movieretrofit.adapter.LastFoodsAdapter
 import com.example.movieretrofit.charts.BarCharts
 import com.example.movieretrofit.charts.calendarRow.ScrollingCalendarRow
 import com.example.movieretrofit.data.Nutrients
 import com.example.movieretrofit.databinding.FragmentHomeBinding
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
+import com.example.movieretrofit.firebase.Firebase
 import com.michalsvec.singlerowcalendar.calendar.CalendarChangesObserver
 import com.michalsvec.singlerowcalendar.utils.DateUtils
 import java.time.LocalDate
@@ -128,22 +124,7 @@ class HomeFragment : Fragment() {
     }
 
     fun deleteItemByIndex(numToDelete: Int) {
-        var counter = numToDelete
-        firebase.dateRef.child("foods").orderByKey().limitToLast(numToDelete)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    for (childSnap in snapshot.children) {
-                        if (numToDelete == counter) {
-                            childSnap.ref.removeValue()
-                            break
-                        } else counter--
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Log.e("onDeleteClick", "onCancelled", error.toException())
-                }
-            })
+        firebase.deleteFoodFromFirebase(firebase.dateRef, numToDelete)
     }
 
     companion object {

@@ -10,7 +10,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
-import com.example.movieretrofit.Firebase
+import com.example.movieretrofit.firebase.Firebase
 import com.example.movieretrofit.R
 import com.example.movieretrofit.charts.PieCharts
 import com.example.movieretrofit.data.Diet
