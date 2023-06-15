@@ -44,6 +44,11 @@ object BotResponse {
                 "В продукте $food углеводов:"
             }
 
+            message.contains("сколько") && (message.contains("бжу")) -> {
+                val food: String = message.toLowerCase().substringAfterLast("в ")
+                "В продукте $food БЖУ:"
+            }
+
             //Flips a coin
             message.contains("подбрось") && message.contains("монетку") -> {
                 val r = (0..1).random()

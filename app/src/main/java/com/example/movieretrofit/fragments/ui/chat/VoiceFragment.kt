@@ -242,6 +242,15 @@ class VoiceFragment : Fragment(), TextToSpeech.OnInitListener  {
                                 rv_messages.scrollToPosition(adapter.itemCount - 1)
                                 speakOut("$response $ans")
                             }
+                            "БЖУ:" -> {
+                                val ans = apiResponse.body()?.hints?.filter { it.food.image != "" }?.firstOrNull()?.let {
+                                    "\nБелков: ${it.food.nutrients.protein.roundToInt()}\nЖиров: ${it.food.nutrients.fat.roundToInt()}\nУглеводов: ${it.food.nutrients.carb.roundToInt()}"
+                                }
+                                messagesList.add(Message("$response", Constants.RECEIVE_ID, timeStamp))
+                                adapter.insertMessage(Message("$response $ans", Constants.RECEIVE_ID, timeStamp))
+                                rv_messages.scrollToPosition(adapter.itemCount - 1)
+                                speakOut("$response $ans")
+                            }
                         }
                     }
                     lifecycleScope.launch {
