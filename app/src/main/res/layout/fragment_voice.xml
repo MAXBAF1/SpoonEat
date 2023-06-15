@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/primaryLightColor"
+        android:background="@color/green"
         android:orientation="horizontal">
 
         <EditText
@@ -22,18 +22,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:layout_weight=".5"
+            android:layout_weight="1"
             android:background="@drawable/round_button"
             android:backgroundTint="@color/primaryColor"
-            android:hint="Type a message..."
+            android:fontFamily="@font/main_font"
+            android:hint="@string/addApple"
             android:inputType="textShortMessage"
             android:padding="10dp"
             android:singleLine="true" />
 
         <ImageView
             android:id="@+id/recordbutton"
-            android:layout_width="42dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="3"
             android:src="@drawable/white_voice" />
 
         <ImageButton
@@ -41,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
-            android:layout_weight="1"
+            android:layout_weight="2.7"
             android:background="@drawable/round_button"
             android:backgroundTint="@color/primaryColor"
             android:src="@drawable/baseline_send_24"

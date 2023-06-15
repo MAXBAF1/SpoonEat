@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">SpoonVoice</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="welcome">Добро\nпожаловать</string>
     <string name="account">Аккаунт</string>
     <string name="voice">Voice</string>
@@ -31,9 +31,9 @@
 
     <string name="chart">График&#xA0;</string>
 
+    <string name="addApple">Добавь яблоко</string>
     <string name="initial_phrase">"Привет! Чем могу помочь?</string>
     <string name="todo">TODO</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
