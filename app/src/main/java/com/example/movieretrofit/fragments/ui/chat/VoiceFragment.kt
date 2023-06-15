@@ -162,6 +162,7 @@ class VoiceFragment : Fragment(), TextToSpeech.OnInitListener  {
                 if (response.split(" ")[0] == "Продукт"){
                     suspend fun processMessage(message: String) {
                         var food = response.split(" ")[1]
+                        var rusfood = food
 
                         var translator = Translator()
                         withContext(Dispatchers.IO) {
@@ -177,6 +178,7 @@ class VoiceFragment : Fragment(), TextToSpeech.OnInitListener  {
                             Log.e("translator", "food is ENG ${food}")
                             Log.e("translator", "food it is ENG ${it}")
                             Log.e("translator", "foodlabel is ENG ${it.food.label}")
+                            it.food.label = rusfood.capitalize()
                             firebase.sendCurrentMealDataToFirebase(it.food)
                         }
 

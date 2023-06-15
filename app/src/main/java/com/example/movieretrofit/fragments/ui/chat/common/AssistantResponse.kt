@@ -9,9 +9,6 @@ import java.sql.Timestamp
 import java.text.SimpleDateFormat
 
 object BotResponse {
-    private val messageList = mutableListOf<String>()
-    private lateinit var adapter: MessageAdapter
-
     fun basicResponses(_message: String): String {
         val random = (0..2).random()
         val message = _message.toLowerCase()
