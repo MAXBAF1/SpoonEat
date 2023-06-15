@@ -16,8 +16,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"
-        app:errorEnabled="false"
         app:endIconMode="none"
+        app:errorEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -49,7 +49,6 @@
         android:id="@+id/listsearch"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="45dp"
         android:foregroundGravity="center|center_horizontal"
         android:orientation="horizontal"
         android:visibility="visible"

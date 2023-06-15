@@ -13,7 +13,7 @@ class FirebaseBalance(private val firebase: Firebase) {
             val sumNutrients = Nutrients().getSum(dayNutrients)
             firebase.getUserDietFromFirebase { diet ->
                 val cfNutrients = sumNutrients.getBalancedNutrientsInPercentage(diet)
-                val isInBalance = cfNutrients.isInBounds(90f..110f)
+                val isInBalance = cfNutrients.isInBounds(95f..105f)
 
                 balanceInfoRef.child("isInBalance").setValue(isInBalance)
 

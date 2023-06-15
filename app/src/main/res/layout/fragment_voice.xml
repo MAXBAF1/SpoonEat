@@ -5,9 +5,8 @@
     android:id="@+id/layout_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="80dp">
-<!--    android:background="@drawable/animation_drawable"-->
-
+    android:background="@color/green">
+    <!--    android:background="@drawable/animation_drawable"-->
 
 
     <LinearLayout
@@ -35,7 +34,7 @@
             android:id="@+id/recordbutton"
             android:layout_width="42dp"
             android:layout_height="match_parent"
-            android:src="@drawable/white_voice"/>
+            android:src="@drawable/white_voice" />
 
         <ImageButton
             android:id="@+id/btn_send"

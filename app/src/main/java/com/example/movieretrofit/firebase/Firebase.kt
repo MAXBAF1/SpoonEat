@@ -63,19 +63,13 @@ class Firebase {
         return mealRef.child(date)
     }
 
-    fun getDayFoods(dataReference: DatabaseReference, callback: (List<Food>) -> Unit) {
-        dataReference.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val foodData = mutableListOf<Food>()
-                foodData.addAll(dataSnapshot.children.map { data -> data.getValue(Food::class.java)!! })
-
-                callback(foodData)
+    fun getDayFoods(foodsReference: DatabaseReference, callback: (List<Food>) -> Unit) {
+        foodsReference.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val snapshot = task.result
+                callback(snapshot.children.map { data -> data.getValue(Food::class.java)!! })
             }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.e("item", "in getNutrientsFromFirebase Firebase onCancelled")
-            }
-        })
+        }
     }
 
     fun getTodayNutrients(completion: (List<Nutrients>) -> Unit) =
