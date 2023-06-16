@@ -12,9 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movieretrofit.adapter.LastFoodsAdapter
 import com.example.movieretrofit.charts.BarCharts
 import com.example.movieretrofit.charts.calendarRow.ScrollingCalendarRow
+import com.example.movieretrofit.data.Food
 import com.example.movieretrofit.data.Nutrients
 import com.example.movieretrofit.databinding.FragmentHomeBinding
 import com.example.movieretrofit.firebase.Firebase
+import com.google.firebase.database.DatabaseReference
 import com.michalsvec.singlerowcalendar.calendar.CalendarChangesObserver
 import com.michalsvec.singlerowcalendar.utils.DateUtils
 import java.time.LocalDate
@@ -59,16 +61,16 @@ class HomeFragment : Fragment() {
             override fun whenSelectionChanged(isSelected: Boolean, position: Int, date: Date) {
                 val tvDateText =
                     "${DateUtils.getDayNumber(date)} ${DateUtils.getMonthName(date)}, ${
-                        DateUtils.getDayName(date)
-                    }"
+                        DateUtils.getDayName(date)}"
 
                 binding.tvDate.text = tvDateText
-                firebase.dateRef = firebase.mealRef.child(
+                val foodsRef = firebase.mealRef.child(
                     "${DateUtils.getDayNumber(date)}:${
                         DateUtils.getMonthNumber(date)
                     }:${DateUtils.getYear(date)}"
-                )
-                updateViews()
+                ).child("foods")
+                updateViews(foodsRef)
+
                 super.whenSelectionChanged(isSelected, position, date)
             }
         }
@@ -92,9 +94,9 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun updateViews() {
-        setLastFoods()
-        firebase.getDayFoods(firebase.foodsRef) { foods ->
+    fun updateViews(foodsRef: DatabaseReference = firebase.foodsRef) {
+        firebase.getDayFoods(foodsRef) { foods ->
+            setLastFoods(foods)
             nutrients = nutrients.getSumNutrients(foods)
             setDataToTextView()
             context?.let {
@@ -103,12 +105,10 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setLastFoods() {
-        firebase.getDayFoods(firebase.foodsRef) { foods ->
-            if (activity != null) {
-                val adapter = LastFoodsAdapter(requireContext(), foods.reversed(), this)
-                binding.lastFoodsRecyclerView.adapter = adapter
-            }
+    private fun setLastFoods(foods: List<Food>) {
+        if (activity != null) {
+            val adapter = LastFoodsAdapter(requireContext(), foods.reversed(), this)
+            binding.lastFoodsRecyclerView.adapter = adapter
         }
     }
 

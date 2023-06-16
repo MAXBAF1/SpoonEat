@@ -203,7 +203,7 @@
             android:paddingTop="3dp"
             android:text="@string/delete"
             android:textColor="@color/carb"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:visibility="gone" />
 
