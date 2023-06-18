@@ -1,6 +1,7 @@
 package com.example.movieretrofit.fragments.ui.ui.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,10 +19,8 @@ class ChatAdapter: RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
     inner class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         init {
             itemView.setOnClickListener {
-
-                //Remove message on the item clicked
-               // messagesList.removeAt(adapterPosition)
-               // notifyItemRemoved(adapterPosition)
+            // messagesList.removeAt(adapterPosition)
+            // notifyItemRemoved(adapterPosition)
             }
         }
     }
@@ -60,6 +59,7 @@ class ChatAdapter: RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
 
     fun insertMessage(message: Message) {
         this.messagesList.add(message)
+        Log.e("message", "message is ${messagesList.last()}")
         notifyItemInserted(messagesList.size)
     }
 

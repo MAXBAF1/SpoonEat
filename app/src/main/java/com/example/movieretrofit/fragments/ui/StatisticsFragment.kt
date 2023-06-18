@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.movieretrofit.R
 import com.example.movieretrofit.charts.ColumnCharts
@@ -72,7 +73,22 @@ class StatisticsFragment : Fragment() {
             binding.tvLinLay.visibility = View.VISIBLE
 
             setBalanceViews()
+        }
 
+        initOnClick()
+    }
+
+    private fun initOnClick() {
+        binding.columnChart.setOnClickListener {
+            Toast.makeText(context, "Недельный график баланса БЖУ", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.lCNutrientsMonth.setOnClickListener {
+            Toast.makeText(context, "Месячный график баланса БЖУ", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.lCNutrientsWeek.setOnClickListener {
+            Toast.makeText(context, "Недельный график баланса БЖУ", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -103,7 +119,6 @@ class StatisticsFragment : Fragment() {
             binding.maxBalanceCntTv.text = maxBalanceCntText
         }
     }
-
 
     companion object {
         @JvmStatic

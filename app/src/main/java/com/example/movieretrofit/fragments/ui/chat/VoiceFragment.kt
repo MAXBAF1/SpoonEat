@@ -1,7 +1,9 @@
 package com.example.movieretrofit.fragments.ui.chat
 
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.drawable.AnimationDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -24,6 +26,8 @@ import com.example.movieretrofit.fragments.ui.chat.model.Message
 import com.example.movieretrofit.fragments.ui.ui.adapter.ChatAdapter
 import com.example.movieretrofit.model.restFoodApi
 import com.example.movieretrofit.translator.Translator
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.fragment_voice.*
 import kotlinx.coroutines.*
 import java.util.*
@@ -54,6 +58,13 @@ class VoiceFragment : Fragment(), TextToSpeech.OnInitListener  {
         clickEvents()
         createrecordbutton()
         customBotMessage("Здравствуйте! Как я могу вам помочь?")
+
+        val sharedPreferences = activity?.getPreferences(Context.MODE_PRIVATE)
+        val gson = Gson()
+        val json = sharedPreferences?.getString("messages", null)
+        val type = object : TypeToken<MutableList<Message>>() {}.type
+        messagesList = gson.fromJson(json, type) ?: mutableListOf()
+        Log.d("VoiceFragment", "onCreate: messagesList size: ${messagesList.size}")
     }
 
     private fun createrecordbutton() {
@@ -89,9 +100,24 @@ class VoiceFragment : Fragment(), TextToSpeech.OnInitListener  {
         animationDrawable!!.setExitFadeDuration(5000)
     }
 
+
+    override fun onPause() {
+        super.onPause()
+        val sharedPreferences = activity?.getPreferences(Context.MODE_PRIVATE)
+        val editor = sharedPreferences?.edit()
+        val gson = Gson()
+        val json = gson.toJson(messagesList)
+        editor?.putString("messages", json)
+        editor?.apply()
+    }
+
     override fun onResume() {
         super.onResume()
-        //animationDrawable!!.start()
+        val sharedPreferences = activity?.getPreferences(Context.MODE_PRIVATE)
+        val gson = Gson()
+        val json = sharedPreferences?.getString("messages", null)
+        val type = object : TypeToken<MutableList<Message>>() {}.type
+        messagesList = gson.fromJson(json, type) ?: mutableListOf()
     }
 
     companion object {
@@ -252,6 +278,7 @@ class VoiceFragment : Fragment(), TextToSpeech.OnInitListener  {
                                 adapter.insertMessage(Message("$response $ans", Constants.RECEIVE_ID, timeStamp))
                                 rv_messages.scrollToPosition(adapter.itemCount - 1)
                                 speakOut("$response $ans")
+
                             }
                         }
                     }
@@ -322,7 +349,7 @@ class VoiceFragment : Fragment(), TextToSpeech.OnInitListener  {
         tts!!.speak(text, TextToSpeech.QUEUE_FLUSH, null,"")
     }
 
-    public override fun onDestroy() {
+    override fun onDestroy() {
         if (tts != null) {
             tts!!.stop()
             tts!!.shutdown()

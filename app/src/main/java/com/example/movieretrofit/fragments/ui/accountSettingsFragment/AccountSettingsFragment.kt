@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -51,6 +52,10 @@ class AccountSettingsFragment : Fragment() {
         firebase.getUserDietFromFirebase {
             binding.selectedDietName.text = it.name
             PieCharts(requireContext(), binding.dietSelectedChart).setPieChart(it)
+
+            binding.dietSelectedChart.setOnClickListener {
+                Toast.makeText(context, "Ваша текущая диета", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

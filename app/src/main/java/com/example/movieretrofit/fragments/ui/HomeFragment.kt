@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -52,6 +53,14 @@ class HomeFragment : Fragment() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             setCalendar()
         }
+
+        onClickCal()
+    }
+
+    private fun onClickCal() {
+        binding.tvCalories.setOnClickListener {
+            Toast.makeText(context, "Съеденные калории", Toast.LENGTH_SHORT).show()
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -61,7 +70,8 @@ class HomeFragment : Fragment() {
             override fun whenSelectionChanged(isSelected: Boolean, position: Int, date: Date) {
                 val tvDateText =
                     "${DateUtils.getDayNumber(date)} ${DateUtils.getMonthName(date)}, ${
-                        DateUtils.getDayName(date)}"
+                        DateUtils.getDayName(date)
+                    }"
 
                 binding.tvDate.text = tvDateText
                 val foodsRef = firebase.mealRef.child(

@@ -21,7 +21,7 @@ class LastFoodsAdapter(
     private val context: Context,
     private val foods: List<Food>,
     private val homeFragment: HomeFragment
-    ) :  RecyclerView.Adapter<LastFoodsAdapter.FoodViewHolder>() {
+) : RecyclerView.Adapter<LastFoodsAdapter.FoodViewHolder>() {
 
     inner class FoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val nameTextView: TextView = itemView.findViewById(R.id.foodNameTextView)
@@ -38,13 +38,12 @@ class LastFoodsAdapter(
     }
 
     private fun loadImage(url: String?, imageView: ImageView) {
-        if (url.isNullOrEmpty()){
+        if (url.isNullOrEmpty()) {
             Glide.with(context)
                 .load(R.drawable.main_icon)
                 .transform(RoundedCorners(10))
                 .into(imageView)
-        }
-        else {
+        } else {
             Glide.with(context)
                 .load(url)
                 .transform(RoundedCorners(10))
